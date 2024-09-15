@@ -1,0 +1,7 @@
+#detail .card .description img {
+    max-width: 100%;  /* Batasi lebar gambar agar tidak melebihi card */
+    height: auto;     /* Pertahankan proporsi gambar */
+    display: block;   /* Pastikan gambar ada di dalam aliran block */
+    margin-right: 20px; /* Beri margin otomatis agar gambar tetap rapi */
+    border-radius: 5px; /* Beri border radius agar lebih rapi */
+}

@@ -1,0 +1,261 @@
+.navbar {
+    font-family: 'Roboto', sans-serif;
+}
+
+.navbar-nav .nav-item {
+    margin-right: 10px; /* Kurangi jarak antar item */
+    font-size: 15px; /* Kurangi ukuran font */
+}
+
+/* Navbar default untuk halaman lain */
+.navbar-default {
+    border-bottom: 4px solid #cfec4a;
+    backdrop-filter: blur(10px);
+    background-color: rgba(0, 43, 116, 0.900);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: backdrop-filter 0.3s ease, background-color 0.3s ease, height 0.3s ease;
+    height: 100px; /* Tinggi navbar dikurangi */
+    padding-top: 10px; /* Kurangi padding atas */
+    padding-bottom: 10px; /* Kurangi padding bawah */
+}
+
+.navbar-default.blur {
+    backdrop-filter: blur(15px);
+    background-color: rgba(4, 46, 107, 0.832);
+    height: 80px; /* Tinggi navbar dalam kondisi blur juga dikurangi */
+}
+
+/* Navbar khusus untuk halaman index dengan efek blur */
+.navbar-index {
+    border-bottom: 4px solid #cfec4a;
+    backdrop-filter: blur(25px);
+    background-color: rgba(37, 62, 138, 0);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: backdrop-filter 0.3s ease, background-color 0.3s ease, height 0.3s ease;
+    height: 100px; /* Tinggi navbar dikurangi */
+    padding-top: 10px; /* Kurangi padding atas */
+    padding-bottom: 10px; /* Kurangi padding bawah */
+}
+
+.navbar-index.blur {
+    backdrop-filter: blur(2px);
+    background-color: rgba(4, 46, 107, 0.832);
+    height: 80px; /* Tinggi navbar dalam kondisi blur juga dikurangi */
+}
+
+.navbar-nav {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.navbar .navbar-brand img {
+    height: 60px; /* Sesuaikan ukuran logo agar lebih kecil */
+}
+
+/* Mengaktifkan dropdown saat di-hover */
+.navbar-nav .nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Mengatur tampilan dropdown agar muncul dengan halus */
+.navbar-nav .dropdown-menu {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.2s, opacity 0.2s;
+    padding: 5px; /* Kurangi padding dalam dropdown */
+    background-color: #003880;
+    color: #ffffff;
+}
+
+.navbar-nav .dropdown-item {
+    font-size: 14px; /* Kurangi ukuran font dalam dropdown */
+    padding: 5px 10px; /* Sesuaikan padding dropdown item */
+    color: #ffffff;
+}
+
+/* Efek fokus saat kursor diarahkan pada nav-item */
+.navbar-nav .nav-item:hover,
+.navbar-nav .nav-item:focus {
+    background-color: rgba(255, 255, 255, 0.1); /* Warna latar belakang saat di-hover */
+    border-radius: 5px; /* Membuat sudutnya menjadi bulat */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Efek fokus khusus untuk link di dalam nav-item */
+.navbar-nav .nav-item:hover .nav-link,
+.navbar-nav .nav-item:focus .nav-link {
+    color: #ffffff; /* Warna teks saat di-hover */
+    transform: scale(1.05); /* Memperbesar sedikit teks saat di-hover */
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Efek fokus untuk dropdown item */
+.navbar-nav .dropdown-menu .dropdown-item:hover,
+.navbar-nav .dropdown-menu .dropdown-item:focus {
+    background-color: rgba(120, 178, 248, 0.692); /* Warna latar belakang saat di-hover */
+    color: #ffffff; /* Warna teks saat di-hover */
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Menghapus ikon panah bawaan di dropdown */
+.navbar .dropdown-toggle::after {
+    display: none;
+}
+
+/* Untuk bagian judul dan pencarian yang berada di luar container standar */
+#search-section {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+}
+
+#judul-section {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+}
+
+#headline h2 {
+    font-family: 'Roboto', serif;
+    font-size: 23px;
+    margin-bottom: 1.5rem;
+}
+
+#headline .card {
+    position: relative;
+    transition: transform 0.3s ease;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#headline .card:hover {
+    transform: translateY(-5px);
+}
+
+#headline .card-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px; /* Increased padding to make card-body bigger */
+    border-radius: 0 0 10px 10px;
+    height: 100px; /* Control the height to fit larger content */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#headline .card-title {
+    color: white;
+    font-size: 16px;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
+
+#headline .card img {
+    height: 400px;
+    object-fit: cover;
+}
+
+#headline .card-body span {
+    font-size: 14px; /* Slightly adjusted the font size */
+    color: #d1d1d1;
+}
+
+#headline .btn-outline-primary {
+    font-size: 16px;
+    border-radius: 5px;
+}
+.social-icons {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-right: 10px;
+}
+
+.social-icons a img {
+    width: 40px;
+    height: 40px;
+    transition: transform 0.3s;
+}
+
+.social-icons a img:hover {
+    transform: scale(1.2);
+}
+
+.icon-section .card {
+    background-color: #213349;
+    border-radius: 10px;
+    text-align: center;
+    width: 120px; /* Atur lebar kartu */
+    margin: 10px; /* Jarak antar kartu */
+    display: inline-block;
+}
+
+.icon-section .card img {
+    width: 80px; /* Ukuran ikon */
+    height: auto;
+}
+
+.icon-section p {
+    font-size: 14px;
+    color: white;
+    white-space: normal; /* Mengizinkan teks membungkus */
+    word-wrap: break-word; /* Memastikan kata yang panjang dibungkus dengan baik */
+    margin-top: 10px;
+    margin-bottom: 0;
+    line-height: 1.2em;
+    text-align: center;
+    padding: 0 5px; /* Tambahkan sedikit padding di samping untuk lebih rapi */
+}
+
+
+#search-section .card {
+    background-color: rgba(0, 43, 116, 0.900); /* Card background color */
+    border-radius: 10px; /* Rounded corners */
+    padding: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+    height: 80px;
+    width: 80px;
+}
+
+#search-section .card-body {
+    padding: 0px;
+    text-align: center;
+}
+
+#search-section .card p {
+    margin-top: 10px;
+    color: #ffffff; /* Text color inside the card */
+    font-size: 14px;
+}
+
+#description .mt-4 {
+    line-height: 1.6; /* Line height for better readability */
+    font-size: 160px; /* Adjust font size if needed */
+    margin-bottom: 20px; /* Add some margin at the bottom */
+}
+
