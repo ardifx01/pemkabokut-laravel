@@ -7,7 +7,7 @@
         style="background-image: url('{{ asset('images/pemda1.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat; height: 755px; margin-top: -80px">
         <!-- Overlay -->
         <div
-            style="background: radial-gradient(110% 300% at 2% 0%, rgba(0, 39, 106, 0.999) 5%, rgba(0, 0, 0, 0.200) 62%); position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+            style="background: radial-gradient(110% 300% at 2% 0%, rgba(0, 39, 106, 0.999) 5%, rgba(0, 0, 0, 0.200) 62%); position: absolute; top: 0; left: 0; width: 102%; height: 100%;">
         </div>
 
         <!-- Search Form -->
@@ -93,72 +93,116 @@
 
     {{-- Pengumuman menjadi Post atau Berita Terbaru --}}
     <section id="pengumuman-section"
-        style="position: relative; background-image: url('images/cover.png'); 
-background-size: auto; background-position: right bottom; background-repeat: no-repeat; 
-height: 400px; background-color: #fff; width: 82vw; margin-bottom: -50px; padding: 0;">
-        {{-- Judul "Berita Terkini" --}}
-        <div class="container d-flex justify-content-between align-items-center mb-3"
-            style="margin-left: -190px; margin-bottom: 20px">
-            <h2 class="text-dark" style="font-weight: 600; font-size: 22px;  margin-top: 40px">Berita Terkini</h2>
-            <div class="d-flex" style="margin-right: 270px;">
-                <button class="btn btn-light" style="border: 1px solid #ccc; border-radius: 4px;">
-                    <i class="bi bi-chevron-left"></i>
-                </button>
-                <button class="btn btn-light ms-2" style="border: 1px solid #ccc; border-radius: 4px;">
-                    <i class="bi bi-chevron-right"></i>
-                </button>
-            </div>
-        </div>
-
-        {{-- Garis Bawah untuk Judul --}}
-        <div class="container mb-3" style="border-bottom: 2px solid #2F4F7F; margin-left: -179px; width: 900px;"></div>
-
-        {{-- Container Pengumuman --}}
-        <div class="container py-4" style="margin-left: -190px; width: 900px; margin-top: -20px">
+        style="position: relative; background-image: url('images/cover.png'); background-size: auto; background-position: right bottom; background-repeat: no-repeat; background-color: #fff; width: 82vw; margin-bottom: -50px; padding: 0;">
+        {{-- Main Container for the Section --}}
+        <div class="container" style="margin-left: -190px; padding-top: 40px;">
             <div class="row">
-                <div class="col-lg-12">
-                    @if ($posts->isNotEmpty())
-                        {{-- Menampilkan post terbaru yang memiliki headline_id --}}
-                        @php
-                            $latestPost = $posts->first();
-                        @endphp
-                        <div class="card border-0 shadow-sm mb-3">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    {{-- Gambar untuk Post --}}
-                                    @if (Str::startsWith($latestPost->image, ['http://', 'https://']))
-                                        <img src="{{ $latestPost->image }}" class="img-fluid rounded-start"
-                                            alt="Gambar Post">
-                                    @else
-                                        <img src="{{ asset('storage/' . $latestPost->image) }}"
-                                            class="img-fluid rounded-start" alt="Gambar Post">
-                                    @endif
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ $latestPost->title }}</h5>
-                                        <div class="d-flex justify-content-start align-items-center text-muted mb-2">
-                                            <span class="me-3"><i class="bi bi-calendar"></i>
-                                                @if ($latestPost->published_at)
-                                                    {{ $latestPost->published_at->format('d M Y') }}
+                {{-- Berita Terkini --}}
+                <div class="col-md-8" style="margin-top: -50px;">
+                    {{-- Judul "Berita Terkini" --}}
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="text-dark" style="font-weight: 600; font-size: 22px; margin-top: 40px;">Berita Terkini
+                        </h2>
+                        <div class="d-flex" style="margin-top: 30px;">
+                            <button class="btn btn-light" style="border: 1px solid #ccc; border-radius: 4px;">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            <button class="btn btn-light ms-2" style="border: 1px solid #ccc; border-radius: 4px;">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    {{-- Garis Bawah untuk Judul --}}
+                    <div class="mb-2 d-flex align-items-center" style="margin-top: -10px">
+                        <div style="width: 50px; height: 6px; background-color: #2F4F7F;"></div>
+                        <div style="flex-grow: 1; height: 2px; background-color: #2F4F7F;"></div>
+                    </div>
+
+                    {{-- Container Pengumuman --}}
+                    <div class="container py-4" style="margin-top: -20px; margin-left: -20px; width: 106%;">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                @if ($posts->isNotEmpty())
+                                    @php
+                                        $latestPost = $posts->first();
+                                    @endphp
+                                    <div class="card border-0 shadow-sm mb-3">
+                                        <div class="row g-0">
+                                            <div class="col-md-4">
+                                                {{-- Gambar untuk Post --}}
+                                                @if (Str::startsWith($latestPost->image, ['http://', 'https://']))
+                                                    <img src="{{ $latestPost->image }}" class="img-fluid rounded-start"
+                                                        alt="Gambar Post"
+                                                        tyle="width: 200%; height: 300px; object-fit: cover;">
                                                 @else
-                                                    Tanggal tidak tersedia
+                                                    <img src="{{ asset('storage/' . $latestPost->image) }}"
+                                                        class="img-fluid rounded-start" alt="Gambar Post">
                                                 @endif
-                                            </span>
-                                            <span class="me-3"><i class="bi bi-person"></i> Admin</span>
-                                            <span><i class="bi bi-eye"></i> {{ $latestPost->views }}</span>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body">
+                                                    <h5 class="card-title title-clamp">{{ $latestPost->title }}</h5>
+                                                    <div
+                                                        class="d-flex justify-content-start align-items-center text-muted mb-2">
+                                                        <span class="me-3"><i class="bi bi-calendar"></i>
+                                                            @if ($latestPost->published_at)
+                                                                {{ $latestPost->published_at->format('d M Y') }}
+                                                            @else
+                                                                Tanggal tidak tersedia
+                                                            @endif
+                                                        </span>
+                                                        <span class="me-3"><i class="bi bi-person"></i> Admin</span>
+                                                        <span><i class="bi bi-eye"></i> {{ $latestPost->views }}</span>
+                                                    </div>
+                                                    <p class="card-text">
+                                                        {{ Str::limit($latestPost->excerpt, 150, '...') }}</p>
+                                                    <a href="/post/show/{{ $latestPost->id }}"
+                                                        class="btn btn-link text-primary p-0">Selengkapnya <i
+                                                            class="bi bi-arrow-right"></i></a>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <p class="card-text">{{ Str::limit($latestPost->excerpt, 150, '...') }}</p>
-                                        <a href="/post/show/{{ $latestPost->id }}"
-                                            class="btn btn-link text-primary p-0">Selengkapnya <i
-                                                class="bi bi-arrow-right"></i></a>
                                     </div>
-                                </div>
+                                @else
+                                    <p>Tidak ada berita terbaru untuk ditampilkan.</p>
+                                @endif
                             </div>
                         </div>
-                    @else
-                        <p>Tidak ada berita terbaru untuk ditampilkan.</p>
-                    @endif
+                    </div>
+                </div>
+
+                {{-- Serba-serbi --}}
+                <div class="col-md-4">
+                    <h5 class="mb-3" style="font-weight: 600; font-size: 22px; margin-top: -11px;">Serba-serbi</h5>
+                    {{-- Garis Bawah untuk Judul --}}
+                    <div class="mb-2 d-flex align-items-center" style="margin-top: -1px">
+                        <div style="width: 50px; height: 6px; background-color: #2F4F7F;"></div>
+                        <div style="flex-grow: 1; height: 2px; background-color: #2F4F7F;"></div>
+                    </div>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex justify-content-between">
+                                <h6 class="mb-1">MEMPERINGATI HARI PENDIDIKAN NASIONAL</h6>
+                                <small><i class="bi bi-calendar"></i> 2 Mei 2020</small>
+                            </div>
+                            <small><i class="bi bi-person"></i> Admin &nbsp; <i class="bi bi-eye"></i> 40.784</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex justify-content-between">
+                                <h6 class="mb-1">Pelayanan PBB Bandung Barat</h6>
+                                <small><i class="bi bi-calendar"></i> 4 Oktober 2021</small>
+                            </div>
+                            <small><i class="bi bi-person"></i> Admin &nbsp; <i class="bi bi-eye"></i> 36.438</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex justify-content-between">
+                                <h6 class="mb-1">KPU Kabupaten Bandung Barat Umumkan Daftar Calon Sementara...</h6>
+                                <small><i class="bi bi-calendar"></i> 23 Agustus 2023</small>
+                            </div>
+                            <small><i class="bi bi-person"></i> Admin &nbsp; <i class="bi bi-eye"></i> 17.092</small>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

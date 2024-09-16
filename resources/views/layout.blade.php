@@ -15,8 +15,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
-
-
 </head>
 
 <body>
@@ -33,12 +31,12 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link active text-white" aria-current="page" href="{{ url('/') }}">Beranda</a>
                     </li>
                     @foreach ($categories as $category)
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown category-item">
                             <a class="nav-link dropdown-toggle text-white ease-in-out transition-transform duration-300"
                                 href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 {{ $category->title }}
@@ -79,7 +77,8 @@
                         </li>
                     @endforeach
                 </ul>
-                <div class="dropdown">
+                {{-- Admin Button --}}
+                <div class="dropdown ms-auto">
                     <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -97,6 +96,7 @@
                         <li><a class="dropdown-item" href="{{ url('/file/data') }}">File Data</a></li>
                     </ul>
                 </div>
+                {{-- Admin Button --}}
             </div>
         </div>
     </nav>
@@ -104,7 +104,8 @@
 
     <div class="container col-xxl-8 py-0">
         @yield('content')
-        <div class="social-icons">
+        {{-- Social Icons, hidden on smaller screens --}}
+        <div class="social-icons d-none d-lg-flex">
             <a href="https://www.facebook.com/diskominfo.okutimur.33?mibextid=ZbWKwL" target="_blank">
                 <img src="{{ URL::asset('/images/facebook.png') }}" alt="Facebook">
             </a>
@@ -118,7 +119,6 @@
                 <img src="{{ URL::asset('/images/youtube.png') }}" alt="YouTube">
             </a>
         </div>
-
     </div>
 
     <footer class="text-center text-white bg-dark mt-5 py-3">
@@ -132,12 +132,10 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ asset('js/layout.js') }}"></script>
     <!-- Owl Carousel JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 </body>
-
 
 </html>
