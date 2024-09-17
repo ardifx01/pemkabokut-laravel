@@ -77,26 +77,23 @@
                         </li>
                     @endforeach
                 </ul>
-                {{-- Admin Button --}}
-                <div class="dropdown ms-auto">
-                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                            class="bi bi-plus-lg" viewBox="0 0 16 16">
-                            <path
-                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                        </svg>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" href="{{ url('/post/data') }}">Post Data</a></li>
-                        <li><a class="dropdown-item" href="{{ url('/category/data') }}">Category Data</a></li>
-                        <li><a class="dropdown-item" href="{{ url('/headline/data') }}">Headline Data</a></li>
-                        <li><a class="dropdown-item" href="{{ url('/data/index') }}">Add Data</a></li>
-                        <li><a class="dropdown-item" href="{{ url('/document/data') }}">Document Data</a></li>
-                        <li><a class="dropdown-item" href="{{ url('/file/data') }}">File Data</a></li>
-                    </ul>
-                </div>
-                {{-- Admin Button --}}
+                <!-- Admin Button -->
+            <div class="dropdown ms-auto">
+                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                    </svg>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="{{ url('/post/data') }}">Post Data</a></li>
+                    <li><a class="dropdown-item" href="{{ url('/category/data') }}">Category Data</a></li>
+                    <li><a class="dropdown-item" href="{{ url('/headline/data') }}">Headline Data</a></li>
+                    <li><a class="dropdown-item" href="{{ url('/data/index') }}">Add Data</a></li>
+                    <li><a class="dropdown-item" href="{{ url('/document/data') }}">Document Data</a></li>
+                    <li><a class="dropdown-item" href="{{ url('/file/data') }}">File Data</a></li>
+                </ul>
+            </div>
+            <!-- Admin Button -->
             </div>
         </div>
     </nav>

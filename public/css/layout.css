@@ -315,4 +315,17 @@ body {
     .dropdown.ms-auto {
         padding-left: 90%; /* Tambahkan jarak atas jika diperlukan */
     }
+
+    .dropdown .dropdown-menu {
+        top: 0;
+        left: 70%;
+    }
+}
+
+.description-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* Batasi hingga 4 baris */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

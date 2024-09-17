@@ -15,7 +15,6 @@ class HeadlineSeeder extends Seeder
     {
         $headlines = [
             ['title' => 'Headlines OKU Timur'],
-            ['title' => 'Data Umum', 'category_id' => 8],
             ['title' => 'Artikel', 'category_id' => 8],
             ['title' => 'Berita Daerah', 'category_id' => 8],
             ['title' => 'Berita Umum', 'category_id' => 8],
