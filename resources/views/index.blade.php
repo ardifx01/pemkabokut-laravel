@@ -95,117 +95,116 @@
     <section id="pengumuman-section"
         style="position: relative; background-image: url('images/cover.png'); background-size: auto; background-position: right bottom; background-repeat: no-repeat; background-color: #fff; width: 82vw; margin-bottom: -50px; padding: 0;">
         {{-- Main Container for the Section --}}
-        <div class="container" style="margin-left: -190px; padding-top: 40px;">
-            <div class="row">
-                {{-- Berita Terkini --}}
-                <div class="col-md-8" style="margin-top: -50px; width: 73%">
-                    {{-- Judul "Berita Terkini" --}}
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h2 class="text-dark" style="font-weight: 600; font-size: 22px; margin-top: 40px;">Berita Terkini
-                        </h2>
-                        {{-- Nav untuk carousel --}}
-                        <div class="d-flex" style="margin-top: 30px;">
-                            <button class="owl-prev btn btn-light" style="border: 1px solid #ccc; border-radius: 4px;">
-                                <i class="bi bi-chevron-left"></i>
-                            </button>
-                            <button class="owl-next btn btn-light ms-2" style="border: 1px solid #ccc; border-radius: 4px;">
-                                <i class="bi bi-chevron-right"></i>
-                            </button>
-                        </div>
+        <div class="container d-flex" style="margin-left: -190px; padding-top: 40px;">
+            {{-- Berita Terkini --}}
+            <div class="col-md-8" style="margin-top: -50px; width: 73%;">
+                {{-- Judul "Berita Terkini" --}}
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="text-dark" style="font-weight: 600; font-size: 22px; margin-top: 40px;">Berita Terkini
+                    </h2>
+                    {{-- Nav untuk carousel --}}
+                    <div class="d-flex" style="margin-top: 30px;">
+                        <button class="owl-prev btn btn-light" style="border: 1px solid #ccc; border-radius: 4px;">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+                        <button class="owl-next btn btn-light ms-2" style="border: 1px solid #ccc; border-radius: 4px;">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
                     </div>
+                </div>
 
-                    {{-- Garis Bawah untuk Judul --}}
-                    <div class="mb-2 d-flex align-items-center" style="margin-top: -11px">
-                        <div style="width: 50px; height: 6px; background-color: #2F4F7F;"></div>
-                        <div style="flex-grow: 1; height: 2px; background-color: #2F4F7F;"></div>
-                    </div>
+                {{-- Garis Bawah untuk Judul --}}
+                <div class="mb-2 d-flex align-items-center" style="margin-top: -11px">
+                    <div style="width: 50px; height: 6px; background-color: #2F4F7F;"></div>
+                    <div style="flex-grow: 1; height: 2px; background-color: #2F4F7F;"></div>
+                </div>
 
-                    {{-- Container Pengumuman with Owl Carousel --}}
-                    <div class="container py-4" style="margin-top: -20px; margin-left: -20px; width: 106%;">
-                        <div id="latestArticle" class="owl-carousel owl-theme">
-                            @foreach ($posts as $post)
-                                <div class="item">
-                                    <div class="card border-0 shadow-sm mb-3">
-                                        <div class="row g-0">
-                                            <div class="col-md-4" style="width: 55%; ">
-                                                {{-- Gambar untuk Post --}}
-                                                @if (Str::startsWith($post->image, ['http://', 'https://']))
-                                                    <img src="{{ $post->image }}" class="img-fluid" alt="Gambar Post"
-                                                        style="width: 90%; height: 250px; object-fit: cover; border-radius: 5px;">
-                                                @else
-                                                    <img src="{{ asset('storage/' . $post->image) }}" class="img-fluid"
-                                                        alt="Gambar Post"
-                                                        style="width: 100%; height: 250px; object-fit: cover; border-radius: 5px;">
-                                                @endif
-                                            </div>
-                                            <div class="col-md-8"
-                                                style="width: 40%; margin-left: -40px; margin-top: -15px;">
-                                                <div class="card-body" style="width: 420px">
-                                                    <h5 class="card-title title-clamp">{{ $post->title }}</h5>
-                                                    <div
-                                                        class="d-flex justify-content-start align-items-center text-muted mb-2">
-                                                        <span class="me-3"><i class="bi bi-calendar"></i>
-                                                            @if ($post->published_at)
-                                                                {{ $post->published_at->format('d M Y') }}
-                                                            @else
-                                                                Tanggal tidak tersedia
-                                                            @endif
-                                                        </span>
-                                                        <span class="me-3"><i class="bi bi-person"></i> Admin</span>
-                                                        <span><i class="bi bi-eye"></i> {{ $post->views }}</span>
-                                                    </div>
-                                                    {{-- Deskripsi dengan Batasan 4 Baris --}}
-                                                    <p class="card-text description-clamp">
-                                                        {{ Str::limit(html_entity_decode(strip_tags($post->description)), 200, '...') }}
-                                                    </p>
-                                                    <a href="/post/show/{{ $post->id }}"
-                                                        class="btn btn-link text-primary p-0">Selengkapnya <i
-                                                            class="bi bi-arrow-right"></i></a>
+                {{-- Container Pengumuman with Owl Carousel --}}
+                <div class="container py-4" style="margin-top: -20px; margin-left: -12px; width: 104%;">
+                    <div id="latestArticle" class="owl-carousel owl-theme">
+                        @foreach ($posts as $post)
+                            <div class="item">
+                                <div class="card border-0 shadow-sm mb-3">
+                                    <div class="row g-0">
+                                        <div class="col-md-4" style="width: 55%; ">
+                                            {{-- Gambar untuk Post --}}
+                                            @if (Str::startsWith($post->image, ['http://', 'https://']))
+                                                <img src="{{ $post->image }}" class="img-fluid" alt="Gambar Post"
+                                                    style="width: 90%; height: 250px; object-fit: cover; border-radius: 5px;">
+                                            @else
+                                                <img src="{{ asset('storage/' . $post->image) }}" class="img-fluid"
+                                                    alt="Gambar Post"
+                                                    style="width: 100%; height: 250px; object-fit: cover; border-radius: 5px;">
+                                            @endif
+                                        </div>
+                                        <div class="col-md-8" style="width: 40%; margin-left: -40px; margin-top: -15px;">
+                                            <div class="card-body" style="width: 420px">
+                                                <h5 class="card-title title-clamp">{{ $post->title }}</h5>
+                                                <div
+                                                    class="d-flex justify-content-start align-items-center text-muted mb-2">
+                                                    <span class="me-3"><i class="bi bi-calendar"></i>
+                                                        @if ($post->published_at)
+                                                            {{ $post->published_at->format('d M Y') }}
+                                                        @else
+                                                            Tanggal tidak tersedia
+                                                        @endif
+                                                    </span>
+                                                    <span class="me-3"><i class="bi bi-person"></i> Admin</span>
+                                                    <span><i class="bi bi-eye"></i> {{ $post->views }}</span>
                                                 </div>
+                                                {{-- Deskripsi dengan Batasan 4 Baris --}}
+                                                <p class="card-text description-clamp">
+                                                    {{ Str::limit(html_entity_decode(strip_tags($post->description)), 200, '...') }}
+                                                </p>
+                                                <a href="/post/show/{{ $post->id }}"
+                                                    class="btn btn-link text-primary p-0">Selengkapnya <i
+                                                        class="bi bi-arrow-right"></i></a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
-                        </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
+            </div>
 
-                {{-- Serba-serbi --}}
-                <div class="col-md-4">
-                    <h5 class="mb-3" style="font-weight: 600; font-size: 22px; margin-top: -13px;">Serba-serbi</h5>
-                    {{-- Garis Bawah untuk Judul --}}
-                    <div class="mb-2 d-flex align-items-center" style="margin-top: 2px">
-                        <div style="width: 50px; height: 6px; background-color: #2F4F7F;"></div>
-                        <div style="flex-grow: 1; height: 2px; background-color: #2F4F7F;"></div>
-                    </div>
-                    <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action">
-                            <div class="d-flex justify-content-between">
-                                <h6 class="mb-1">MEMPERINGATI HARI PENDIDIKAN NASIONAL</h6>
-                                <small><i class="bi bi-calendar"></i> 2 Mei 2020</small>
-                            </div>
-                            <small><i class="bi bi-person"></i> Admin &nbsp; <i class="bi bi-eye"></i> 40.784</small>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action">
-                            <div class="d-flex justify-content-between">
-                                <h6 class="mb-1">Pelayanan PBB Bandung Barat</h6>
-                                <small><i class="bi bi-calendar"></i> 4 Oktober 2021</small>
-                            </div>
-                            <small><i class="bi bi-person"></i> Admin &nbsp; <i class="bi bi-eye"></i> 36.438</small>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action">
-                            <div class="d-flex justify-content-between">
-                                <h6 class="mb-1">KPU Kabupaten Bandung Barat Umumkan Daftar Calon Sementara...</h6>
-                                <small><i class="bi bi-calendar"></i> 23 Agustus 2023</small>
-                            </div>
-                            <small><i class="bi bi-person"></i> Admin &nbsp; <i class="bi bi-eye"></i> 17.092</small>
-                        </a>
-                    </div>
+            {{-- Pengumuman --}}
+            <div class="col-md-4" style="margin-left: 30px; width: 35%;">
+                <h5 class="mb-3" style="font-weight: 600; font-size: 22px; margin-top: -13px;">Pengumuman</h5>
+                {{-- Garis Bawah untuk Judul --}}
+                <div class="mb-2 d-flex align-items-center" style="margin-top: 2px">
+                    <div style="width: 50px; height: 6px; background-color: #2F4F7F;"></div>
+                    <div style="flex-grow: 1; height: 2px; background-color: #2F4F7F;"></div>
+                </div>
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="mb-1">MEMPERINGATI HARI PENDIDIKAN NASIONAL</h6>
+                            <small><i class="bi bi-calendar"></i> 2 Mei 2020</small>
+                        </div>
+                        <small><i class="bi bi-person"></i> Admin &nbsp; <i class="bi bi-eye"></i> 40.784</small>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="mb-1">Pelayanan PBB Bandung Barat</h6>
+                            <small><i class="bi bi-calendar"></i> 4 Oktober 2021</small>
+                        </div>
+                        <small><i class="bi bi-person"></i> Admin &nbsp; <i class="bi bi-eye"></i> 36.438</small>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="mb-1">KPU Kabupaten Bandung Barat Umumkan Daftar Calon Sementara...</h6>
+                            <small><i class="bi bi-calendar"></i> 23 Agustus 2023</small>
+                        </div>
+                        <small><i class="bi bi-person"></i> Admin &nbsp; <i class="bi bi-eye"></i> 17.092</small>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
+
+    
 
     {{-- Headline --}}
     <section id="headline" class="py-4" style="margin-left: -20%; margin-right: -20%">

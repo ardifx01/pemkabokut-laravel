@@ -28,7 +28,6 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Title</th>
                             <th>Path</th>
                             <th>Date</th>
                             <th>Data</th>
@@ -40,7 +39,6 @@
                         @foreach ($files as $file)
                             <tr>
                                 <td>{{ $file->id }}</td>
-                                <td>{{ $file->title }}</td>
                                 <td>{{ $file->file_path }}</td>
                                 <td>{{ $file->file_date }}</td>
                                 <td>{{ $file->data->title ?? 'No Data' }}</td>

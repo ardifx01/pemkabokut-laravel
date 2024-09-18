@@ -47,7 +47,7 @@
                                         <tr>
                                             <th>No.</th>
                                             <th>Tahun</th>
-                                            <th>Judul</th>
+                                            <th>File Path</th> <!-- Ganti Judul Menjadi File Path -->
                                             <th>Tanggal Upload</th>
                                             <th>#</th>
                                         </tr>
@@ -59,7 +59,7 @@
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ \Carbon\Carbon::parse($file->file_date)->format('Y') }}</td>
-                                                    <td>{{ $file->title }}</td>
+                                                    <td>{{ basename($file->file_path) }}</td><!-- Ganti dengan file_path -->
                                                     <td>{{ \Carbon\Carbon::parse($file->file_date)->format('d F Y') }}</td>
                                                     <td><a href="{{ route('file.download', $file->id) }}"
                                                             class="btn btn-success btn-sm">Download</a></td>

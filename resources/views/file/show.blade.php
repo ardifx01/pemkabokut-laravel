@@ -31,7 +31,9 @@
                             {{ $file->title }}
                         </p>
 
-                        <h3 class="fw-bold mb-3">{{ $file->title }}</h3>
+                        <h3 class="fw-bold mb-3">
+                            {{ $file->document ? $file->document->title : $file->title }}
+                        </h3>
                         <p class="mb-3">
                             Uploaded on {{ date('d M Y', strtotime($file->file_date)) }}
                         </p>

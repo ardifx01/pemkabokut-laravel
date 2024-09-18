@@ -32,7 +32,6 @@ class FileController extends Controller
     {
         // Validasi data yang dikirim
         $request->validate([
-            'title' => 'required|string|max:255',
             'file_path.*' => 'required|file|mimes:pdf,doc,docx,jpg,png,zip,rar,xls,xlsx|max:20000', // Validasi array file
             'file_date' => 'required|date',
             'document_id' => 'nullable|exists:documents,id',
@@ -49,7 +48,6 @@ class FileController extends Controller
 
                 // Membuat entri file baru di database untuk setiap file
                 File::create([
-                    'title' => $request->title,
                     'file_path' => $path,
                     'file_date' => $request->file_date,
                     'document_id' => $request->document_id,

@@ -263,16 +263,6 @@ body {
     margin-bottom: 20px; /* Add some margin at the bottom */
 }
 
-.title-clamp {
-    display: -webkit-box;
-    -webkit-line-clamp: 3; /* Batasi hingga 3 baris */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.2em; /* Atur jarak antar baris */
-    max-height: 3.6em; /* Atur tinggi maksimal untuk 3 baris */
-}
-
 .navbar-toggler-icon {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
@@ -320,6 +310,81 @@ body {
         top: 0;
         left: 70%;
     }
+    
+    #pengumuman-section {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    /* Bagian Berita Terkini */
+    .berita-terkini-section {
+        margin-bottom: 20px;
+    }
+
+    /* Judul "Berita Terkini" */
+    .berita-terkini-section h2 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    /* Garis Bawah untuk Judul */
+    .berita-terkini-section .line {
+        width: 50px;
+        height: 6px;
+        background-color: #2F4F7F;
+        margin-bottom: 10px;
+    }
+
+    /* Gambar Post */
+    .berita-terkini-section img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    /* Kontainer Deskripsi Post */
+    .berita-terkini-section .description-container {
+        padding: 10px;
+    }
+
+    /* Bagian Serba-serbi */
+    .serba-serbi-section {
+        margin-top: 20px;
+    }
+
+    /* Judul "Serba-serbi" */
+    .serba-serbi-section h5 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    /* Garis Bawah untuk Judul */
+    .serba-serbi-section .line {
+        width: 50px;
+        height: 6px;
+        background-color: #2F4F7F;
+        margin-bottom: 10px;
+    }
+
+    /* Kontainer Serba-serbi */
+    .serba-serbi-section .list-group {
+        padding: 0;
+    }
+}
+
+.title-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Batasi hingga 3 baris */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2em; /* Atur jarak antar baris */
+    max-height: 3.6em; /* Atur tinggi maksimal untuk 3 baris */
 }
 
 .description-clamp {
