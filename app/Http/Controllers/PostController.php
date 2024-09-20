@@ -83,6 +83,8 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
+        $post->increment('views');
+
         return view('/post/show', compact('post'));
     }
 

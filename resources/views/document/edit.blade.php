@@ -6,17 +6,18 @@
         <div class="row justify-content-md-center">
             <div class="col-md-12">
                 <div class="text-center">
-                    <h1>Create a New Document and Upload Files</h1>
+                    <h1>Edit Document and Files</h1>
                 </div>
 
-                <!-- Form untuk membuat dokumen dan mengunggah file -->
-                <form action="{{ route('document.store') }}" method="post" enctype="multipart/form-data" id="file-form">
+                <!-- Form untuk edit dokumen dan mengunggah file -->
+                <form action="{{ route('document.update', $document->id) }}" method="post" enctype="multipart/form-data" id="file-form">
                     @csrf
+                    @method('PUT')
 
                     <!-- Input untuk judul dokumen -->
                     <div class="form-group">
                         <label for="title">Title:</label>
-                        <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}">
+                        <input type="text" class="form-control" name="title" id="title" value="{{ old('title', $document->title) }}">
                         @if ($errors->has('title'))
                             <span class="text-danger">{{ $errors->first('title') }}</span>
                         @endif
@@ -27,15 +28,32 @@
                     <select name="data_id" class="form-control" id="data-select">
                         <option value="">-- Select Data --</option>
                         @foreach ($data as $dataItem)
-                            <option value="{{ $dataItem->id }}">{{ $dataItem->title }}</option>
+                            <option value="{{ $dataItem->id }}" {{ $dataItem->id == $document->data_id ? 'selected' : '' }}>
+                                {{ $dataItem->title }}
+                            </option>
                         @endforeach
                     </select>
 
-                    <!-- Input untuk memilih file -->
+                    <!-- Pratinjau file yang sudah ada -->
+                    <div class="mb-3">
+                        <label for="current_files" class="form-label">Current Files:</label>
+                        @if ($document->file->isNotEmpty())
+                            @foreach ($document->file as $file)
+                                <div class="file-item d-flex align-items-center mb-2">
+                                    <img src="{{ asset('icons/' . strtolower(pathinfo($file->file_path, PATHINFO_EXTENSION)) . '-icon.png') }}" alt="File Icon" width="50" class="me-2">
+                                    <a href="{{ route('file.download', $file->id) }}" target="_blank">{{ basename($file->file_path) }}</a>
+                                </div>
+                            @endforeach
+                        @else
+                            <p>No files uploaded yet.</p>
+                        @endif
+                    </div>
+
+                    <!-- Input untuk mengganti atau menambah file -->
                     <div class="mb-3 d-flex align-items-center">
                         <div class="me-2" style="flex: 1;">
-                            <label for="file_path" class="form-label">Files</label>
-                            <input type="file" class="form-control" id="file_path" name="file_path[]" multiple required
+                            <label for="file_path" class="form-label">Upload New Files</label>
+                            <input type="file" class="form-control" id="file_path" name="file_path[]" multiple
                                 style="width: 725px;">
                         </div>
 
@@ -50,11 +68,11 @@
                     <!-- Input untuk tanggal file -->
                     <div class="mb-3">
                         <label for="file_date" class="form-label">File Date</label>
-                        <input type="date" class="form-control" id="file_date" name="file_date" value="{{ old('file_date') }}" required>
+                        <input type="date" class="form-control" id="file_date" name="file_date" value="{{ old('file_date', $document->file->first()->file_date ?? '') }}" required>
                     </div>
 
                     <!-- Submit button -->
-                    <button type="submit" class="btn btn-lg btn-primary mt-3">Submit</button>
+                    <button type="submit" class="btn btn-lg btn-primary mt-3">Update Document</button>
                 </form>
             </div>
         </div>

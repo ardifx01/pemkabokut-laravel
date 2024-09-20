@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Data;
+use App\Models\File;
 use App\Models\Document;
 use Illuminate\Http\Request;
 
@@ -31,16 +32,78 @@ class DocumentController extends Controller
         // Validasi data yang dikirim
         $request->validate([
             'title' => 'required|string|max:255',
+            'file_path.*' => 'required|file|mimes:pdf,doc,docx,jpg,png,zip,rar,xls,xlsx|max:20000', // Validasi file
+            'file_date' => 'required|date',
         ]);
 
-        // Buat data baru
-        Document::create([
+        // Buat Document baru
+        $document = Document::create([
             'title' => $request->title,
             'data_id' => $request->data_id,
         ]);
 
-        // Redirect ke halaman yang diinginkan (misalnya halaman daftar kategori)
-        return redirect()->route('document.data')->with('success', 'Data created successfully.');
+        // Simpan file yang terkait dengan dokumen
+        if ($request->hasFile('file_path')) {
+            foreach ($request->file('file_path') as $file) {
+                $originalName = $file->getClientOriginalName();
+                $path = $file->storeAs('files', $originalName);
+
+                // Buat entri file baru di database
+                File::create([
+                    'file_path' => $path,
+                    'file_date' => $request->file_date,
+                    'document_id' => $document->id,
+                    'data_id' => $request->data_id,
+                ]);
+            }
+        }
+
+        return redirect()->route('document.data')->with('success', 'Document and Files created successfully.');
+    }
+
+    public function edit($id)
+    {
+        $document = Document::with('file')->findOrFail($id);
+        $data = Data::all(); // Dropdown data
+
+        return view('document.edit', compact('document', 'data'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Validasi data yang dikirim
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'file_path.*' => 'nullable|file|mimes:pdf,doc,docx,jpg,png,zip,rar,xls,xlsx|max:20000', // Validasi file
+            'file_date' => 'required|date',
+        ]);
+
+        // Temukan dokumen berdasarkan ID
+        $document = Document::findOrFail($id);
+
+        // Update dokumen
+        $document->update([
+            'title' => $request->title,
+            'data_id' => $request->data_id,
+        ]);
+
+        // Simpan file yang terkait dengan dokumen
+        if ($request->hasFile('file_path')) {
+            foreach ($request->file('file_path') as $file) {
+                $originalName = $file->getClientOriginalName();
+                $path = $file->storeAs('files', $originalName);
+
+                // Buat entri file baru di database
+                File::create([
+                    'file_path' => $path,
+                    'file_date' => $request->file_date,
+                    'document_id' => $document->id,
+                    'data_id' => $request->data_id,
+                ]);
+            }
+        }
+
+        return redirect()->route('document.data')->with('success', 'Document and Files updated successfully.');
     }
 
     public function destroy($id)

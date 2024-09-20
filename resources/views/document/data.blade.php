@@ -42,7 +42,7 @@
 
                                 <td>
                                     <a href="/data/show/{{ $document->id }}" class="btn btn-success">Show</a>
-                                    <a href="/data/edit/{{ $document->id }}" class="btn btn-info">Edit</a>
+                                    <a href="/document/edit/{{ $document->id }}" class="btn btn-info">Edit</a>
                                     <form action="{{ route('document.destroy', $document->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')

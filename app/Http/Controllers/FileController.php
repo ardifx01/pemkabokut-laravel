@@ -67,6 +67,51 @@ class FileController extends Controller
 
         return response()->download($pathToFile);
     }
+
+    public function edit($id)
+    {
+        $file = File::findOrFail($id);
+        $documents = Document::all(); // Untuk dropdown pilihan dokumen
+        $data = Data::all(); // Untuk dropdown pilihan data
+        return view('/file/edit', compact('file', 'documents', 'data'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Validasi data yang dikirim
+        $request->validate([
+            'file_path' => 'nullable|file|mimes:pdf,doc,docx,jpg,png,zip,rar,xls,xlsx|max:20000',
+            'file_date' => 'required|date',
+            'document_id' => 'nullable|exists:documents,id',
+            'data_id' => 'nullable|exists:data,id',
+        ]);
+
+        $file = File::findOrFail($id);
+
+        // Jika ada file baru yang diunggah, ganti file yang lama
+        if ($request->hasFile('file_path')) {
+            // Hapus file lama dari storage
+            if (Storage::exists($file->file_path)) {
+                Storage::delete($file->file_path);
+            }
+
+            // Simpan file baru
+            $newFile = $request->file('file_path');
+            $originalName = $newFile->getClientOriginalName();
+            $path = $newFile->storeAs('files', $originalName);
+            $file->file_path = $path;
+        }
+
+        // Perbarui data file di database
+        $file->file_date = $request->file_date;
+        $file->document_id = $request->document_id;
+        $file->data_id = $request->data_id;
+        $file->save();
+
+        // Redirect ke halaman yang diinginkan
+        return redirect()->route('file.data')->with('success', 'File updated successfully.');
+    }
+
     public function destroy($id)
     {
         $file = File::findOrFail($id);

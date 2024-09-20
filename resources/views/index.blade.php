@@ -149,8 +149,7 @@
                                                             Tanggal tidak tersedia
                                                         @endif
                                                     </span>
-                                                    <span class="me-3"><i class="bi bi-person"></i> Admin</span>
-                                                    <span><i class="bi bi-eye"></i> {{ $post->views }}</span>
+                                                    <small><i class="bi bi-person"></i> Admin &nbsp; <i class="bi bi-eye"></i> {{ $post->views }}</small>
                                                 </div>
                                                 {{-- Deskripsi dengan Batasan 4 Baris --}}
                                                 <p class="card-text description-clamp">
@@ -168,6 +167,7 @@
                     </div>
                 </div>
             </div>
+            
 
             {{-- Pengumuman --}}
             <div class="col-md-4" style="margin-left: 30px; width: 35%;">
