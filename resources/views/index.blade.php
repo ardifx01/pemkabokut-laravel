@@ -206,7 +206,7 @@
     
 
     {{-- Headline --}}
-    <section id="headline" class="py-4">
+    <section id="headline" class="py-4" style="background-image: url('images/cover.png');">
         <div class="container">
             <h2 class="mb-4" style="font-family: 'Roboto', serif; font-size: 23px;">Berita Lainnya</h2>
             {{-- Garis Bawah untuk Judul --}}
