@@ -97,7 +97,7 @@
         {{-- Main Container for the Section --}}
         <div class="container d-flex" style="padding-top: 40px;">
             {{-- Berita Terkini --}}
-            <div class="col-md-8" style="margin-top: -50px; width: 850px;">
+            <div class="col-md-8" style="margin-top: -50px; width: 830px;">
                 {{-- Judul "Berita Terkini" --}}
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2 class="text-dark" style="font-weight: 600; font-size: 22px; margin-top: 40px;">Berita Terkini
