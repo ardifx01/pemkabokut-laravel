@@ -277,6 +277,29 @@ body {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 
+#pengumuman-section {
+    width: 100%;
+    margin: 0 auto; /* Hilangkan margin negatif */
+    padding-top: 40px;
+}
+
+.container {
+    max-width: 100%;
+    padding: 20px;
+}
+
+.col-md-8, .col-md-4 {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+@media (max-width: 1200px) {
+    .container {
+        max-width: 90%; /* Pastikan tidak terlalu lebar */
+    }
+}
+
 /* Menonaktifkan efek blur untuk layar lebih kecil dari 992px */
 @media (max-width: 991.98px) {
     .navbar-default,
