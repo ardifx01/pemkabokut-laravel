@@ -120,6 +120,13 @@ body {
     display: none;
 }
 
+/* Tambahkan flex-wrap agar elemen bisa terbungkus */
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Tambahkan ini */
+}
+
 /* Untuk bagian judul dan pencarian yang berada di luar container standar */
 #search-section {
     width: 100vw;
