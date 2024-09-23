@@ -94,7 +94,7 @@
     {{-- Section Berita dan Pengumuman --}}
     <section id="pengumuman-section" style="background-image: url('images/cover.png')">
         {{-- Main Container for the Section --}}
-        <div class="container d-flex justify-content-center" style="padding-top: 40px;">
+        <div class="container pengumuman-container d-flex justify-content-center" style="padding-top: 40px;">
             {{-- Berita Terkini --}}
             <div class="col-md-8" style="margin-top: -50px; width: 832px;">
                 {{-- Judul "Berita Terkini" --}}

@@ -261,7 +261,7 @@ body {
 }
 
 .owl-prev, .owl-next {
-    z-index: 9999;
+    z-index: 999;
     position: relative;
 }
 
@@ -289,6 +289,11 @@ body {
     width: 100vw; /* Membuat lebar container di dalam section mengikuti lebar penuh */
     padding-left: 15px; /* Tambahkan padding sesuai kebutuhan */
     padding-right: 15px; /* Tambahkan padding sesuai kebutuhan */
+}
+
+.pengumuman-container {
+    padding-left: 50px; /* Sesuaikan padding kiri sesuai kebutuhan */
+    padding-right: 50px; /* Sesuaikan padding kanan sesuai kebutuhan */
 }
 
 /* ======= Responsive Styles for Index Sections ======= */
