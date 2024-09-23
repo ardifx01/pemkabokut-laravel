@@ -93,11 +93,11 @@
 
     {{-- Section Berita dan Pengumuman --}}
     <section id="pengumuman-section"
-        style="position: relative; background-image: url('images/cover.png'); background-size: auto; background-position: right bottom; background-repeat: no-repeat; background-color: #fff; width: 100%; padding: 0; margin-left: 14px">
+        style="position: relative; background-image: url('images/cover.png'); background-size: auto; background-position: right bottom; background-repeat: no-repeat; background-color: #fff; width: 100%; padding: 0;">
         {{-- Main Container for the Section --}}
-        <div class="container d-flex" style="margin-left: 60px; padding-top: 40px;">
+        <div class="container d-flex" style="padding-top: 40px;">
             {{-- Berita Terkini --}}
-            <div class="col-md-8" style="margin-top: -50px; width: 73%;">
+            <div class="col-md-8" style="margin-top: -50px; width: 57%;">
                 {{-- Judul "Berita Terkini" --}}
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h2 class="text-dark" style="font-weight: 600; font-size: 22px; margin-top: 40px;">Berita Terkini
@@ -170,7 +170,7 @@
             
 
             {{-- Pengumuman --}}
-            <div class="col-md-4" style="margin-left: 30px; width: 35%;">
+            <div class="col-md-4" style="margin-left: 30px; width: 30%;">
                 <h5 class="mb-3" style="font-weight: 600; font-size: 22px; margin-top: -13px;">Pengumuman</h5>
                 {{-- Garis Bawah untuk Judul --}}
                 <div class="mb-2 d-flex align-items-center" style="margin-top: 2px">

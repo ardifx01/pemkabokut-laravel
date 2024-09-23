@@ -248,8 +248,13 @@ body {
 
 /* ======= Index - Berita dan Pengumuman Section ======= */
 #pengumuman-section {
-    width: 100vw;
-    background-size: cover; /* Ensure background covers the full section */
+    position: relative;
+    left: 50%; 
+    right: 50%;
+    margin-left: -47vw; /* Menghilangkan batas kiri */
+    margin-right: -50vw; /* Menghilangkan batas kanan */
+    width: 2000px; /* Mengatur agar lebar penuh dari viewport */
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     padding-top: 40px;
@@ -257,12 +262,7 @@ body {
 }
 
 
-#pengumuman-section .container {
-    max-width: 1200px; /* Optional: You can control the maximum width of content */
-    margin: 0 auto; /* Center the content */
-    display: flex;
-    justify-content: space-between; /* Keep Berita Terkini and Pengumuman side by side */
-}
+
 
 /* ======= Clamp Styles ======= */
 .title-clamp {
