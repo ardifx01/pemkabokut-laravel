@@ -288,8 +288,8 @@ body {
 }
 
 .pengumuman-container {
-    padding-left: 0px; /* Sesuaikan padding kiri sesuai kebutuhan */
-    padding-right: 0px; /* Sesuaikan padding kanan sesuai kebutuhan */
+    padding-left: 20px; /* Sesuaikan padding kiri sesuai kebutuhan */
+    padding-right: 20px; /* Sesuaikan padding kanan sesuai kebutuhan */
 }
 
 /* ======= Responsive Styles for Index Sections ======= */
@@ -361,8 +361,8 @@ body {
 }
 
 .headline-container {
-    padding-left: 150px; /* Sesuaikan padding kiri sesuai kebutuhan */
-    padding-right: 150px; /* Sesuaikan padding kanan sesuai kebutuhan */
+    padding-left: 125px; /* Sesuaikan padding kiri sesuai kebutuhan */
+    padding-right: 125px; /* Sesuaikan padding kanan sesuai kebutuhan */
 }
 #headline h2 {
     font-family: "Roboto", serif;
