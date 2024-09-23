@@ -169,7 +169,7 @@
             
 
             {{-- Pengumuman --}}
-            <div class="col-md-4" style="width: 34%;">
+            <div class="col-md-4" style="width: 350px;">
                 <h5 class="mb-3" style="font-weight: 600; font-size: 22px; margin-top: -13px;">Pengumuman</h5>
                 {{-- Garis Bawah untuk Judul --}}
                 <div class="mb-2 d-flex align-items-center" style="margin-top: 2px">
