@@ -122,6 +122,12 @@ body {
 
 /* Untuk bagian judul dan pencarian yang berada di luar container standar */
 #search-section {
+    height: 755px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    margin-top: -80px;
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);
