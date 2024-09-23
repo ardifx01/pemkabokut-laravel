@@ -8,8 +8,8 @@ body {
 }
 
 .navbar-nav .nav-item {
-    margin-right: 5px; /* Mengurangi jarak antar item */
-    font-size: 15px; /* Ukuran font lebih kecil */
+    margin-right: 0px; /* Mengurangi jarak antar item */
+    font-size: 16px; /* Ukuran font lebih kecil */
 }
 
 .navbar-nav {
@@ -18,7 +18,7 @@ body {
 }
 
 .navbar .navbar-brand img {
-    height: 60px; /* Sesuaikan ukuran logo agar lebih kecil */
+    height: 70px; /* Sesuaikan ukuran logo agar lebih kecil */
 }
 
 .navbar-toggler {
@@ -42,6 +42,10 @@ body {
     width: 100%;
     margin-left: 0;
     margin-right: 0;
+}
+
+.navbar .dropdown-toggle::after {
+    display: none; /* Menghilangkan panah bawaan Bootstrap */
 }
 
 /* ======= Navbar Styles ======= */
@@ -101,7 +105,7 @@ body {
 }
 
 .navbar-nav .dropdown-item {
-    font-size: 14px; /* Kurangi ukuran font dalam dropdown */
+    font-size: 15px; /* Kurangi ukuran font dalam dropdown */
     padding: 5px 10px; /* Sesuaikan padding dropdown item */
     color: #ffffff;
 }
@@ -144,6 +148,7 @@ body {
         display: block;
         visibility: visible;
         opacity: 1;
+        transition: opacity 0.3s ease;
     }
 }
 
@@ -243,9 +248,101 @@ body {
 
 /* ======= Index - Berita dan Pengumuman Section ======= */
 #pengumuman-section {
-    width: 100%;
+    width: 100vw;
+    background-size: cover; /* Ensure background covers the full section */
+    background-position: center;
+    background-repeat: no-repeat;
     padding-top: 40px;
-    margin: 0 auto; /* Hilangkan margin negatif */
+    padding-bottom: 40px;
+}
+
+
+#pengumuman-section .container {
+    max-width: 1200px; /* Optional: You can control the maximum width of content */
+    margin: 0 auto; /* Center the content */
+    display: flex;
+    justify-content: space-between; /* Keep Berita Terkini and Pengumuman side by side */
+}
+
+/* ======= Clamp Styles ======= */
+.title-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Batasi hingga 3 baris */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2em; /* Atur jarak antar baris */
+    max-height: 3.6em; /* Atur tinggi maksimal untuk 3 baris */
+}
+
+.description-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* Batasi hingga 4 baris */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.container {
+    max-width: 100%;
+    width: 100vw; /* Membuat lebar container di dalam section mengikuti lebar penuh */
+    padding-left: 15px; /* Tambahkan padding sesuai kebutuhan */
+    padding-right: 15px; /* Tambahkan padding sesuai kebutuhan */
+}
+
+/* ======= Responsive Styles for Index Sections ======= */
+@media (max-width: 991px) {
+    #pengumuman-section {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .berita-terkini-section {
+        margin-bottom: 20px;
+    }
+
+    .berita-terkini-section h2 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .berita-terkini-section .line {
+        width: 50px;
+        height: 6px;
+        background-color: #2f4f7f;
+        margin-bottom: 10px;
+    }
+
+    .berita-terkini-section img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .serba-serbi-section {
+        margin-top: 20px;
+    }
+
+    .serba-serbi-section h5 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .serba-serbi-section .line {
+        width: 50px;
+        height: 6px;
+        background-color: #2f4f7f;
+        margin-bottom: 10px;
+    }
+
+    .serba-serbi-section .list-group {
+        padding: 0;
+    }
 }
 
 /* ======= Index - Headline Section Styles ======= */
@@ -326,78 +423,4 @@ body {
 
 .social-icons a img:hover {
     transform: scale(1.2);
-}
-
-/* ======= Clamp Styles ======= */
-.title-clamp {
-    display: -webkit-box;
-    -webkit-line-clamp: 3; /* Batasi hingga 3 baris */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.2em; /* Atur jarak antar baris */
-    max-height: 3.6em; /* Atur tinggi maksimal untuk 3 baris */
-}
-
-.description-clamp {
-    display: -webkit-box;
-    -webkit-line-clamp: 4; /* Batasi hingga 4 baris */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* ======= Responsive Styles for Index Sections ======= */
-@media (max-width: 991px) {
-    #pengumuman-section {
-        display: flex;
-        flex-direction: column;
-        padding: 20px;
-    }
-
-    .berita-terkini-section {
-        margin-bottom: 20px;
-    }
-
-    .berita-terkini-section h2 {
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 10px;
-    }
-
-    .berita-terkini-section .line {
-        width: 50px;
-        height: 6px;
-        background-color: #2f4f7f;
-        margin-bottom: 10px;
-    }
-
-    .berita-terkini-section img {
-        width: 100%;
-        height: auto;
-        object-fit: cover;
-        border-radius: 5px;
-        margin-bottom: 10px;
-    }
-
-    .serba-serbi-section {
-        margin-top: 20px;
-    }
-
-    .serba-serbi-section h5 {
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 10px;
-    }
-
-    .serba-serbi-section .line {
-        width: 50px;
-        height: 6px;
-        background-color: #2f4f7f;
-        margin-bottom: 10px;
-    }
-
-    .serba-serbi-section .list-group {
-        padding: 0;
-    }
 }
