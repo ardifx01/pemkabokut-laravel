@@ -258,10 +258,8 @@ body {
     background-size: auto;
     background-position: right bottom;
     background-repeat: no-repeat;
-    height: auto; /* Anda bisa mengatur ukuran height sesuai kebutuhan */
-    padding-top: 40px;
-    padding-bottom: 40px;
-    padding: 0;
+    height: auto;
+    
 }
 
 .owl-prev,
@@ -290,8 +288,8 @@ body {
 }
 
 .pengumuman-container {
-    padding-left: 50px; /* Sesuaikan padding kiri sesuai kebutuhan */
-    padding-right: 50px; /* Sesuaikan padding kanan sesuai kebutuhan */
+    padding-left: 0px; /* Sesuaikan padding kiri sesuai kebutuhan */
+    padding-right: 0px; /* Sesuaikan padding kanan sesuai kebutuhan */
 }
 
 /* ======= Responsive Styles for Index Sections ======= */
@@ -359,12 +357,13 @@ body {
     background-size: auto;
     background-position: right bottom;
     background-repeat: no-repeat;
-    height: auto; /* Anda bisa mengatur ukuran height sesuai kebutuhan */
-    padding-top: 40px;
-    padding-bottom: 40px;
-    padding: 0;
+    height: auto;
 }
 
+.headline-container {
+    padding-left: 150px; /* Sesuaikan padding kiri sesuai kebutuhan */
+    padding-right: 150px; /* Sesuaikan padding kanan sesuai kebutuhan */
+}
 #headline h2 {
     font-family: "Roboto", serif;
     font-size: 23px;
