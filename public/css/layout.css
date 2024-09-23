@@ -3,8 +3,8 @@
 }
 
 .navbar-nav .nav-item {
-    margin-right: 10px; /* Kurangi jarak antar item */
-    font-size: 15px; /* Kurangi ukuran font */
+    margin-right: 5px; /* Mengurangi jarak antar item */
+    font-size: 14px; /* Ukuran font lebih kecil */
 }
 
 /* Navbar default untuk halaman lain */
