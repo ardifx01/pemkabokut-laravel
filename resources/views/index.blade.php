@@ -206,17 +206,22 @@
     
 
     {{-- Headline --}}
-    <section id="headline" class="py-4" style="margin-left: -20%; margin-right: -20%">
+    <section id="headline" class="py-4">
         <div class="container">
             <h2 class="mb-4" style="font-family: 'Roboto', serif; font-size: 23px;">Berita Lainnya</h2>
-            <div class="row">
+            {{-- Garis Bawah untuk Judul --}}
+            <div class="mb-2 d-flex align-items-center" style="margin-top: -15px">
+                <div style="width: 50px; height: 6px; background-color: #2F4F7F;"></div>
+                <div style="flex-grow: 1; height: 2px; background-color: #2F4F7F;"></div>
+            </div>
+            <div class="row" style="margin-top: 20px">
                 @foreach ($posts->whereNotNull('headline_id')->sortByDesc('id')->take(6) as $post)
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                         <a href="/post/show/{{ $post->id }}" class="text-decoration-none">
                             <div class="card border-0 shadow-sm">
                                 @if (Str::startsWith($post->image, ['http://', 'https://']))
                                     <img src="{{ $post->image }}" class="img-fluid"
-                                        style="height: 300px;   object-fit: cover; border-radius: 10px;"
+                                        style="height: 270px;   object-fit: cover; border-radius: 10px;"
                                         alt="{{ $post->title }}">
                                 @else
                                     <img src="{{ asset('storage/' . $post->image) }}" class="img-fluid"

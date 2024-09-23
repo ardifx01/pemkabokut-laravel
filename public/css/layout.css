@@ -347,6 +347,11 @@ body {
 }
 
 /* ======= Index - Headline Section Styles ======= */
+#headline {
+    padding-left: 85px; /* Tambah padding kiri */
+    padding-right: 85px; /* Tambah padding kanan */
+}
+
 #headline h2 {
     font-family: "Roboto", serif;
     font-size: 23px;
