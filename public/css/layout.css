@@ -1,5 +1,10 @@
+/* ======= Layout - General Layout Styles ======= */
+body {
+    overflow-x: hidden;
+}
+
 .navbar {
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 .navbar-nav .nav-item {
@@ -7,16 +12,49 @@
     font-size: 15px; /* Ukuran font lebih kecil */
 }
 
-/* Navbar default untuk halaman lain */
+.navbar-nav {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.navbar .navbar-brand img {
+    height: 60px; /* Sesuaikan ukuran logo agar lebih kecil */
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.container {
+    margin: 0 auto;
+    padding: 0 20px;
+    max-width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.col-md-8,
+.col-md-4 {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* ======= Navbar Styles ======= */
 .navbar-default {
     border-bottom: 4px solid #cfec4a;
     backdrop-filter: blur(10px);
-    background-color: rgba(0, 43, 116, 0.900);
+    background-color: rgba(0, 43, 116, 0.9);
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1000;
-    transition: backdrop-filter 0.3s ease, background-color 0.3s ease, height 0.3s ease;
+    transition: backdrop-filter 0.3s ease, background-color 0.3s ease,
+        height 0.3s ease;
     height: 100px; /* Tinggi navbar dikurangi */
     padding-top: 10px; /* Kurangi padding atas */
     padding-bottom: 10px; /* Kurangi padding bawah */
@@ -28,7 +66,6 @@
     height: 80px; /* Tinggi navbar dalam kondisi blur juga dikurangi */
 }
 
-/* Navbar khusus untuk halaman index dengan efek blur */
 .navbar-index {
     border-bottom: 4px solid #cfec4a;
     backdrop-filter: blur(25px);
@@ -37,7 +74,8 @@
     top: 0;
     width: 100%;
     z-index: 1000;
-    transition: backdrop-filter 0.3s ease, background-color 0.3s ease, height 0.3s ease;
+    transition: backdrop-filter 0.3s ease, background-color 0.3s ease,
+        height 0.3s ease;
     height: 100px; /* Tinggi navbar dikurangi */
     padding-top: 10px; /* Kurangi padding atas */
     padding-bottom: 10px; /* Kurangi padding bawah */
@@ -49,29 +87,7 @@
     height: 80px; /* Tinggi navbar dalam kondisi blur juga dikurangi */
 }
 
-.navbar-nav {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-body {
-    overflow-x: hidden;
-}
-
-.navbar .navbar-brand img {
-    height: 60px; /* Sesuaikan ukuran logo agar lebih kecil */
-}
-
-/* Mengaktifkan dropdown saat di-hover, hanya pada layar lebih besar dari 991.98px */
-@media (min-width: 992px) {
-    .navbar-nav .nav-item.dropdown:hover .dropdown-menu {
-        display: block;
-        visibility: visible;
-        opacity: 1;
-    }
-}
-
-/* Mengatur tampilan dropdown agar muncul dengan halus */
+/* ======= Dropdown Menu Styles ======= */
 .navbar-nav .dropdown-menu {
     opacity: 0;
     transition: visibility 0.2s, opacity 0.2s;
@@ -90,15 +106,18 @@ body {
     color: #ffffff;
 }
 
-/* Efek fokus saat kursor diarahkan pada nav-item */
 .navbar-nav .nav-item:hover,
 .navbar-nav .nav-item:focus {
-    background-color: rgba(255, 255, 255, 0.1); /* Warna latar belakang saat di-hover */
+    background-color: rgba(
+        255,
+        255,
+        255,
+        0.1
+    ); /* Warna latar belakang saat di-hover */
     border-radius: 5px; /* Membuat sudutnya menjadi bulat */
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-/* Efek fokus khusus untuk link di dalam nav-item */
 .navbar-nav .nav-item:hover .nav-link,
 .navbar-nav .nav-item:focus .nav-link {
     color: #ffffff; /* Warna teks saat di-hover */
@@ -106,21 +125,84 @@ body {
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
-/* Efek fokus untuk dropdown item */
 .navbar-nav .dropdown-menu .dropdown-item:hover,
 .navbar-nav .dropdown-menu .dropdown-item:focus {
-    background-color: rgba(120, 178, 248, 0.692); /* Warna latar belakang saat di-hover */
+    background-color: rgba(
+        120,
+        178,
+        248,
+        0.692
+    ); /* Warna latar belakang saat di-hover */
     color: #ffffff; /* Warna teks saat di-hover */
     border-radius: 5px;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Menghapus ikon panah bawaan di dropdown */
-.navbar .dropdown-toggle::after {
-    display: none;
+/* ======= Responsive Styles for Navbar and Layout ======= */
+@media (min-width: 992px) {
+    .navbar-nav .nav-item.dropdown:hover .dropdown-menu {
+        display: block;
+        visibility: visible;
+        opacity: 1;
+    }
 }
 
-/* Untuk bagian judul dan pencarian yang berada di luar container standar */
+@media (min-width: 1200px) {
+    .col-md-8 {
+        width: 66.6667%;
+        margin-right: 2%;
+    }
+
+    .col-md-4 {
+        width: 30%;
+    }
+
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+        max-width: 1140px;
+    }
+}
+
+@media (max-width: 1200px) {
+    #pengumuman-section {
+        width: 100%;
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .col-md-8,
+    .col-md-4 {
+        width: 100%;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .navbar-default,
+    .navbar-index {
+        backdrop-filter: none;
+        background-color: rgba(0, 43, 116, 1); /* Ganti dengan warna latar belakang yang sesuai */
+        height: auto; /* Sesuaikan tinggi navbar agar responsif */
+        padding-top: 10px; /* Tambahkan padding atas sesuai kebutuhan */
+        padding-bottom: 10px; /* Tambahkan padding bawah sesuai kebutuhan */
+    }
+
+    .navbar-default.blur,
+    .navbar-index.blur {
+        backdrop-filter: none;
+        background-color: rgba(0, 43, 116, 1); /* Ganti dengan warna latar belakang yang sesuai */
+        height: auto; /* Sesuaikan tinggi navbar agar responsif */
+    }
+
+    #pengumuman-section {
+        width: 100%;
+        margin-left: 0;
+        padding: 20px 0;
+    }
+}
+
+/* ======= Index - Search Section Styles ======= */
 #search-section {
     height: 755px;
     background-size: cover;
@@ -133,14 +215,42 @@ body {
     margin-right: calc(-50vw + 50%);
 }
 
-#judul-section {
-    width: 100vw;
-    margin-left: calc(-50vw + 50%);
-    margin-right: calc(-50vw + 50%);
+.icon-section .card {
+    background-color: #213349;
+    border-radius: 10px;
+    text-align: center;
+    width: 120px; /* Atur lebar kartu */
+    margin: 10px; /* Jarak antar kartu */
+    display: inline-block;
 }
 
+.icon-section .card img {
+    width: 80px; /* Ukuran ikon */
+    height: auto;
+}
+
+.icon-section p {
+    font-size: 14px;
+    color: white;
+    white-space: normal; /* Mengizinkan teks membungkus */
+    word-wrap: break-word; /* Memastikan kata yang panjang dibungkus dengan baik */
+    margin-top: 10px;
+    margin-bottom: 0;
+    line-height: 1.2em;
+    text-align: center;
+    padding: 0 5px; /* Tambahkan sedikit padding di samping untuk lebih rapi */
+}
+
+/* ======= Index - Berita dan Pengumuman Section ======= */
+#pengumuman-section {
+    width: 100%;
+    padding-top: 40px;
+    margin: 0 auto; /* Hilangkan margin negatif */
+}
+
+/* ======= Index - Headline Section Styles ======= */
 #headline h2 {
-    font-family: 'Roboto', serif;
+    font-family: "Roboto", serif;
     font-size: 23px;
     margin-bottom: 1.5rem;
 }
@@ -195,6 +305,8 @@ body {
     font-size: 16px;
     border-radius: 5px;
 }
+
+/* ======= Social Icons ======= */
 .social-icons {
     position: fixed;
     top: 50%;
@@ -216,218 +328,7 @@ body {
     transform: scale(1.2);
 }
 
-.icon-section .card {
-    background-color: #213349;
-    border-radius: 10px;
-    text-align: center;
-    width: 120px; /* Atur lebar kartu */
-    margin: 10px; /* Jarak antar kartu */
-    display: inline-block;
-}
-
-.icon-section .card img {
-    width: 80px; /* Ukuran ikon */
-    height: auto;
-}
-
-.icon-section p {
-    font-size: 14px;
-    color: white;
-    white-space: normal; /* Mengizinkan teks membungkus */
-    word-wrap: break-word; /* Memastikan kata yang panjang dibungkus dengan baik */
-    margin-top: 10px;
-    margin-bottom: 0;
-    line-height: 1.2em;
-    text-align: center;
-    padding: 0 5px; /* Tambahkan sedikit padding di samping untuk lebih rapi */
-}
-
-
-#search-section .card {
-    background-color: rgba(0, 43, 116, 0.900); /* Card background color */
-    border-radius: 10px; /* Rounded corners */
-    padding: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
-    height: 80px;
-    width: 80px;
-}
-
-#search-section .card-body {
-    padding: 0px;
-    text-align: center;
-}
-
-#search-section .card p {
-    margin-top: 10px;
-    color: #ffffff; /* Text color inside the card */
-    font-size: 14px;
-}
-
-#description .mt-4 {
-    line-height: 1.6; /* Line height for better readability */
-    font-size: 160px; /* Adjust font size if needed */
-    margin-bottom: 20px; /* Add some margin at the bottom */
-}
-
-.navbar-toggler {
-    border: none;
-}
-
-.navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-}
-
-#pengumuman-section {
-    width: 100%;
-    padding-top: 40px;
-    margin: 0 auto; /* Hilangkan margin negatif */
-}
-
-.container {
-    margin: 0 auto;
-    padding: 0 20px;
-    max-width: 100%;
-}
-
-.col-md-8, .col-md-4 {
-    width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-}
-
-@media (min-width: 1200px) {
-    .col-md-8 {
-        width: 66.6667%;
-        margin-right: 2%;
-    }
-
-    .col-md-4 {
-        width: 30%;
-    }
-}
-
-@media (max-width: 1200px) {
-    .container {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-
-    .col-md-8, .col-md-4 {
-        width: 100%;
-        margin-left: 0;
-    }
-}
-
-/* Menonaktifkan efek blur untuk layar lebih kecil dari 992px */
-@media (max-width: 991.98px) {
-    .navbar-default,
-    .navbar-index {
-        backdrop-filter: none;
-        background-color: rgba(0, 43, 116, 1); /* Ganti dengan warna latar belakang yang sesuai */
-        height: auto; /* Sesuaikan tinggi navbar agar responsif */
-        padding-top: 10px; /* Tambahkan padding atas sesuai kebutuhan */
-        padding-bottom: 10px; /* Tambahkan padding bawah sesuai kebutuhan */
-    }
-
-    /* Menghapus kelas blur yang ditambahkan oleh JavaScript */
-    .navbar-default.blur,
-    .navbar-index.blur {
-        backdrop-filter: none;
-        background-color: rgba(0, 43, 116, 1); /* Ganti dengan warna latar belakang yang sesuai */
-        height: auto; /* Sesuaikan tinggi navbar agar responsif */
-    }
-
-    .navbar-nav .nav-item {
-        margin-left: 20px; /* Ganti nilai ini sesuai kebutuhan */
-    }
-
-    .navbar-nav .category-item {
-        margin-left: 30px; /* Sesuaikan nilai ini untuk mengatur posisi */
-    }
-    .navbar-nav .nav-item:hover {
-        padding-left: 20px;
-    }
-
-    /* Aturan khusus untuk dropdown item */
-    .navbar-nav .dropdown-menu{
-        margin-left: -21px; /* Sesuaikan nilai padding untuk dropdown item */
-    }
-
-    .dropdown.ms-auto {
-        padding-left: 90%; /* Tambahkan jarak atas jika diperlukan */
-    }
-
-    .dropdown .dropdown-menu {
-        top: 0;
-        left: 70%;
-    }
-    
-    #pengumuman-section {
-        display: flex;
-        flex-direction: column;
-        padding: 20px;
-    }
-
-    /* Bagian Berita Terkini */
-    .berita-terkini-section {
-        margin-bottom: 20px;
-    }
-
-    /* Judul "Berita Terkini" */
-    .berita-terkini-section h2 {
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 10px;
-    }
-
-    /* Garis Bawah untuk Judul */
-    .berita-terkini-section .line {
-        width: 50px;
-        height: 6px;
-        background-color: #2F4F7F;
-        margin-bottom: 10px;
-    }
-
-    /* Gambar Post */
-    .berita-terkini-section img {
-        width: 100%;
-        height: auto;
-        object-fit: cover;
-        border-radius: 5px;
-        margin-bottom: 10px;
-    }
-
-    /* Kontainer Deskripsi Post */
-    .berita-terkini-section .description-container {
-        padding: 10px;
-    }
-
-    /* Bagian Serba-serbi */
-    .serba-serbi-section {
-        margin-top: 20px;
-    }
-
-    /* Judul "Serba-serbi" */
-    .serba-serbi-section h5 {
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 10px;
-    }
-
-    /* Garis Bawah untuk Judul */
-    .serba-serbi-section .line {
-        width: 50px;
-        height: 6px;
-        background-color: #2F4F7F;
-        margin-bottom: 10px;
-    }
-
-    /* Kontainer Serba-serbi */
-    .serba-serbi-section .list-group {
-        padding: 0;
-    }
-}
-
+/* ======= Clamp Styles ======= */
 .title-clamp {
     display: -webkit-box;
     -webkit-line-clamp: 3; /* Batasi hingga 3 baris */
@@ -444,4 +345,59 @@ body {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+/* ======= Responsive Styles for Index Sections ======= */
+@media (max-width: 991px) {
+    #pengumuman-section {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .berita-terkini-section {
+        margin-bottom: 20px;
+    }
+
+    .berita-terkini-section h2 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .berita-terkini-section .line {
+        width: 50px;
+        height: 6px;
+        background-color: #2f4f7f;
+        margin-bottom: 10px;
+    }
+
+    .berita-terkini-section img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .serba-serbi-section {
+        margin-top: 20px;
+    }
+
+    .serba-serbi-section h5 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .serba-serbi-section .line {
+        width: 50px;
+        height: 6px;
+        background-color: #2f4f7f;
+        margin-bottom: 10px;
+    }
+
+    .serba-serbi-section .list-group {
+        padding: 0;
+    }
 }

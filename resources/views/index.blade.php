@@ -91,9 +91,9 @@
         </div>
     </section>
 
-    {{-- Pengumuman menjadi Post atau Berita Terbaru --}}
+    {{-- Section Berita dan Pengumuman --}}
     <section id="pengumuman-section"
-        style="position: relative; background-image: url('images/cover.png'); background-size: auto; background-position: right bottom; background-repeat: no-repeat; background-color: #fff; width: 82vw; margin-bottom: -50px; padding: 0;">
+        style="position: relative; background-image: url('images/cover.png'); background-size: auto; background-position: right bottom; background-repeat: no-repeat; background-color: #fff; width: 100%; padding: 0;">
         {{-- Main Container for the Section --}}
         <div class="container d-flex" style="margin-left: -190px; padding-top: 40px;">
             {{-- Berita Terkini --}}
