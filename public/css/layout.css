@@ -67,7 +67,7 @@ body {
 .navbar-default.blur {
     backdrop-filter: blur(15px);
     background-color: rgba(4, 46, 107, 0.832);
-    height: 80px; /* Tinggi navbar dalam kondisi blur juga dikurangi */
+    height: 82px; /* Tinggi navbar dalam kondisi blur juga dikurangi */
 }
 
 .navbar-index {
@@ -88,7 +88,7 @@ body {
 .navbar-index.blur {
     backdrop-filter: blur(2px);
     background-color: rgba(4, 46, 107, 0.832);
-    height: 80px; /* Tinggi navbar dalam kondisi blur juga dikurangi */
+    height: 82px; /* Tinggi navbar dalam kondisi blur juga dikurangi */
 }
 
 /* ======= Dropdown Menu Styles ======= */
@@ -248,21 +248,22 @@ body {
 
 /* ======= Index - Berita dan Pengumuman Section ======= */
 #pengumuman-section {
-    position: relative;
-    left: 50%; 
-    right: 50%;
-    margin-left: -47vw; /* Menghilangkan batas kiri */
-    margin-right: -50vw; /* Menghilangkan batas kanan */
-    width: 2000px; /* Mengatur agar lebar penuh dari viewport */
-    background-size: cover;
-    background-position: center;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%); /* Memastikan elemen memenuhi seluruh layar */
+    margin-right: calc(-50vw + 50%);
+    background-size: auto;
+    background-position: right bottom;
     background-repeat: no-repeat;
+    height: auto; /* Anda bisa mengatur ukuran height sesuai kebutuhan */
     padding-top: 40px;
     padding-bottom: 40px;
+    padding: 0;
 }
 
-
-
+.owl-prev, .owl-next {
+    z-index: 9999;
+    position: relative;
+}
 
 /* ======= Clamp Styles ======= */
 .title-clamp {
