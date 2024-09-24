@@ -2,12 +2,12 @@
 
 @section('content')
     {{-- Detail Post --}}
-    <section id="detail" style="padding-top: 120px;">
-        <div class="container-fluid col-xxl-12 py-3">
-            {{-- Menggunakan Flexbox untuk mengatur layout --}}
-            <div class="d-flex justify-content-between">
+    <section id="detail" style="padding-top: 120px; width: 100vw; margin-left: calc(-50vw + 50%);">
+        <div class="container-fluid col-xxl-12 py-3" style="padding-left: 120px; padding-right: 120px;">
+            {{-- Menggunakan Row untuk mengatur layout --}}
+            <div class="row justify-content-between">
                 {{-- Section untuk Post Utama --}}
-                <section class="post-section" style="flex-grow: 1; margin-left: -200px">
+                <div class="col-lg-8 post-section">
                     <div class="post-content bg-white text-left border shadow-sm p-4 mb-4" style="border-radius: 10px;">
                         <p class="mb-4">
                             <a href="/" class="text-decoration-none text-dark">Beranda</a> /
@@ -36,10 +36,10 @@
                             {!! $post->description !!}
                         </div>
                     </div>
-                </section>
+                </div>
 
                 {{-- Section untuk Berita Lainnya --}}
-                <section class="related-news-section">
+                <div class="col-lg-4 related-news-section">
                     <div class="related-news bg-white border shadow-sm p-3" style="border-radius: 10px;">
                         <div class="header bg-primary text-white p-2" style="border-radius: 10px; margin-bottom: 20px">
                             Berita Lainnya
@@ -50,11 +50,10 @@
                                     <div class="d-flex mb-3">
                                         {{-- Cek apakah gambar merupakan URL eksternal --}}
                                         @if (Str::startsWith($otherPost->image, ['http://', 'https://']))
-                                            <img src="{{ $otherPost->image }}" alt="{{ $otherPost->title }}"
+                                            <img src="{{ $otherPost->image }}" alt="{{ $otherPost->title }}" 
                                                 style="height: 80px; object-fit: cover; border-radius: 5px; width: 80px;">
                                         @else
-                                            <img src="{{ asset('storage/' . $otherPost->image) }}"
-                                                alt="{{ $otherPost->title }}"
+                                            <img src="{{ asset('storage/' . $otherPost->image) }}" alt="{{ $otherPost->title }}"
                                                 style="height: 80px; object-fit: cover; border-radius: 5px; width: 80px;">
                                         @endif
                                         <div class="ms-3">
@@ -68,69 +67,19 @@
                             @endforeach
                         </div>
                     </div>
-                </section>
+                </div>
             </div>
         </div>
     </section>
     <style>
-        @media (max-width: 1440px) {
-            .post-section {
-                margin-left: 0;
-                /* Mengurangi margin agar sesuai di layar lebih kecil */
-            }
-
-            .post-content {
-                width: 100%;
-                /* Lebar konten utama menjadi 100% pada layar yang lebih kecil */
-            }
-
-            .related-news-section {
-                width: 100%;
-                /* Buat section berita lainnya lebih fleksibel pada layar kecil */
-                margin-left: 0;
-                /* Menghilangkan margin kiri pada layar kecil */
-            }
-
-            .related-news {
-                width: 100%;
-                /* Menyesuaikan lebar berita lainnya menjadi 100% */
-            }
-        }
-
-        @media (max-width: 1280px) {
-            .post-section {
-                margin-left: 200px;
-                /* Lebih memperkecil margin di layar 13 inci atau lebih kecil */
-            }
-
-            .post-content {
-                width: 95%;
-                /* Lebar konten utama menjadi 95% agar lebih pas */
-            }
-
-            .related-news-section {
-                width: 95%;
-                /* Buat section berita lainnya lebih fleksibel pada layar kecil */
-                margin-left: 0;
-                /* Menghilangkan margin kiri */
-            }
-
-            .related-news {
-                width: 95%;
-                /* Lebar berita lainnya menjadi 95% */
-            }
-        }
-
         .post-content {
-            width: 900px;
-            /* Lebar post content menjadi 75% dari parent container */
+            width: 100%;
+            /* Lebar post content disesuaikan dengan kolom */
         }
 
         .related-news {
-            width: 173%;
-            /* Lebar Berita Lainnya menjadi 23% dari parent container */
-            margin-left: 2%;
-            /* Menambahkan margin antara Post Utama dan Berita Lainnya */
+            width: 100%;
+            /* Lebar Berita Lainnya disesuaikan dengan kolom */
         }
 
         .description img {
@@ -139,19 +88,12 @@
             height: auto;
             /* Menjaga rasio gambar */
             margin-bottom: -59px;
-            padding-bottom: 35px
-                /* Menambahkan jarak antar gambar */
+            padding-bottom: 35px;
+            /* Menambahkan jarak antar gambar */
         }
 
         .description p {
             margin-bottom: 15px;
-        }
-
-        .related-news-section {
-            width: 300px;
-            /* Berita Lainnya dengan lebar tetap 300px */
-            margin-left: 20px;
-            /* Memberikan sedikit margin antara Post Utama dan Berita Lainnya */
         }
 
         /* Styling untuk membatasi judul menjadi dua baris dengan ellipsis */
