@@ -7,7 +7,7 @@
             {{-- Menggunakan Row untuk mengatur layout --}}
             <div class="row justify-content-between">
                 {{-- Section untuk Post Utama --}}
-                <div class="col-lg-8 post-section">
+                <div class="col-lg-8 col-md-12 post-section">
                     <div class="post-content bg-white text-left border shadow-sm p-4 mb-4" style="border-radius: 10px;">
                         <p class="mb-4">
                             <a href="/" class="text-decoration-none text-dark">Beranda</a> /
@@ -39,7 +39,7 @@
                 </div>
 
                 {{-- Section untuk Berita Lainnya --}}
-                <div class="col-lg-4 related-news-section">
+                <div class="col-lg-4 col-md-12 related-news-section mt-4 mt-lg-0">
                     <div class="related-news bg-white border shadow-sm p-3" style="border-radius: 10px;">
                         <div class="header bg-primary text-white p-2" style="border-radius: 10px; margin-bottom: 20px">
                             Berita Lainnya
@@ -110,6 +110,20 @@
             /* Dua baris dengan tinggi 1.2em per baris */
             font-size: 14px;
             /* Sesuaikan ukuran font agar pas dengan dua baris */
+        }
+
+        @media (max-width: 768px) {
+            #detail {
+                padding-left: 20px;
+                padding-right: 20px;
+                /* Mengurangi padding pada ponsel */
+            }
+
+            .post-content,
+            .related-news {
+                padding: 15px;
+                /* Mengurangi padding pada konten di layar kecil */
+            }
         }
     </style>
 @endsection
