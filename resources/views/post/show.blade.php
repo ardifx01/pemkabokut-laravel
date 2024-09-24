@@ -50,10 +50,11 @@
                                     <div class="d-flex mb-3">
                                         {{-- Cek apakah gambar merupakan URL eksternal --}}
                                         @if (Str::startsWith($otherPost->image, ['http://', 'https://']))
-                                            <img src="{{ $otherPost->image }}" alt="{{ $otherPost->title }}" 
+                                            <img src="{{ $otherPost->image }}" alt="{{ $otherPost->title }}"
                                                 style="height: 80px; object-fit: cover; border-radius: 5px; width: 80px;">
                                         @else
-                                            <img src="{{ asset('storage/' . $otherPost->image) }}" alt="{{ $otherPost->title }}"
+                                            <img src="{{ asset('storage/' . $otherPost->image) }}"
+                                                alt="{{ $otherPost->title }}"
                                                 style="height: 80px; object-fit: cover; border-radius: 5px; width: 80px;">
                                         @endif
                                         <div class="ms-3">
@@ -72,6 +73,54 @@
         </div>
     </section>
     <style>
+        @media (max-width: 1440px) {
+            .post-section {
+                margin-left: 0;
+                /* Mengurangi margin agar sesuai di layar lebih kecil */
+            }
+
+            .post-content {
+                width: 100%;
+                /* Lebar konten utama menjadi 100% pada layar yang lebih kecil */
+            }
+
+            .related-news-section {
+                width: 100%;
+                /* Buat section berita lainnya lebih fleksibel pada layar kecil */
+                margin-left: 0;
+                /* Menghilangkan margin kiri pada layar kecil */
+            }
+
+            .related-news {
+                width: 100%;
+                /* Menyesuaikan lebar berita lainnya menjadi 100% */
+            }
+        }
+
+        @media (max-width: 1280px) {
+            .post-section {
+                margin-left: 200px;
+                /* Lebih memperkecil margin di layar 13 inci atau lebih kecil */
+            }
+
+            .post-content {
+                width: 95%;
+                /* Lebar konten utama menjadi 95% agar lebih pas */
+            }
+
+            .related-news-section {
+                width: 95%;
+                /* Buat section berita lainnya lebih fleksibel pada layar kecil */
+                margin-left: 0;
+                /* Menghilangkan margin kiri */
+            }
+
+            .related-news {
+                width: 95%;
+                /* Lebar berita lainnya menjadi 95% */
+            }
+        }
+
         .post-content {
             width: 900px;
             /* Lebar post content menjadi 75% dari parent container */
@@ -91,8 +140,9 @@
             /* Menjaga rasio gambar */
             margin-bottom: -59px;
             padding-bottom: 35px
-            /* Menambahkan jarak antar gambar */
+                /* Menambahkan jarak antar gambar */
         }
+
         .description p {
             margin-bottom: 15px;
         }
