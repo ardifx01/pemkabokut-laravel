@@ -3,11 +3,11 @@
 @section('content')
     {{-- Detail Post --}}
     <section id="detail" style="padding-top: 120px; width: 100vw; margin-left: calc(-50vw + 50%);">
-        <div class="container-fluid col-xxl-12 py-3" style="padding-left: 120px; padding-right: 120px;">
+        <div class="container-fluid col-xxl-12 py-3" id="main-container">
             {{-- Menggunakan Row untuk mengatur layout --}}
             <div class="row justify-content-between">
                 {{-- Section untuk Post Utama --}}
-                <div class="col-lg-8 col-md-12 post-section">
+                <div class="col-lg-8 col-md-12 col-sm-12 col-12 post-section">
                     <div class="post-content bg-white text-left border shadow-sm p-4 mb-4" style="border-radius: 10px;">
                         <p class="mb-4">
                             <a href="/" class="text-decoration-none text-dark">Beranda</a> /
@@ -39,7 +39,7 @@
                 </div>
 
                 {{-- Section untuk Berita Lainnya --}}
-                <div class="col-lg-4 col-md-12 related-news-section mt-4 mt-lg-0">
+                <div class="col-lg-4 col-md-12 col-sm-12 col-12 related-news-section mt-4 mt-lg-0">
                     <div class="related-news bg-white border shadow-sm p-3" style="border-radius: 10px;">
                         <div class="header bg-primary text-white p-2" style="border-radius: 10px; margin-bottom: 20px">
                             Berita Lainnya
@@ -113,16 +113,24 @@
         }
 
         @media (max-width: 768px) {
-            #detail {
-                padding-left: 20px;
-                padding-right: 20px;
+            #main-container {
+                padding-left: 0px;
+                padding-right: 0px;
                 /* Mengurangi padding pada ponsel */
             }
 
             .post-content,
             .related-news {
-                padding: 15px;
+                padding: 10px;
                 /* Mengurangi padding pada konten di layar kecil */
+            }
+        }
+
+        @media (min-width: 768px) {
+            #main-container {
+                padding-left: 120px;
+                padding-right: 120px;
+                /* Menjaga padding 120px di layar desktop */
             }
         }
     </style>
