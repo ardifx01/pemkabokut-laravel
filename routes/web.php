@@ -29,6 +29,7 @@ Route::get('/post/show/{id}',[PostController::class,'show']);
 Route::get('/post/edit/{id}',[PostController::class,'edit']);
 Route::post('update/{id}',[PostController::class,'update']);
 Route::delete('/post/delete/{id}', [PostController::class, 'destroy'])->name('post.destroy');
+Route::post('/post/delete-image', [PostController::class, 'deleteImage']);
 
 Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
 Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');

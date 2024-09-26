@@ -20,10 +20,16 @@ class PostController extends Controller
         return view('index', compact('posts'));
     }
 
-    public function data()
+    public function data(Request $request)
     {
-        $posts = Post::all();
-        return view('/post/data', compact('posts'));
+        // Cek apakah terdapat request untuk sorting, default adalah 'desc' (terbaru)
+        $sort_order = $request->get('sort_order', 'desc');
+
+        // Dapatkan posts dengan sorting berdasarkan 'id'
+        $posts = Post::orderBy('id', $sort_order)->get();
+
+        // Kirim variabel sorting order ke view agar tombol tetap sinkron
+        return view('/post/data', compact('posts', 'sort_order'));
     }
 
     public function create()
@@ -35,15 +41,22 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        $image = null;
-        if ($request->hasFile('image')) {
-            // Ambil nama asli file
-            $originalName = $request->file('image')->getClientOriginalName();
+        $image_paths = [];
 
-            // Menyimpan file dengan nama asli ke storage
-            $image = $request->file('image')->storeAs('uploads', $originalName, 'public');
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                // Ambil nama asli file
+                $originalName = $image->getClientOriginalName();
+
+                // Simpan file ke penyimpanan dengan nama asli tanpa mengubah resolusi
+                $image_path = $image->storeAs('uploads', time() . '-' . $originalName, 'public');
+
+                // Tambahkan path ke array
+                $image_paths[] = $image_path;
+            }
         }
 
+        // Simpan array path gambar sebagai string JSON di database
         $description = $request->description;
 
         libxml_use_internal_errors(true);
@@ -69,7 +82,7 @@ class PostController extends Controller
 
         Post::create([
             'title' => $request->title,
-            'image' => $image,
+            'image' => json_encode($image_paths), // Simpan sebagai JSON
             'description' => $description,
             'category_id' => $request->category_id,
             'headline_id' => $request->headline_id,
@@ -78,6 +91,7 @@ class PostController extends Controller
 
         return redirect('/post/data');
     }
+
 
     public function show($id)
     {
@@ -101,20 +115,24 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
-        if ($request->hasFile('image')) {
-            // Delete old image
-            if ($post->image && Storage::disk('public')->exists($post->image)) {
-                Storage::disk('public')->delete($post->image);
+        // Array untuk menyimpan path gambar
+        $image_paths = json_decode($post->image, true) ?? [];
+
+        // Proses file gambar yang diunggah
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                // Ambil nama asli file
+                $originalName = $image->getClientOriginalName();
+
+                // Simpan file ke penyimpanan dengan nama asli
+                $image_path = $image->storeAs('uploads', time() . '-' . $originalName, 'public');
+
+                // Tambahkan path ke array
+                $image_paths[] = $image_path;
             }
-
-            // Ambil nama asli file
-            $originalName = $request->file('image')->getClientOriginalName();
-
-            // Menyimpan file dengan nama asli ke storage
-            $image = $request->file('image')->storeAs('uploads', $originalName, 'public');
-            $post->image = $image;
         }
 
+        // Simpan array path gambar sebagai string JSON di database
         $description = $request->description;
 
         libxml_use_internal_errors(true);
@@ -138,9 +156,10 @@ class PostController extends Controller
         }
         $description = $dom->saveHTML();
 
+        // Update post dengan gambar dan deskripsi baru
         $post->update([
             'title' => $request->title,
-            'image' => $post->image,
+            'image' => json_encode($image_paths), // Update gambar
             'description' => $description,
             'category_id' => $request->category_id,
             'headline_id' => $request->headline_id,
@@ -148,6 +167,35 @@ class PostController extends Controller
         ]);
 
         return redirect('/post/data');
+    }
+
+    public function deleteImage(Request $request)
+    {
+        $post = Post::find($request->post_id);
+
+        if ($post) {
+            // Mengambil array gambar dari post
+            $images = json_decode($post->image, true);
+
+            // Mencari index dari gambar yang ingin dihapus
+            if (($key = array_search($request->image, $images)) !== false) {
+                // Hapus gambar dari array
+                unset($images[$key]);
+
+                // Hapus file dari storage jika ada
+                if (Storage::disk('public')->exists($request->image)) {
+                    Storage::disk('public')->delete($request->image);
+                }
+
+                // Update post dengan array gambar baru
+                $post->image = json_encode(array_values($images));
+                $post->save();
+
+                return response()->json(['success' => true]);
+            }
+        }
+
+        return response()->json(['success' => false]);
     }
 
     public function destroy($id)

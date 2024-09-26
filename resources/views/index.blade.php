@@ -121,18 +121,33 @@
                 {{-- Container Pengumuman with Owl Carousel --}}
                 <div class="container py-4" style="margin-top: -20px; margin-left: -12px; width: 104%;">
                     <div id="latestArticle" class="owl-carousel owl-theme">
-                        @foreach ($posts as $post)
+                        @foreach ($posts->take(4) as $post)
+                            {{-- Menampilkan hanya 4 item --}}
                             <div class="item">
                                 <div class="card border-0 shadow-sm mb-3">
                                     <div class="row g-0">
-                                        <div class="col-md-4" style="width: 55%; ">
+                                        <div class="col-md-4" style="width: 55%;">
                                             {{-- Gambar untuk Post --}}
-                                            @if (Str::startsWith($post->image, ['http://', 'https://']))
-                                                <img src="{{ $post->image }}" class="img-fluid" alt="Gambar Post"
-                                                    style="width: 90%; height: 250px; object-fit: cover; border-radius: 5px;">
+                                            @php
+                                                $images = json_decode($post->image); // Dekode JSON untuk mendapatkan array gambar
+                                                $firstImage = $images ? $images[0] : null; // Ambil gambar pertama
+                                            @endphp
+
+                                            @if ($firstImage)
+                                                {{-- Jika gambar berupa link eksternal --}}
+                                                @if (Str::startsWith($firstImage, ['http://', 'https://']))
+                                                    <img src="{{ $firstImage }}" class="img-fluid" alt="Gambar Post"
+                                                        style="width: 90%; height: 250px; object-fit: cover; border-radius: 5px;">
+                                                @else
+                                                    {{-- Jika gambar dari folder storage/uploads --}}
+                                                    <img src="{{ asset('storage/' . $firstImage) }}" class="img-fluid"
+                                                        alt="Gambar Post"
+                                                        style="width: 90%; height: 250px; object-fit: cover; border-radius: 5px;">
+                                                @endif
                                             @else
-                                                <img src="{{ asset('storage/' . $post->image) }}" class="img-fluid"
-                                                    alt="Gambar Post"
+                                                {{-- Placeholder jika tidak ada gambar --}}
+                                                <img src="{{ asset('images/placeholder.png') }}" class="img-fluid"
+                                                    alt="Placeholder Image"
                                                     style="width: 100%; height: 250px; object-fit: cover; border-radius: 5px;">
                                             @endif
                                         </div>
@@ -148,9 +163,10 @@
                                                             Tanggal tidak tersedia
                                                         @endif
                                                     </span>
-                                                    <small><i class="bi bi-person"></i> Admin &nbsp; <i class="bi bi-eye"></i> {{ $post->views }}</small>
+                                                    <small><i class="bi bi-person"></i> Admin &nbsp; <i
+                                                            class="bi bi-eye"></i>
+                                                        {{ $post->views }}</small>
                                                 </div>
-                                                {{-- Deskripsi dengan Batasan 4 Baris --}}
                                                 <p class="card-text description-clamp">
                                                     {{ Str::limit(html_entity_decode(strip_tags($post->description)), 200, '...') }}
                                                 </p>
@@ -166,7 +182,7 @@
                     </div>
                 </div>
             </div>
-            
+
 
             {{-- Pengumuman --}}
             <div class="col-md-4" style="width: 350px;">
@@ -203,7 +219,7 @@
         </div>
     </section>
 
-    
+
 
     {{-- Headline --}}
     <section id="headline" class="py-4" style="background-image: url('images/cover.png');">
@@ -219,15 +235,30 @@
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                         <a href="/post/show/{{ $post->id }}" class="text-decoration-none">
                             <div class="card border-0 shadow-sm">
-                                @if (Str::startsWith($post->image, ['http://', 'https://']))
-                                    <img src="{{ $post->image }}" class="img-fluid"
-                                        style="height: 270px;   object-fit: cover; border-radius: 10px;"
-                                        alt="{{ $post->title }}">
+                                @php
+                                    // Dekode JSON untuk mendapatkan array gambar
+                                    $images = json_decode($post->image);
+                                    $firstImage = $images ? $images[0] : null;
+                                @endphp
+
+                                @if ($firstImage)
+                                    {{-- Jika gambar berupa link eksternal --}}
+                                    @if (Str::startsWith($firstImage, ['http://', 'https://']))
+                                        <img src="{{ $firstImage }}" class="img-fluid" alt="Gambar Post"
+                                            style="width: 100%; height: 250px; object-fit: cover; border-radius: 5px;">
+                                    @else
+                                        {{-- Jika gambar dari folder storage/uploads --}}
+                                        <img src="{{ asset('storage/' . $firstImage) }}" class="img-fluid"
+                                            alt="Gambar Post"
+                                            style="width: 100%; height: 250px; object-fit: cover; border-radius: 5px;">
+                                    @endif
                                 @else
-                                    <img src="{{ asset('storage/' . $post->image) }}" class="img-fluid"
-                                        style="height: 300px; object-fit: cover; border-radius: 10px;"
-                                        alt="{{ $post->title }}">
+                                    {{-- Placeholder jika tidak ada gambar --}}
+                                    <img src="{{ asset('images/placeholder.png') }}" class="img-fluid"
+                                        alt="Placeholder Image"
+                                        style="width: 100%; height: 250px; object-fit: cover; border-radius: 5px;">
                                 @endif
+
                                 <div class="card-body p-3"
                                     style="position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(0, 0, 0, 0.7); border-radius: 0 0 10px 10px;">
                                     <h5 class="card-title text-white" style="font-size: 16px;">{{ $post->title }}</h5>

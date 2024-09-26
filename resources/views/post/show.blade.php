@@ -31,6 +31,25 @@
                             @endif
                         </p>
 
+                        {{-- Gambar Postingan --}}
+                        @if ($post->image)
+                            @php
+                                $images = json_decode($post->image); // Mengambil array gambar dari post
+                            @endphp
+                            <div class="image-gallery mb-4">
+                                <div class="row g-2"> {{-- row dengan grid spacing --}}
+                                    @foreach ($images as $image)
+                                        <div class="col-lg-4 col-md-6 col-sm-12 mb-3"> {{-- Set kolom responsif --}}
+                                            <div class="post-image-container">
+                                                <img src="{{ asset('storage/' . $image) }}" alt="Image"
+                                                    class="img-fluid post-image">
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+
                         {{-- Konten Deskripsi --}}
                         <div class="description mt-4" style="overflow: hidden; text-align: justify;">
                             {!! $post->description !!}
@@ -48,14 +67,20 @@
                             @foreach (\App\Models\Post::where('id', '!=', $post->id)->whereNotNull('headline_id')->orderBy('id', 'desc')->take(5)->get() as $otherPost)
                                 <a href="/post/show/{{ $otherPost->id }}" class="text-decoration-none">
                                     <div class="d-flex mb-3">
+                                        @php
+                                            $images = json_decode($otherPost->image); // Dekode JSON untuk mendapatkan array gambar
+                                            $firstImage = $images ? $images[0] : null; // Ambil gambar pertama
+                                        @endphp
+
                                         {{-- Cek apakah gambar merupakan URL eksternal --}}
-                                        @if (Str::startsWith($otherPost->image, ['http://', 'https://']))
-                                            <img src="{{ $otherPost->image }}" alt="{{ $otherPost->title }}" 
+                                        @if ($firstImage && Str::startsWith($firstImage, ['http://', 'https://']))
+                                            <img src="{{ $firstImage }}" alt="{{ $otherPost->title }}"
                                                 style="height: 80px; object-fit: cover; border-radius: 5px; width: 80px;">
                                         @else
-                                            <img src="{{ asset('storage/' . $otherPost->image) }}" alt="{{ $otherPost->title }}"
+                                            <img src="{{ asset('storage/' . $firstImage) }}" alt="{{ $otherPost->title }}"
                                                 style="height: 80px; object-fit: cover; border-radius: 5px; width: 80px;">
                                         @endif
+
                                         <div class="ms-3">
                                             <h6 class="text-dark post-title">{{ $otherPost->title }}</h6>
                                             <p class="text-muted" style="font-size: 12px;">
@@ -112,6 +137,36 @@
             /* Sesuaikan ukuran font agar pas dengan dua baris */
         }
 
+        /* Mengatur layout gambar agar sesuai dalam grid */
+        .post-image-container {
+            width: 100%;
+            height: 200px;
+            /* Ukuran yang sama untuk setiap gambar */
+            overflow: hidden;
+        }
+
+        .post-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Gambar menyesuaikan tanpa mengubah proporsi */
+        }
+
+        @media (min-width: 768px) {
+
+            .image-gallery .col-lg-4,
+            .image-gallery .col-md-6,
+            .image-gallery .col-sm-12 {
+                padding: 5px;
+            }
+        }
+
+        .image-gallery .col-lg-4,
+        .image-gallery .col-md-6,
+        .image-gallery .col-sm-12 {
+            padding: 5px;
+        }
+
         @media (max-width: 768px) {
             #main-container {
                 padding-left: 0px;
@@ -124,6 +179,7 @@
                 padding: 10px;
                 /* Mengurangi padding pada konten di layar kecil */
             }
+
         }
 
         @media (min-width: 768px) {

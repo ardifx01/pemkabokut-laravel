@@ -40,7 +40,6 @@
             width: 100%;
             height: 110%;
             background: radial-gradient(110% 300% at 2% 0%, rgba(0, 39, 106, 0.999) 5%, rgba(0, 0, 0, 0.387) 62%);
-            
         }
 
         .container {
@@ -106,6 +105,38 @@
         .note-modal {
             z-index: 1060 !important;
         }
+
+        /* Tambahkan styling untuk pratinjau file */
+        .file-item {
+            position: relative;
+            display: inline-block;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+
+        .remove-file-btn {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* Tambahkan Flexbox untuk layout tombol dan input */
+        .d-flex {
+            display: flex;
+            align-items: center;
+        }
+
+        .me-2 {
+            margin-right: 10px;
+        }
     </style>
 </head>
 
@@ -143,15 +174,22 @@
                         </select>
                     </div>
 
-                    <div class="form-group mb-4">
-                        <label for="image">Image:</label>
-                        <input type="file" class="form-control" name="image" id="image-upload">
-                        <div id="image-preview" class="mt-3"></div>
+                    <!-- Bagian ini menampilkan input gambar dan tombol Add -->
+                    <div class="d-flex mb-3">
+                        <div class="me-2" style="flex: 1;">
+                            <label for="image" class="form-label">Images:</label>
+                            <input type="file" class="form-control" name="images[]" id="image-upload" multiple>
+                        </div>
+                        
+                        <!-- Tombol untuk menambahkan gambar -->
+                        <button type="button" id="add-image-btn" class="btn btn-secondary mb-3"
+                            style="margin-top: 25px;">Add Image</button>
                     </div>
+
+                    <div id="image-preview" class="mt-3"></div>
 
                     <label for="description">Description:</label>
                     <textarea name="description" id="description" cols="30" rows="10"></textarea>
-
 
                     <div class="form-group mb-4">
                         <label for="published_at">Tanggal publish:</label>
@@ -185,14 +223,53 @@
                 allowClear: true
             });
 
-            // Image preview function
-            $('#image-upload').change(function() {
-                let reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#image-preview').html('<img src="' + e.target.result +
-                        '" class="img-fluid rounded-3" alt="Uploaded Image" width="300">');
-                }
-                reader.readAsDataURL(this.files[0]);
+            const imageInput = document.getElementById('image-upload');
+            const imagePreviewContainer = document.getElementById('image-preview');
+            let selectedImages = new DataTransfer();
+
+            // Fungsi untuk memperbarui pratinjau gambar
+            function updateImagePreview(files) {
+                Array.from(files).forEach((file, index) => {
+                    const imageItem = document.createElement('div');
+                    imageItem.classList.add('file-item');
+
+                    const imageElement = document.createElement('img');
+                    imageElement.src = URL.createObjectURL(file);
+                    imageElement.width = 150;
+                    imageElement.classList.add('me-2');
+
+                    const removeBtn = document.createElement('button');
+                    removeBtn.classList.add('remove-file-btn');
+                    removeBtn.textContent = 'X';
+
+                    // Hapus gambar ketika tombol X diklik
+                    removeBtn.addEventListener('click', function() {
+                        imageItem.remove();
+                        selectedImages.items.remove(index);
+                        imageInput.files = selectedImages.files;
+
+                        if (selectedImages.items.length === 0) {
+                            imageInput.value = ''; // Reset input jika tidak ada gambar
+                        }
+                    });
+
+                    imageItem.appendChild(imageElement);
+                    imageItem.appendChild(removeBtn);
+                    imagePreviewContainer.appendChild(imageItem);
+                    selectedImages.items.add(file);
+                });
+
+                imageInput.files = selectedImages.files;
+            }
+
+            // Tombol "Add Image" memicu pemilihan gambar
+            document.getElementById('add-image-btn').addEventListener('click', function() {
+                imageInput.click();
+            });
+
+            // Perbarui pratinjau ketika gambar dipilih
+            imageInput.addEventListener('change', function(event) {
+                updateImagePreview(event.target.files);
             });
         });
     </script>
