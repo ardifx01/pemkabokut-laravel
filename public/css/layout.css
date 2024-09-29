@@ -209,18 +209,19 @@ body {
     }
 }
 
-/* ======= Index - Search Section Styles ======= */
+/* Index - Search Section Styles */
 #search-section {
-    height: 100vh; /* Ensure the section takes the full height of the viewport */
+    height: 100vh; /* Full height of the viewport */
+    width: 100vw; /* Full width of the viewport */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    position: relative;
-    width: 100vw;
-    margin: 0 auto; /* Center the section */
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Ensure content is vertically centered */
+    justify-content: center;
+    margin-left: -12px;
 }
 
 .icon-section .card {
@@ -249,7 +250,7 @@ body {
 /* Large screens */
 @media (min-width: 1200px) {
     #search-section {
-        height: 100vh; /* Ensure section takes up full viewport height on large screens */
+        height: 100vh;
     }
 
     .icon-section .card {
@@ -268,7 +269,7 @@ body {
 /* Medium screens */
 @media (max-width: 1199px) and (min-width: 768px) {
     #search-section {
-        height: 100vh; /* Maintain full height for medium screens */
+        height: 100vh;
     }
 
     .icon-section .card {
@@ -287,7 +288,7 @@ body {
 /* Small screens */
 @media (max-width: 767px) {
     #search-section {
-        height: auto; /* Allow height to auto-adjust on small screens */
+        height: auto;
         padding: 20px 0;
     }
 
