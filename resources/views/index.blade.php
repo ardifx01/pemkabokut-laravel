@@ -3,89 +3,55 @@
 @section('content')
     {{-- Background Section with Search Form --}}
     <!-- Search Form Section -->
-    <section id="search-section"
-        style="background-image: url('{{ asset('images/pemda1.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat; height: 755px; margin-top: -80px">
-        <!-- Overlay -->
-        <div
-            style="background: radial-gradient(110% 300% at 2% 0%, rgba(0, 39, 106, 0.999) 5%, rgba(0, 0, 0, 0.200) 62%); position: absolute; top: 0; left: 0; width: 102%; height: 100%;">
+    <section id="search-section" style="position: relative;">
+        <!-- Bootstrap Carousel for Background Images -->
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden;">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{{ asset('images/pemda.png') }}" class="d-block w-100" style="height: 100%; object-fit: cover;">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ asset('images/pemda1.jpg') }}" class="d-block w-100"
+                        style="height: 100%; object-fit: cover;">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ asset('images/pemda3.jpg') }}" class="d-block w-100"
+                        style="height: 100%; object-fit: cover;">
+                </div>
+            </div>
         </div>
 
-        <!-- Search Form -->
+        <!-- Overlay to darken the background for readability -->
+        <div
+            style="background: radial-gradient(110% 300% at 2% 0%, rgba(0, 39, 106, 0.999) 5%, rgba(0, 0, 0, 0.200) 62%);
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
+        </div>
+
+        <!-- Search Form and Icon Section (on top of the carousel) -->
         <div class="container-fluid d-flex flex-column justify-content-center align-items-center"
-            style="height: 173%; position: relative;">
+            style="height: 100%; position: relative; z-index: 2;">
+            <!-- Search Form -->
             <form class="d-flex justify-content-center" role="search"
-                style="height: 40px; width: 50%; position: relative; margin-bottom: 0px;">
+                style="height: 40px; width: 50%; margin-bottom: 20px;">
                 <input class="form-control" type="search" placeholder="Cari informasi disini...." aria-label="Search"
-                    style="background-color: rgba(255, 255, 255, 0.842); color: #6c757d; border: none; border-radius: 10px; box-shadow: none; font-size: 18px; padding: 10px 20px; width: 100%;">
+                    style="background-color: rgba(255, 255, 255, 0.842); color: #6c757d; border: none; border-radius: 10px; font-size: 18px; padding: 10px 20px; width: 100%;">
                 <button class="btn btn-primary" type="submit"
-                    style="position: absolute; right: 5px; top: 5px; bottom: 5px; padding: 0 20px; background-color: #213349; border: none; border-radius: 10px;">Cari</button>
+                    style="margin-left: -5px; padding: 0 20px; background-color: #213349; border: none; border-radius: 10px;">Cari</button>
             </form>
 
             <!-- Icon Section -->
-            <div class="icon-section d-flex justify-content-center align-items-center">
+            <div class="icon-section d-flex flex-wrap justify-content-center align-items-center">
                 <div class="row">
-                    <div class="col text-center">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="{{ URL::asset('/images/agent.png') }}" alt="Pelayanan Kependudukan"
-                                    class="icon-img">
+                    @foreach ($icons as $icon)
+                        <div class="col text-center" style="padding: 10px;">
+                            <div class="card" style="background-color: #213349; border-radius: 10px; padding: 15px;">
+                                <img src="{{ asset('storage/' . $icon->image) }}" alt="{{ $icon->title }}" class="icon-img"
+                                    style="width: 80px;">
+                                <p class="text-white mt-2">{{ $icon->title }}</p>
                             </div>
                         </div>
-                        <p class="mt-2">Pelayanan Kependudukan</p>
-                    </div>
-                    <div class="col text-center">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="{{ URL::asset('/images/public-service.png') }}" alt="Pelayanan Masyarakat"
-                                    class="icon-img">
-                            </div>
-                        </div>
-                        <p class="mt-2">Pelayanan Masyarakat</p>
-                    </div>
-                    <div class="col text-center">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="{{ URL::asset('/images/taxes.png') }}" alt="Pelayanan Pajak" class="icon-img">
-                            </div>
-                        </div>
-                        <p class="mt-2">Pelayanan Pajak</p>
-                    </div>
-                    <div class="col text-center">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="{{ URL::asset('/images/petition.png') }}" alt="Pengaduan Masyarakat"
-                                    class="icon-img">
-                            </div>
-                        </div>
-                        <p class="mt-2">Pengaduan Masyarakat</p>
-                    </div>
-                    <div class="col text-center">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="{{ URL::asset('/images/calculator.png') }}" alt="Transparansi Anggaran"
-                                    class="icon-img">
-                            </div>
-                        </div>
-                        <p class="mt-2">Transparansi Anggaran</p>
-                    </div>
-                    <div class="col text-center">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="{{ URL::asset('/images/travel-map.png') }}" alt="Destinasi Wisata"
-                                    class="icon-img">
-                            </div>
-                        </div>
-                        <p class="mt-2">Destinasi Wisata</p>
-                    </div>
-                    <div class="col text-center">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="{{ URL::asset('/images/legal-document.png') }}" alt="Produk Hukum"
-                                    class="icon-img">
-                            </div>
-                        </div>
-                        <p class="mt-2">Produk Hukum</p>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -182,7 +148,6 @@
                     </div>
                 </div>
             </div>
-
 
             {{-- Pengumuman --}}
             <div class="col-md-4" style="width: 350px;">

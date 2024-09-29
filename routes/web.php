@@ -1,14 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\DataController;
-use App\Http\Controllers\DocumentController;
-use App\Http\Controllers\FileController;
-use App\Http\Controllers\HeadlineController;
 use App\Models\Data;
 use App\Models\Headline;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DataController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\IconController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\DropdownController;
+use App\Http\Controllers\HeadlineController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +23,11 @@ use App\Models\Headline;
 |
 */
 
-Route::get('/',[PostController::class,'index']);
+Route::get('/',[PostController::class,'index'])->name('home');
+Route::resource('icon', IconController::class);
+Route::resource('dropdown', DropdownController::class);
+Route::get('/icon/create', [IconController::class, 'create'])->name('icon.create');
+
 Route::get('/post/data', [PostController::class, 'data']);
 Route::get('/post/create',[PostController::class,'create']);
 Route::post('post',[PostController::class,'store']);

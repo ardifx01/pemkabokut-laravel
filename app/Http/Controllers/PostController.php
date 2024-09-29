@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use DOMDocument;
+use App\Models\Icon;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Headline;
@@ -17,7 +18,8 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::whereNotNull('headline_id')->orderBy('published_at', 'desc')->get();
-        return view('index', compact('posts'));
+        $icons = Icon::with('dropdowns')->get();
+        return view('index', compact('posts', 'icons'));
     }
 
     public function data(Request $request)

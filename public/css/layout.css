@@ -211,41 +211,97 @@ body {
 
 /* ======= Index - Search Section Styles ======= */
 #search-section {
-    height: 755px;
+    height: 100vh; /* Ensure the section takes the full height of the viewport */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
-    margin-top: -80px;
     width: 100vw;
-    margin-left: calc(-50vw + 50%);
-    margin-right: calc(-50vw + 50%);
+    margin: 0 auto; /* Center the section */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Ensure content is vertically centered */
 }
 
 .icon-section .card {
     background-color: #213349;
     border-radius: 10px;
     text-align: center;
-    width: 120px; /* Atur lebar kartu */
-    margin: 10px; /* Jarak antar kartu */
+    width: 120px;
+    margin: 10px;
     display: inline-block;
 }
 
 .icon-section .card img {
-    width: 80px; /* Ukuran ikon */
+    width: 80px;
     height: auto;
 }
 
 .icon-section p {
     font-size: 14px;
     color: white;
-    white-space: normal; /* Mengizinkan teks membungkus */
-    word-wrap: break-word; /* Memastikan kata yang panjang dibungkus dengan baik */
     margin-top: 10px;
     margin-bottom: 0;
-    line-height: 1.2em;
     text-align: center;
-    padding: 0 5px; /* Tambahkan sedikit padding di samping untuk lebih rapi */
+    padding: 0 5px;
+}
+
+/* Large screens */
+@media (min-width: 1200px) {
+    #search-section {
+        height: 100vh; /* Ensure section takes up full viewport height on large screens */
+    }
+
+    .icon-section .card {
+        width: 150px;
+    }
+
+    .icon-section .card img {
+        width: 100px;
+    }
+
+    .icon-section p {
+        font-size: 16px;
+    }
+}
+
+/* Medium screens */
+@media (max-width: 1199px) and (min-width: 768px) {
+    #search-section {
+        height: 100vh; /* Maintain full height for medium screens */
+    }
+
+    .icon-section .card {
+        width: 130px;
+    }
+
+    .icon-section .card img {
+        width: 90px;
+    }
+
+    .icon-section p {
+        font-size: 15px;
+    }
+}
+
+/* Small screens */
+@media (max-width: 767px) {
+    #search-section {
+        height: auto; /* Allow height to auto-adjust on small screens */
+        padding: 20px 0;
+    }
+
+    .icon-section .card {
+        width: 100px;
+    }
+
+    .icon-section .card img {
+        width: 70px;
+    }
+
+    .icon-section p {
+        font-size: 12px;
+    }
 }
 
 /* ======= Index - Berita dan Pengumuman Section ======= */
@@ -259,7 +315,6 @@ body {
     background-position: right bottom;
     background-repeat: no-repeat;
     height: auto;
-    
 }
 
 .owl-prev,
