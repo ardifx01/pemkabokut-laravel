@@ -24,7 +24,7 @@
 
         <!-- Overlay to darken the background for readability -->
         <div
-            style="background: radial-gradient(110% 300% at 2% 0%, rgba(0, 39, 106, 0.999) 5%, rgba(0, 0, 0, 0.200) 62%);
+            style="background: radial-gradient(110% 300% at 2% 0%, #00276aff 5%, rgba(0, 0, 0, 0.200) 62%);
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
         </div>
 
@@ -52,12 +52,13 @@
             <div class="icon-section d-flex flex-wrap justify-content-center align-items-center">
                 <div class="row">
                     @foreach ($icons as $icon)
-                        <div class="col text-center" style="padding: 10px;">
-                            <div class="card" style="background-color: #213349; border-radius: 10px; padding: 15px;">
+                        <div class="col text-center">
+                            <div class="card">
                                 <img src="{{ asset('storage/' . $icon->image) }}" alt="{{ $icon->title }}" class="icon-img"
                                     style="width: 80px;">
-                                <p class="text-white mt-2">{{ $icon->title }}</p>
+                                
                             </div>
+                            <p class="text-white mt-2">{{ $icon->title }}</p>
                         </div>
                     @endforeach
                 </div>
