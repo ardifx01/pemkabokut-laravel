@@ -31,6 +31,14 @@
         <!-- Search Form and Icon Section (on top of the carousel) -->
         <div class="container-fluid d-flex flex-column justify-content-center align-items-center"
             style="height: 100%; position: relative; z-index: 2;">
+            <!-- Welcome Text -->
+            <h1 class="text-white text-center fw-bold text-uppercase mb-3">
+                Selamat Datang<br>Pemerintah Kabupaten OKU TIMUR
+            </h1>
+            <p class="text-white fs-5 text-center mb-4">
+                Temukan informasi publik terkini dari Kabupaten OKU TIMUR
+            </p>
+            
             <!-- Search Form -->
             <form class="d-flex justify-content-center" role="search"
                 style="height: 40px; width: 50%; margin-bottom: 20px;">

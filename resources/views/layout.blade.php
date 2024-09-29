@@ -95,7 +95,7 @@
     </nav>
     {{-- Navbar --}}
 
-    <div class="container col-xxl-8 py-0">
+    <div class="container-fluid py-0">
         @yield('content')
         {{-- Social Icons, hidden on smaller screens --}}
         <div class="social-icons d-none d-lg-flex">
