@@ -3,7 +3,7 @@
 @section('title', 'Edit Headline')
 
 @section('content')
-    <div class="card bg-white p-4 shadow rounded-4 border-0">
+    <div class="container p-4" style="margin-top: 100px; height: 500px;">
         <h4>Edit Headline</h4>
 
         <form action="{{ route('headline.update', $headline->id) }}" method="POST">

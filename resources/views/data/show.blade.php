@@ -4,7 +4,7 @@
 
 @section('content')
     <section id="judul-section"
-        style="position: relative; background-image: url('{{ asset('images/backgroundb.png') }}'); background-size: 1625px 225px; background-repeat: no-repeat; background-position: center 43%; padding-top: 150px; width: 154%; height: 250px; margin-left: -27%; margin-top: 85px;">
+        style="position: relative; background-image: url('{{ asset('images/backgroundb.png') }}'); background-size: 1625px 225px; background-repeat: no-repeat; background-position: center 50%; padding-top: 150px; width: 100%; height: 245px; margin-left: 0%; margin-top: 85px;">
         <div id="overlay"
             style="position: absolute; top: 0; left: 0; width: 100%; height: 94%; background-color: rgba(0, 0, 0, 0.5);">
         </div>

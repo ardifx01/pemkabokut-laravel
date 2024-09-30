@@ -219,19 +219,152 @@ body {
     margin-left: -12px;
 }
 
+/* Make carousel responsive for mobile */
+.carousel-inner img {
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    object-fit: cover;
+}
+
+/* Ensure the overlay covers the entire carousel */
+#search-section .carousel,
+#search-section .carousel-inner,
+#search-section .carousel-item {
+    height: 100vh; /* Full height for the entire carousel and its images */
+}
+/* Search Form Styling */
+.search-form {
+    background-color: white;
+    height: 50px; /* Meningkatkan tinggi sedikit agar terlihat proporsional */
+    width: 50%;
+    border-radius: 30px; /* Lebih melengkung sesuai dengan contoh */
+    box-shadow: 30px 40px 50px rgba(0, 0, 0, 0.1); /* Shadow yang lebih kuat agar terlihat jelas */
+    margin-bottom: 20px;
+    display: flex;
+    overflow: hidden; /* Memastikan elemen tidak keluar dari area form */
+}
+
+/* Input Group untuk search icon */
+.input-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* Styling untuk input form */
+.search-form .form-control {
+    background-color: transparent;
+    color: #6c757d;
+    border: none;
+    font-size: 16px;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 100%; /* Mengatur agar input mengambil seluruh tinggi form */
+}
+
+/* Icon kaca pembesar */
+.input-group-text {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #6c757d;
+    padding-left: 15px;
+}
+
+/* Tombol search */
+.btn-search {
+    background-color: #213349;
+    border: none;
+    border-radius: 0 10px 10px 0; /* Mengatur ujung kanan tombol lebih melengkung */
+    height: 60px;
+    padding: 0 40px;
+    font-size: 16px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+    margin-left: 30px;
+}
+
+/* Hover effect pada tombol */
+.btn-search:hover {
+    background-color: #1a2839;
+    transition: 0.3s;
+}
+
+/* Icon dalam input */
+.input-group-text i {
+    font-size: 20px;
+    color: #6c757d;
+}
+
+/* Responsif untuk layar mobile */
+@media (max-width: 767px) {
+    h1 {
+        margin-top: 150px;
+        margin-left: 10px;
+        font-size: 24px; /* Ukuran lebih kecil untuk mobile */
+    }
+
+    p {
+        margin-left: 10px;
+        font-size: 14px; /* Ukuran lebih kecil untuk deskripsi */
+    }
+
+    /* Turunkan posisi Search Form */
+    .search-form {
+        margin-top: 20px; /* Tambahkan margin top untuk menurunkan posisi */
+        width: 90%; /* Sesuaikan lebar form pencarian di layar mobile */
+        height: 45px; /* Sedikit lebih kecil di layar mobile */
+        margin-bottom: -20px;
+    }
+
+    /* Tombol pencarian */
+    .btn-search {
+        height: 45px;
+        padding: 0 15px;
+    }
+}
+
+.icon-section {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap; /* Membuat icon bisa pindah baris jika lebih dari 6 */
+    justify-content: center;
+}
+
+/* Style for each icon container */
+.icon-container {
+    flex: 1 1 calc(16.66% - 20px);
+    max-width: calc(16.66% - 20px);
+}
 /* Style for icon section cards */
+.icon-section a {
+    text-decoration: none; /* Remove underline from links */
+}
+
+/* Style for the card */
 .icon-section .card {
-    background-color: #002b74;
-    border-radius: 30px; /* Slightly round edges */
+    background-color: #002b74; /* Dark blue background */
+    border-radius: 20px; /* More rounded edges */
     text-align: center;
-    width: 90px;
-    height: 90px;
+    width: 90px; /* Set width to 90px */
+    height: 90px; /* Set height to 90px */
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
     display: flex;
     align-items: center; /* Center content vertically */
     justify-content: center; /* Center content horizontally */
-    border: 3px solid #ffffff; /* Add green border */
+    border: 4px solid #ffffff; /* White border */
+    transition: transform 0.2s ease-in-out; /* Smooth hover effect */
+    margin: 10px;
 }
+
+/* Hover effect for the card */
+.icon-section .card:hover {
+    transform: scale(1.05); /* Slightly scale the card on hover */
+}
+
 
 /* Icon image inside the card */
 .icon-section .card img {
@@ -241,66 +374,131 @@ body {
 }
 
 /* Icon title */
-.icon-section p {
+/* Icon title */
+.icon-section .portal-title p {
     font-size: 14px;
-    color: #4CAF50; /* Green text to match the border */
+    color: #ffffff; /* White text for the title */
     text-align: center;
     font-weight: bold;
-    margin-left: -24px;
+    margin-top: 0px;
+    width: 115px; /* Membatasi lebar title agar sesuai dengan card */
+    word-wrap: break-word; /* Memaksa teks untuk "wrap" jika terlalu panjang */
+    white-space: normal; /* Membuat teks bisa multi-line */
+    overflow: hidden; /* Jika teks terlalu panjang, sembunyikan */
+    text-overflow: ellipsis; /* Tambahkan elipsis jika teks terlalu panjang */
 }
 
 /* Large screens */
 @media (min-width: 1200px) {
-    #search-section {
-        height: 100vh;
+    .icon-section .card {
+        width: 90px; /* Maintain width at 90px */
+        height: 90px; /* Maintain height at 90px */
+        border-radius: 20px; /* Keep rounded edges consistent */
     }
 
     .icon-section .card img {
-        width: 100px;
+        width: 50px;
+        height: 50px;
     }
 
-    .icon-section p {
+    .icon-section .portal-title p {
         font-size: 16px;
     }
 }
 
 /* Medium screens */
 @media (max-width: 1199px) and (min-width: 768px) {
-    #search-section {
-        height: 100vh;
-    }
-
     .icon-section .card {
-        width: 130px;
+        width: 90px; /* Maintain width at 90px */
+        height: 90px; /* Maintain height at 90px */
+        border-radius: 20px; /* Keep rounded edges consistent */
     }
 
     .icon-section .card img {
-        width: 90px;
+        width: 50px;
+        height: 50px;
     }
 
-    .icon-section p {
+    .icon-section .portal-title p {
         font-size: 15px;
     }
 }
 
-/* Small screens */
+/* Responsif untuk layar mobile */
 @media (max-width: 767px) {
-    #search-section {
-        height: auto;
-        padding: 20px 0;
-    }
-
     .icon-section .card {
-        width: 100px;
+        width: 70px; /* Kurangi lagi ukuran icon */
+        height: 70px;
+        border-radius: 10px; /* Kurangi radius untuk layar kecil */
     }
 
     .icon-section .card img {
-        width: 70px;
+        width: 30px; /* Kurangi ukuran gambar */
+        height: 30px;
     }
 
-    .icon-section p {
-        font-size: 12px;
+    .icon-section .portal-title p {
+        font-size: 10px; /* Kurangi ukuran font lagi */
+        width: 80px; /* Sesuaikan lebar maksimal teks */
     }
+}
+
+.collapse {
+    margin-top: 10px;
+}
+
+/* Style untuk submenu yang lebih lebar */
+.submenu-collapse {
+    width: 80vw; /* Set lebar submenu lebih besar */
+    margin-top: 10px;
+    background-color: rgba(255, 255, 255, 0.9); /* Tambahkan sedikit transparansi untuk kontras */
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Style untuk isi dari submenu */
+.submenu-collapse .card-body {
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+}
+
+/* Style untuk link pada submenu */
+.submenu-collapse ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.submenu-collapse ul li {
+    margin-bottom: 5px;
+}
+
+.submenu-collapse ul li a {
+    color: #0056b3;
+    text-decoration: none;
+}
+
+.submenu-collapse ul li a:hover {
+    text-decoration: underline;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    margin-bottom: 5px;
+}
+
+ul li a {
+    color: #000000;
+    text-decoration: none;
+}
+
+ul li a:hover {
+    text-decoration: underline;
 }
 
 /* ======= Index - Berita dan Pengumuman Section ======= */
@@ -344,6 +542,28 @@ body {
 .pengumuman-container {
     padding-left: 20px; /* Sesuaikan padding kiri sesuai kebutuhan */
     padding-right: 20px; /* Sesuaikan padding kanan sesuai kebutuhan */
+}
+
+/* Responsive layout for mobile screens */
+@media (max-width: 768px) {
+    /* Adjusting owl carousel items to be stacked vertically on mobile */
+    .owl-carousel .owl-item .row {
+        flex-direction: column; /* Stack items vertically */
+    }
+
+    /* Ensure images take up full width on mobile */
+    .owl-carousel .owl-item .col-md-4 {
+        width: 100%; /* Image takes full width */
+        margin-bottom: 15px; /* Add spacing below the image */
+    }
+
+    .owl-carousel .owl-item .col-md-8 {
+        width: 100%; /* Text content also takes full width */
+    }
+
+    .card-body {
+        padding-top: 0;
+    }
 }
 
 /* ======= Responsive Styles for Index Sections ======= */

@@ -7,6 +7,7 @@ use DOMDocument;
 use App\Models\Icon;
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\Document;
 use App\Models\Headline;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -19,7 +20,8 @@ class PostController extends Controller
     {
         $posts = Post::whereNotNull('headline_id')->orderBy('published_at', 'desc')->get();
         $icons = Icon::with('dropdowns')->get();
-        return view('index', compact('posts', 'icons'));
+        $documents = Document::latest()->take(4)->get();
+        return view('index', compact('posts', 'icons', 'documents'));
     }
 
     public function data(Request $request)

@@ -87,6 +87,7 @@
                     <li><a class="dropdown-item" href="{{ url('/data/index') }}">Add Data</a></li>
                     <li><a class="dropdown-item" href="{{ url('/document/data') }}">Document Data</a></li>
                     <li><a class="dropdown-item" href="{{ url('/file/data') }}">File Data</a></li>
+                    <li><a class="dropdown-item" href="{{ url('/icon') }}">Create Portal</a></li>
                 </ul>
             </div>
             <!-- Admin Button -->

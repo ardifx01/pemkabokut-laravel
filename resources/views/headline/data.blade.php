@@ -3,7 +3,7 @@
 @section('title', 'Data Headlines')
 
 @section('content')
-    <div class="card bg-white p-4 shadow rounded-4 border-0">
+    <div class="card bg-white p-4 shadow rounded-4 border-0" style="margin-top: 100px;">
         <div class="d-flex justify-content-between mb-4">
             <div>
                 <h4>Data Headlines</h4>

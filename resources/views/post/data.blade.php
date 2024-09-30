@@ -3,7 +3,7 @@
 @section('title', 'Data Posts')
 
 @section('content')
-    <section style="padding-top: 150px;" >
+    <section style="padding-top: 100px;" >
         <div class="card bg-white p-4 shadow rounded-4 border-0">
             <div class="d-flex justify-content-between mb-4">
                 <div>

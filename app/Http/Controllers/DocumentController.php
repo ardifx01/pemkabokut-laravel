@@ -11,7 +11,10 @@ class DocumentController extends Controller
 {
     public function index()
     {
+        // Mengambil semua dokumen tanpa pengurutan
         $documents = Document::all();
+
+        // Mengirimkan variabel $documents ke view index.blade.php
         return view('index', compact('documents'));
     }
 

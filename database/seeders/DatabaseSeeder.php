@@ -18,7 +18,9 @@ class DatabaseSeeder extends Seeder
             HeadlineSeeder::class,
             PostSeeder::class,
             DataSeeder::class,
-            DocumentSeeder::class
+            DocumentSeeder::class,
+            IconSeeder::class,
+            FileSeeder::class,
         ]);
     }
 }

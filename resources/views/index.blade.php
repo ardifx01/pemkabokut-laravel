@@ -9,14 +9,19 @@
             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden;">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="{{ asset('images/pemda.png') }}" class="d-block w-100" style="height: 100%; object-fit: cover;">
-                </div>
-                <div class="carousel-item">
-                    <img src="{{ asset('images/pemda1.jpg') }}" class="d-block w-100"
+                    <img src="{{ asset('images/kantor.jpg') }}" class="d-block w-100"
                         style="height: 100%; object-fit: cover;">
                 </div>
                 <div class="carousel-item">
-                    <img src="{{ asset('images/pemda3.jpg') }}" class="d-block w-100"
+                    <img src="{{ asset('images/Perjaya.jpg') }}" class="d-block w-100"
+                        style="height: 100%; object-fit: cover;">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ asset('images/Bendungan-Perjaya.jpg') }}" class="d-block w-100"
+                        style="height: 100%; object-fit: cover;">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ asset('images/sawah.jpg') }}" class="d-block w-100"
                         style="height: 100%; object-fit: cover;">
                 </div>
             </div>
@@ -30,7 +35,7 @@
 
         <!-- Search Form and Icon Section (on top of the carousel) -->
         <div class="container-fluid d-flex flex-column justify-content-center align-items-center"
-            style="height: 100%; position: relative; z-index: 2;">
+            style="height: 100%; position: relative; z-index: 2; padding-top: 150px">
             <!-- Welcome Text -->
             <h1 class="text-white text-center fw-bold text-uppercase mb-3">
                 Selamat Datang<br>Pemerintah Kabupaten OKU TIMUR
@@ -38,30 +43,68 @@
             <p class="text-white fs-5 text-center mb-4">
                 Temukan informasi publik terkini dari Kabupaten OKU TIMUR
             </p>
-            
+
             <!-- Search Form -->
-            <form class="d-flex justify-content-center" role="search"
-                style="height: 40px; width: 50%; margin-bottom: 20px;">
-                <input class="form-control" type="search" placeholder="Cari informasi disini...." aria-label="Search"
-                    style="background-color: rgba(255, 255, 255, 0.842); color: #6c757d; border: none; border-radius: 10px; font-size: 18px; padding: 10px 20px; width: 100%;">
-                <button class="btn btn-primary" type="submit"
-                    style="margin-left: -5px; padding: 0 20px; background-color: #213349; border: none; border-radius: 10px;">Cari</button>
+            <form class="search-form d-flex justify-content-between align-items-center">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-0">
+                        <i class="bi bi-search"></i> <!-- Icon pencarian -->
+                    </span>
+                    <input type="text" class="form-control border-0" placeholder="Cari informasi disini...."
+                        aria-label="Search">
+                </div>
+                <button class="btn btn-primary btn-search" type="submit">Cari</button>
             </form>
 
             <!-- Icon Section -->
-            <div class="icon-section d-flex flex-wrap justify-content-center align-items-center">
-                <div class="row">
-                    @foreach ($icons as $icon)
-                        <div class="col text-center">
-                            <div class="card">
-                                <img src="{{ asset('storage/' . $icon->image) }}" alt="{{ $icon->title }}" class="icon-img"
-                                    style="width: 80px;">
-                                
+            <div class="icon-section d-flex flex-wrap justify-content-center rounded-3 py-3 mt-3" id="iconAccordion">
+                @foreach ($icons as $icon)
+                    <div class="icon-container d-flex flex-column gap-2 justify-content-center align-items-center">
+                        <div class="card bg-opacity-60 text-center">
+                            <div class="card-body">
+                                @php
+                                    // Cek apakah gambar merupakan URL eksternal
+                                    $isExternalImage = Str::startsWith($icon->image, ['http://', 'https://']);
+                                @endphp
+
+                                <!-- Jika gambar merupakan URL eksternal -->
+                                @if ($isExternalImage)
+                                    <img src="{{ $icon->image }}" alt="{{ $icon->title }}"
+                                        class="img-fluid submenu-toggle" data-icon-id="{{ $icon->id }}">
+                                @else
+                                    <!-- Jika gambar berasal dari folder storage -->
+                                    <img src="{{ asset('storage/' . $icon->image) }}" alt="{{ $icon->title }}"
+                                        class="img-fluid submenu-toggle" data-icon-id="{{ $icon->id }}">
+                                @endif
                             </div>
-                            <p class="text-white mt-2">{{ $icon->title }}</p>
                         </div>
-                    @endforeach
-                </div>
+                        <div class="portal-title">
+                            <p class="text-center text-white">{{ $icon->title }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Submenu Collapse -->
+                    <div id="iconMenu{{ $icon->id }}" class="collapse submenu-collapse">
+                        <div class="row">
+                            @php
+                                // Bagi dropdown menjadi grup yang berisi maksimal 6 item per grup
+                                $chunks = $icon->dropdowns->chunk(6);
+                            @endphp
+
+                            @foreach ($chunks as $chunk)
+                                <div class="col-md-4">
+                                    <ul>
+                                        @foreach ($chunk as $dropdown)
+                                            <li>
+                                                <a href="{{ $dropdown->link }}" target="_blank">{{ $dropdown->title }}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -167,33 +210,23 @@
                     <div style="flex-grow: 1; height: 2px; background-color: #2F4F7F;"></div>
                 </div>
                 <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="mb-1">MEMPERINGATI HARI PENDIDIKAN NASIONAL</h6>
-                            <small><i class="bi bi-calendar"></i> 2 Mei 2020</small>
-                        </div>
-                        <small><i class="bi bi-person"></i> Admin &nbsp; <i class="bi bi-eye"></i> 40.784</small>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="mb-1">Pelayanan PBB Bandung Barat</h6>
-                            <small><i class="bi bi-calendar"></i> 4 Oktober 2021</small>
-                        </div>
-                        <small><i class="bi bi-person"></i> Admin &nbsp; <i class="bi bi-eye"></i> 36.438</small>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="mb-1">KPU Kabupaten Bandung Barat Umumkan Daftar Calon Sementara...</h6>
-                            <small><i class="bi bi-calendar"></i> 23 Agustus 2023</small>
-                        </div>
-                        <small><i class="bi bi-person"></i> Admin &nbsp; <i class="bi bi-eye"></i> 17.092</small>
-                    </a>
+                    {{-- Looping untuk menampilkan 4 dokumen (tanpa urutan khusus) --}}
+                    @foreach ($documents->take(4) as $document)
+                        <a href="{{ route('data.show', $document->data_id) }}"
+                            class="list-group-item list-group-item-action">
+                            <div class="d-flex justify-content-between">
+                                <h6 class="mb-1">{{ $document->title }}</h6>
+                                <small><i class="bi bi-calendar"></i> {{ $document->created_at->format('d M Y') }}</small>
+                            </div>
+                            <small><i class="bi bi-person"></i> Admin &nbsp; <i class="bi bi-eye"></i>
+                                {{ $document->views ?? 0 }}</small>
+                        </a>
+                    @endforeach
                 </div>
             </div>
+
         </div>
     </section>
-
-
 
     {{-- Headline --}}
     <section id="headline" class="py-4" style="background-image: url('images/cover.png');">
@@ -271,6 +304,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Seleksi semua gambar dengan class submenu-toggle
+            var submenuToggles = document.querySelectorAll('.submenu-toggle');
+
+            submenuToggles.forEach(function(toggle) {
+                toggle.addEventListener('click', function() {
+                    var iconId = this.getAttribute('data-icon-id');
+                    var selectedSubmenu = document.getElementById('iconMenu' + iconId);
+
+                    // Tutup semua submenu yang lain
+                    document.querySelectorAll('.submenu-collapse').forEach(function(submenu) {
+                        if (submenu !== selectedSubmenu && submenu.classList.contains(
+                                'show')) {
+                            submenu.classList.remove('show');
+                        }
+                    });
+
+                    // Toggle submenu yang di-klik
+                    selectedSubmenu.classList.toggle('show');
+                });
+            });
+        });
         $(document).ready(function() {
             // Initialize Owl Carousel
             var owl = $('#latestArticle').owlCarousel({

@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-<div class="container p-4">
+<div class="container p-4" style="margin-top: 100px; height: 500px;">
     <div class="row justify-content-md-center">
         <div class="col-md-12">
             <div class="text-center">

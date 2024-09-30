@@ -24,9 +24,12 @@ use App\Http\Controllers\HeadlineController;
 */
 
 Route::get('/',[PostController::class,'index'])->name('home');
-Route::resource('icon', IconController::class);
 Route::resource('dropdown', DropdownController::class);
+
+Route::resource('icon', IconController::class);
 Route::get('/icon/create', [IconController::class, 'create'])->name('icon.create');
+Route::post('/icon/storeWithDropdowns', [IconController::class, 'storeWithDropdowns'])->name('icon.storeWithDropdowns');
+Route::get('/icon/data', [IconController::class, 'data'])->name('icon.data');
 
 Route::get('/post/data', [PostController::class, 'data']);
 Route::get('/post/create',[PostController::class,'create']);

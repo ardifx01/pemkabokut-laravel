@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Icon;
+use App\Models\Dropdown;
 use Illuminate\Http\Request;
 
 class IconController extends Controller
@@ -10,7 +11,14 @@ class IconController extends Controller
     public function index()
     {
         $icons = Icon::all();
-        return view('icon.index', compact('icons'));
+        $icons = Icon::with('dropdowns')->get();
+        return view('icon.data', compact('icons'));
+    }
+
+    public function data()
+    {
+        $icons = Icon::all();
+        return view('icon.data', compact('icons'));
     }
 
     // Show the form for creating a new icon.
@@ -38,6 +46,40 @@ class IconController extends Controller
 
         // Redirect to the index page (using route name 'home')
         return redirect()->route('home')->with('success', 'Icon created successfully.');
+    }
+
+    // app/Http/Controllers/IconController.php
+
+    public function storeWithDropdowns(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'dropdowns' => 'required|array',
+            'dropdowns.*.title' => 'required|string',
+            'dropdowns.*.link' => 'required|url',
+        ]);
+
+        // Handle the file upload
+        $imagePath = $request->file('image')->store('uploads/icons', 'public');
+
+        // Create Icon
+        $icon = Icon::create([
+            'title' => $request->input('title'),
+            'image' => $imagePath,
+        ]);
+
+        // Create Dropdowns associated with this Icon
+        foreach ($request->input('dropdowns') as $dropdown) {
+            Dropdown::create([
+                'title' => $dropdown['title'],
+                'link' => $dropdown['link'],
+                'icon_id' => $icon->id, // Associate with the newly created icon
+            ]);
+        }
+
+        // Redirect to the index page (using route name 'home')
+        return redirect()->route('home')->with('success', 'Icon and Dropdowns created successfully.');
     }
 
     // Display the specified icon.
