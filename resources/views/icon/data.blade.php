@@ -67,7 +67,7 @@
                             <td>{{ $icon->created_at->format('d M Y, H:i') }}</td>
                             <td>{{ $icon->updated_at->format('d M Y, H:i') }}</td>
                             <td>
-                                <a href="{{ route('icon.data', $icon->id) }}" class="btn btn-info">Edit</a>
+                                <a href="{{ route('icon.edit', $icon->id) }}" class="btn btn-info">Edit</a>
                                 <form action="{{ route('icon.destroy', $icon->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')

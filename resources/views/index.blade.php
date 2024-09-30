@@ -35,7 +35,7 @@
 
         <!-- Search Form and Icon Section (on top of the carousel) -->
         <div class="container-fluid d-flex flex-column justify-content-center align-items-center"
-            style="height: 100%; position: relative; z-index: 2; padding-top: 150px">
+            style="height: 100%; position: relative; z-index: 2;">
             <!-- Welcome Text -->
             <h1 class="text-white text-center fw-bold text-uppercase mb-3">
                 Selamat Datang<br>Pemerintah Kabupaten OKU TIMUR

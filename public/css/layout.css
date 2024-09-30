@@ -328,7 +328,6 @@ body {
 }
 
 .icon-section {
-    position: relative;
     display: flex;
     flex-wrap: wrap; /* Membuat icon bisa pindah baris jika lebih dari 6 */
     justify-content: center;
@@ -337,7 +336,7 @@ body {
 /* Style for each icon container */
 .icon-container {
     flex: 1 1 calc(16.66% - 20px);
-    max-width: calc(16.66% - 20px);
+    max-width: calc(16.66% - 20px); /* Batas maksimal lebar per icon */
 }
 /* Style for icon section cards */
 .icon-section a {
@@ -357,7 +356,7 @@ body {
     justify-content: center; /* Center content horizontally */
     border: 4px solid #ffffff; /* White border */
     transition: transform 0.2s ease-in-out; /* Smooth hover effect */
-    margin: 10px;
+    margin: 20px;
 }
 
 /* Hover effect for the card */
@@ -381,7 +380,7 @@ body {
     text-align: center;
     font-weight: bold;
     margin-top: 0px;
-    width: 115px; /* Membatasi lebar title agar sesuai dengan card */
+    width: 114px; /* Membatasi lebar title agar sesuai dengan card */
     word-wrap: break-word; /* Memaksa teks untuk "wrap" jika terlalu panjang */
     white-space: normal; /* Membuat teks bisa multi-line */
     overflow: hidden; /* Jika teks terlalu panjang, sembunyikan */
@@ -481,6 +480,12 @@ body {
 
 .submenu-collapse ul li a:hover {
     text-decoration: underline;
+}
+
+.card.card-body {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 10px;
 }
 
 ul {

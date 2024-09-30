@@ -91,7 +91,7 @@ class IconController extends Controller
     // Show the form for editing the specified icon.
     public function edit(Icon $icon)
     {
-        return view('icons.edit', compact('icon'));
+        return view('icon.edit', compact('icon'));
     }
 
     // Update the specified icon in storage.
@@ -99,7 +99,10 @@ class IconController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'dropdowns' => 'sometimes|array',
+            'dropdowns.*.title' => 'required|string',
+            'dropdowns.*.link' => 'required|url',
         ]);
 
         if ($request->hasFile('image')) {
@@ -111,7 +114,30 @@ class IconController extends Controller
         $icon->title = $request->input('title');
         $icon->save();
 
-        return redirect()->route('/')->with('success', 'Icon updated successfully.');
+        // Handle dropdowns update
+        if ($request->has('dropdowns')) {
+            foreach ($request->input('dropdowns') as $dropdownId => $dropdownData) {
+                if (str_starts_with($dropdownId, 'new_')) {
+                    // Create new dropdown
+                    Dropdown::create([
+                        'title' => $dropdownData['title'],
+                        'link' => $dropdownData['link'],
+                        'icon_id' => $icon->id,
+                    ]);
+                } else {
+                    // Update existing dropdown
+                    $dropdown = Dropdown::find($dropdownId);
+                    if ($dropdown) {
+                        $dropdown->update([
+                            'title' => $dropdownData['title'],
+                            'link' => $dropdownData['link'],
+                        ]);
+                    }
+                }
+            }
+        }
+
+        return redirect()->route('home')->with('success', 'Icon and Dropdowns updated successfully.');
     }
 
     // Remove the specified icon from storage.

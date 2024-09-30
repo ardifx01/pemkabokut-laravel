@@ -30,6 +30,8 @@ Route::resource('icon', IconController::class);
 Route::get('/icon/create', [IconController::class, 'create'])->name('icon.create');
 Route::post('/icon/storeWithDropdowns', [IconController::class, 'storeWithDropdowns'])->name('icon.storeWithDropdowns');
 Route::get('/icon/data', [IconController::class, 'data'])->name('icon.data');
+Route::get('/icon/edit/{id}', [IconController::class, 'edit'])->name('icon.edit');
+Route::post('/icon/update/{id}', [IconController::class, 'update'])->name('icon.update');
 
 Route::get('/post/data', [PostController::class, 'data']);
 Route::get('/post/create',[PostController::class,'create']);
