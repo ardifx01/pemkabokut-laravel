@@ -110,13 +110,13 @@
             let iconPath = '';
 
             if (fileExtension === 'pdf') {
-                iconPath = '{{ asset('icons/pdf-icon.png') }}';
+                iconPath = '{{ asset('icon/pdf-icon.png') }}';
             } else if (['doc', 'docx'].includes(fileExtension)) {
-                iconPath = '{{ asset('icons/word-icon.png') }}';
+                iconPath = '{{ asset('icon/word-icon.png') }}';
             } else if (['xls', 'xlsx'].includes(fileExtension)) {
-                iconPath = '{{ asset('icons/excel-icon.png') }}';
+                iconPath = '{{ asset('icon/excel-icon.png') }}';
             } else {
-                iconPath = '{{ asset('icons/default-icon.png') }}'; // Ikon default
+                iconPath = '{{ asset('icon/default-icon.png') }}'; // Ikon default
             }
 
             selectedFiles.items.add(file);

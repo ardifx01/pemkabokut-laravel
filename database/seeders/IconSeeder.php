@@ -16,31 +16,31 @@ class IconSeeder extends Seeder
         $icons = [
             [
                 'title' => 'Pelayanan Kependudukan',
-                'image' => 'https://bandungbaratkab.go.id/img/icons2/public-service.png'
+                'image' => 'icons/portal/public-service.png' // Gambar lokal
             ],
             [
                 'title' => 'Pelayanan Masyarakat',
-                'image' => 'https://bandungbaratkab.go.id/img/icons2/social-services.png'
+                'image' => 'icons/portal/social-services.png' // Gambar lokal
             ],
             [
                 'title' => 'Pelayanan Pajak',
-                'image' => 'https://bandungbaratkab.go.id/img/icons2/tax.png'
+                'image' => 'icons/portal/tax.png' // Gambar lokal
             ],
             [
                 'title' => 'Pengaduan Masyarakat',
-                'image' => 'https://bandungbaratkab.go.id/img/icons2/complaint.png'
+                'image' => 'icons/portal/porcomplaint.png' // Gambar lokal
             ],
             [
                 'title' => 'Transparansi Anggaran',
-                'image' => 'https://bandungbaratkab.go.id/img/icons2/calculation.png'
+                'image' => 'icons/portal/calculation.png' // Gambar lokal
             ],
             [
                 'title' => 'Destinasi Wisata',
-                'image' => 'https://bandungbaratkab.go.id/img/icons2/destination.png'
+                'image' => 'icons/portal/destination.png' // Gambar lokal
             ],
             [
                 'title' => 'Produk Hukum',
-                'image' => 'https://bandungbaratkab.go.id/img/icons2/law-book.png'
+                'image' => 'icons/portal/law-book.png' // Gambar lokal
             ]
         ];
 

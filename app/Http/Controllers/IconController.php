@@ -37,18 +37,16 @@ class IconController extends Controller
         ]);
 
         // Handle the file upload
-        $imagePath = $request->file('image')->store('uploads/icons', 'public');
+        $originalName = $request->file('image')->getClientOriginalName(); // Mendapatkan nama asli
+        $imagePath = $request->file('image')->storeAs('uploads/icons', $originalName, 'public'); // Menggunakan storeAs
 
         Icon::create([
             'title' => $request->input('title'),
             'image' => $imagePath,
         ]);
 
-        // Redirect to the index page (using route name 'home')
         return redirect()->route('home')->with('success', 'Icon created successfully.');
     }
-
-    // app/Http/Controllers/IconController.php
 
     public function storeWithDropdowns(Request $request)
     {
@@ -61,7 +59,8 @@ class IconController extends Controller
         ]);
 
         // Handle the file upload
-        $imagePath = $request->file('image')->store('uploads/icons', 'public');
+        $originalName = $request->file('image')->getClientOriginalName(); // Mendapatkan nama asli
+        $imagePath = $request->file('image')->storeAs('uploads/icons', $originalName, 'public'); // Menggunakan storeAs
 
         // Create Icon
         $icon = Icon::create([
@@ -74,11 +73,10 @@ class IconController extends Controller
             Dropdown::create([
                 'title' => $dropdown['title'],
                 'link' => $dropdown['link'],
-                'icon_id' => $icon->id, // Associate with the newly created icon
+                'icon_id' => $icon->id,
             ]);
         }
 
-        // Redirect to the index page (using route name 'home')
         return redirect()->route('home')->with('success', 'Icon and Dropdowns created successfully.');
     }
 
@@ -141,9 +139,18 @@ class IconController extends Controller
     }
 
     // Remove the specified icon from storage.
-    public function destroy(Icon $icon)
+    public function destroy($id)
     {
+        // Cari headline berdasarkan ID
+        $icon = Icon::find($id);
+
+        if (!$icon) {
+            return redirect()->route('icon.index')->with('error', 'Icon not found.');
+        }
+
+        // Hapus headline
         $icon->delete();
-        return redirect()->route('icons.index')->with('success', 'Icon deleted successfully.');
+
+        return redirect()->route('icon.index')->with('success', 'Icon deleted successfully.');
     }
 }

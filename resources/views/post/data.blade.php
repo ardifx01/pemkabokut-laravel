@@ -13,7 +13,7 @@
                     {{-- Button Sort --}}
                     <a href="{{ url('/post/data?sort_order=' . ($sort_order == 'asc' ? 'desc' : 'asc')) }}" class="btn btn-secondary me-3 d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
                         {{-- Gambar panah berdasarkan sort_order --}}
-                        <img src="{{ asset('icons/sort.png') }}" alt="Sort Icon" style="width: 20px; height: 20px;">
+                        <img src="{{ asset('icon/sort.png') }}" alt="Sort Icon" style="width: 20px; height: 20px;">
                     </a>
 
                     {{-- Button Add New Post --}}
