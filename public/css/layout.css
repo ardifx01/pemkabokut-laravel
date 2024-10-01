@@ -331,12 +331,15 @@ body {
     display: flex;
     flex-wrap: wrap; /* Membuat icon bisa pindah baris jika lebih dari 6 */
     justify-content: center;
+    max-width: 1000px; /* Menyesuaikan lebar maksimum kontainer ikon */
+    margin: 0 auto; /* Pusatkan kontainer ikon */
 }
 
 /* Style for each icon container */
 .icon-container {
-    flex: 1 1 calc(16.66% - 20px);
-    max-width: calc(16.66% - 20px); /* Batas maksimal lebar per icon */
+    flex: 1 1 150px; /* Menentukan basis fleksibel agar responsif */
+    max-width: 150px; /* Lebar maksimum per ikon */
+    margin: -5px; /* Jarak antar ikon */
 }
 /* Style for icon section cards */
 .icon-section a {
@@ -386,6 +389,8 @@ body {
     overflow: hidden; /* Jika teks terlalu panjang, sembunyikan */
     text-overflow: ellipsis; /* Tambahkan elipsis jika teks terlalu panjang */
 }
+
+
 
 /* Large screens */
 @media (min-width: 1200px) {
