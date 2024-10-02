@@ -22,7 +22,7 @@
     <nav class="navbar {{ request()->is('/') ? 'navbar-index' : 'navbar-default' }} navbar-expand-lg shadow py-4">
         <div class="container-fluid d-flex justify-content-between">
             <a class="navbar-brand" href="{{ url('/') }}">
-                <img src="{{ URL::asset('/icon/logo_horisontal.png') }}" height="60" alt="" />
+                <img src="{{ URL::asset('/icons/logo_horisontal.png') }}" height="60" alt="" />
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

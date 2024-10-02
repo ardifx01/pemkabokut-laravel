@@ -50,10 +50,19 @@ class PostController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 // Ambil nama asli file
-                $originalName = $image->getClientOriginalName();
+                $originalName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                $extension = $image->getClientOriginalExtension();
 
-                // Simpan file ke penyimpanan dengan nama asli tanpa mengubah resolusi
-                $image_path = $image->storeAs('uploads', time() . '-' . $originalName, 'public');
+                // Membuat nama file yang unik
+                $filename = $originalName;
+                $counter = 1;
+                while (Storage::disk('public')->exists("uploads/{$filename}.{$extension}")) {
+                    $filename = $originalName . " ({$counter})";
+                    $counter++;
+                }
+
+                // Simpan file ke penyimpanan dengan nama baru
+                $image_path = $image->storeAs('uploads', "{$filename}.{$extension}", 'public');
 
                 // Tambahkan path ke array
                 $image_paths[] = $image_path;
@@ -126,10 +135,19 @@ class PostController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 // Ambil nama asli file
-                $originalName = $image->getClientOriginalName();
+                $originalName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                $extension = $image->getClientOriginalExtension();
 
-                // Simpan file ke penyimpanan dengan nama asli
-                $image_path = $image->storeAs('uploads', time() . '-' . $originalName, 'public');
+                // Membuat nama file yang unik
+                $filename = $originalName;
+                $counter = 1;
+                while (Storage::disk('public')->exists("uploads/{$filename}.{$extension}")) {
+                    $filename = $originalName . " ({$counter})";
+                    $counter++;
+                }
+
+                // Simpan file ke penyimpanan dengan nama baru
+                $image_path = $image->storeAs('uploads', "{$filename}.{$extension}", 'public');
 
                 // Tambahkan path ke array
                 $image_paths[] = $image_path;

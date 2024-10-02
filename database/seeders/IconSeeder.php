@@ -16,31 +16,31 @@ class IconSeeder extends Seeder
         $icons = [
             [
                 'title' => 'Pelayanan Kependudukan',
-                'image' => 'icons/portal/public-service.png' // Gambar lokal
+                'image' => 'uploads/icons/public-service.png' // Gambar lokal
             ],
             [
                 'title' => 'Pelayanan Masyarakat',
-                'image' => 'icons/portal/social-services.png' // Gambar lokal
+                'image' => 'uploads/icons/social-services.png' // Gambar lokal
             ],
             [
                 'title' => 'Pelayanan Pajak',
-                'image' => 'icons/portal/tax.png' // Gambar lokal
+                'image' => 'uploads/icons/tax.png' // Gambar lokal
             ],
             [
                 'title' => 'Pengaduan Masyarakat',
-                'image' => 'icons/portal/porcomplaint.png' // Gambar lokal
+                'image' => 'uploads/icons/complaint.png' // Gambar lokal
             ],
             [
                 'title' => 'Transparansi Anggaran',
-                'image' => 'icons/portal/calculation.png' // Gambar lokal
+                'image' => 'uploads/icons/calculation.png' // Gambar lokal
             ],
             [
                 'title' => 'Destinasi Wisata',
-                'image' => 'icons/portal/destination.png' // Gambar lokal
+                'image' => 'uploads/icons/destination.png' // Gambar lokal
             ],
             [
                 'title' => 'Produk Hukum',
-                'image' => 'icons/portal/law-book.png' // Gambar lokal
+                'image' => 'uploads/icons/law-book.png' // Gambar lokal
             ]
         ];
 
