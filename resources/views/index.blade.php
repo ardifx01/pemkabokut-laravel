@@ -59,51 +59,25 @@
             <!-- Icon Section -->
             <div class="icon-section d-flex flex-wrap justify-content-center rounded-3 py-3 mt-3" id="iconAccordion">
                 @foreach ($icons as $icon)
-                    <div class="icon-container d-flex flex-column gap-2 justify-content-center align-items-center">
-                        <div class="card bg-opacity-60 text-center">
-                            <div class="card-body">
-                                @php
-                                    // Cek apakah gambar merupakan URL eksternal
-                                    $isExternalImage = Str::startsWith($icon->image, ['http://', 'https://']);
-                                @endphp
-
-                                <!-- Jika gambar merupakan URL eksternal -->
-                                @if ($isExternalImage)
-                                    <img src="{{ $icon->image }}" alt="{{ $icon->title }}"
-                                        class="img-fluid submenu-toggle" data-icon-id="{{ $icon->id }}">
-                                @else
-                                    <!-- Jika gambar berasal dari folder storage -->
-                                    <img src="{{ asset('storage/' . $icon->image) }}" alt="{{ $icon->title }}"
-                                        class="img-fluid submenu-toggle" data-icon-id="{{ $icon->id }}">
-                                @endif
-                            </div>
-                        </div>
-                        <div class="portal-title">
-                            <p class="text-center text-white">{{ $icon->title }}</p>
+                <div class="icon-container d-flex flex-column gap-2 justify-content-center align-items-center">
+                    <div class="card bg-opacity-60 text-center">
+                        <div class="card-body">
+                            <!-- Icon image -->
+                            <img src="{{ asset('storage/' . $icon->image) }}" alt="{{ $icon->title }}" class="img-fluid submenu-toggle" data-icon-id="{{ $icon->id }}">
                         </div>
                     </div>
-
+                    <div class="portal-title">
+                        <p class="text-center text-white">{{ $icon->title }}</p>
+                    </div>
                     <!-- Submenu Collapse -->
-                    <div id="iconMenu{{ $icon->id }}" class="collapse submenu-collapse">
-                        <div class="row">
-                            @php
-                                // Bagi dropdown menjadi grup yang berisi maksimal 6 item per grup
-                                $chunks = $icon->dropdowns->chunk(6);
-                            @endphp
-
-                            @foreach ($chunks as $chunk)
-                                <div class="col-md-4">
-                                    <ul>
-                                        @foreach ($chunk as $dropdown)
-                                            <li>
-                                                <a href="{{ $dropdown->link }}" target="_blank">{{ $dropdown->title }}</a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                    <div id="iconMenu{{ $icon->id }}" class="submenu-collapse">
+                        <ul>
+                            @foreach ($icon->dropdowns as $dropdown)
+                                <li><a href="{{ $dropdown->link }}" target="_blank">{{ $dropdown->title }}</a></li>
                             @endforeach
-                        </div>
+                        </ul>
                     </div>
+                </div>                
                 @endforeach
             </div>
         </div>
@@ -305,11 +279,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Seleksi semua gambar dengan class submenu-toggle
             var submenuToggles = document.querySelectorAll('.submenu-toggle');
 
             submenuToggles.forEach(function(toggle) {
-                toggle.addEventListener('click', function() {
+                toggle.addEventListener('click', function(event) {
+                    event.preventDefault(); // Mencegah aksi default (jika link)
+
                     var iconId = this.getAttribute('data-icon-id');
                     var selectedSubmenu = document.getElementById('iconMenu' + iconId);
 
@@ -326,6 +301,7 @@
                 });
             });
         });
+
         $(document).ready(function() {
             // Initialize Owl Carousel
             var owl = $('#latestArticle').owlCarousel({

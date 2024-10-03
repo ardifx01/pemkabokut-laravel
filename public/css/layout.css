@@ -340,6 +340,7 @@ body {
 
 /* Style for each icon container */
 .icon-container {
+    position: relative;
     flex: 0 1 calc(16.66% - 20px); /* Menetapkan 6 ikon per baris dan jarak antar ikon tetap terjaga */
     max-width: calc(16.66% - 20px); /* Batas maksimal lebar per ikon dengan jarak yang tetap */
     box-sizing: border-box;
@@ -457,19 +458,40 @@ body {
     }
 }
 
-.collapse {
-    margin-top: 10px;
-}
-
-/* Style untuk submenu yang lebih lebar */
+/* Style untuk submenu pop-up */
 .submenu-collapse {
-    width: 80vw; /* Set lebar submenu lebih besar */
-    margin-top: 10px;
-    background-color: rgba(255, 255, 255, 0.9); /* Tambahkan sedikit transparansi untuk kontras */
+    position: absolute;
+    width: 250px; /* Sesuaikan lebar submenu */
+    top: 100%; /* Posisikan tepat di bawah portal-title */
+    left: 50%; /* Menyelaraskan submenu di tengah secara horizontal dengan portal-title */
+    transform: translateX(-50%); /* Memastikan submenu muncul tepat di bawah portal-title */
+    background-color: rgb(0, 0, 0); /* Transparansi background */
     border-radius: 8px;
     padding: 15px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    display: none; /* Default submenu tidak terlihat */
+    z-index: 10; /* Munculkan submenu di atas elemen lain */
 }
+
+/* Menampilkan submenu ketika show class ada */
+.submenu-collapse.show {
+    display: block; /* Tampilkan submenu saat diklik */
+}
+
+/* Segitiga di atas submenu */
+.submenu-collapse::before {
+    content: '';
+    position: absolute;
+    top: -10px; /* Posisikan segitiga di atas submenu */
+    left: 50%; /* Pastikan segitiga sejajar dengan tengah submenu */
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid rgb(0, 0, 0); /* Warna segitiga sama dengan background submenu */
+}
+
 /* Style untuk link pada submenu */
 .submenu-collapse ul {
     list-style-type: none;
@@ -481,7 +503,7 @@ body {
 }
 
 .submenu-collapse ul li a {
-    color: #0056b3;
+    color: #ffffff;
     text-decoration: none;
 }
 
@@ -489,12 +511,7 @@ body {
     text-decoration: underline;
 }
 
-.card.card-body {
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    padding: 10px;
-}
-
+/* Style untuk ul */
 ul {
     list-style-type: none;
     padding: 0;
