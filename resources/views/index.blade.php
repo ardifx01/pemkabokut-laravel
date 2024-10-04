@@ -45,13 +45,14 @@
             </p>
 
             <!-- Search Form -->
-            <form class="search-form d-flex justify-content-between align-items-center">
+            <form class="search-form d-flex justify-content-between align-items-center" method="GET"
+                action="{{ route('post.search') }}">
                 <div class="input-group">
                     <span class="input-group-text bg-white border-0">
                         <i class="bi bi-search"></i> <!-- Icon pencarian -->
                     </span>
-                    <input type="text" class="form-control border-0" placeholder="Cari informasi disini...."
-                        aria-label="Search">
+                    <input type="text" name="query" class="form-control border-0"
+                        placeholder="Cari informasi disini...." aria-label="Search">
                 </div>
                 <button class="btn btn-primary btn-search" type="submit">Cari</button>
             </form>
@@ -59,25 +60,26 @@
             <!-- Icon Section -->
             <div class="icon-section d-flex flex-wrap justify-content-center rounded-3 py-3 mt-3" id="iconAccordion">
                 @foreach ($icons as $icon)
-                <div class="icon-container d-flex flex-column gap-2 justify-content-center align-items-center">
-                    <div class="card bg-opacity-60 text-center">
-                        <div class="card-body">
-                            <!-- Icon image -->
-                            <img src="{{ asset('storage/' . $icon->image) }}" alt="{{ $icon->title }}" class="img-fluid submenu-toggle" data-icon-id="{{ $icon->id }}">
+                    <div class="icon-container d-flex flex-column gap-2 justify-content-center align-items-center">
+                        <div class="card bg-opacity-60 text-center">
+                            <div class="card-body">
+                                <!-- Icon image -->
+                                <img src="{{ asset('storage/' . $icon->image) }}" alt="{{ $icon->title }}"
+                                    class="img-fluid submenu-toggle" data-icon-id="{{ $icon->id }}">
+                            </div>
+                        </div>
+                        <div class="portal-title">
+                            <p class="text-center text-white">{{ $icon->title }}</p>
+                        </div>
+                        <!-- Submenu Collapse -->
+                        <div id="iconMenu{{ $icon->id }}" class="submenu-collapse">
+                            <ul>
+                                @foreach ($icon->dropdowns as $dropdown)
+                                    <li><a href="{{ $dropdown->link }}" target="_blank">{{ $dropdown->title }}</a></li>
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
-                    <div class="portal-title">
-                        <p class="text-center text-white">{{ $icon->title }}</p>
-                    </div>
-                    <!-- Submenu Collapse -->
-                    <div id="iconMenu{{ $icon->id }}" class="submenu-collapse">
-                        <ul>
-                            @foreach ($icon->dropdowns as $dropdown)
-                                <li><a href="{{ $dropdown->link }}" target="_blank">{{ $dropdown->title }}</a></li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>                
                 @endforeach
             </div>
         </div>
@@ -176,7 +178,7 @@
             </div>
 
             {{-- Pengumuman --}}
-            <div class="col-md-4" style="width: 350px;">
+            <div class="col-md-4" style="width: 400px;">
                 <h5 class="mb-3" style="font-weight: 600; font-size: 22px; margin-top: -13px;">Pengumuman</h5>
                 {{-- Garis Bawah untuk Judul --}}
                 <div class="mb-2 d-flex align-items-center" style="margin-top: 2px">
@@ -184,21 +186,26 @@
                     <div style="flex-grow: 1; height: 2px; background-color: #2F4F7F;"></div>
                 </div>
                 <div class="list-group">
-                    {{-- Looping untuk menampilkan 4 dokumen (tanpa urutan khusus) --}}
-                    @foreach ($documents->take(4) as $document)
-                        <a href="{{ route('data.show', $document->data_id) }}"
-                            class="list-group-item list-group-item-action">
-                            <div class="d-flex justify-content-between">
-                                <h6 class="mb-1">{{ $document->title }}</h6>
-                                <small><i class="bi bi-calendar"></i> {{ $document->created_at->format('d M Y') }}</small>
+                    {{-- Looping untuk menampilkan 4 dokumen terbaru --}}
+                    @foreach ($documents as $document)
+                        <a href="{{ route('data.show', $document->data_id) }}" class="list-group-item list-group-item-action">
+                            <div class="d-flex align-items-center">
+                                {{-- Image local yang ditambahkan di sebelah kiri --}}
+                                <img src="{{ asset('/icons/dokumen.jpg') }}" alt="Document Icon" class="me-3" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
+                                
+                                {{-- Konten teks dokumen --}}
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="mb-1">{{ $document->title }}</h6>
+                                    </div>
+                                    <small><i class="bi bi-calendar"></i> {{ $document->created_at->format('d M Y') }}</small>
+                                    <small><i class="bi bi-person"></i> Admin &nbsp; <i class="bi bi-eye"></i> {{ $document->views ?? 0 }}</small>
+                                </div>
                             </div>
-                            <small><i class="bi bi-person"></i> Admin &nbsp; <i class="bi bi-eye"></i>
-                                {{ $document->views ?? 0 }}</small>
                         </a>
                     @endforeach
-                </div>
+                </div>                             
             </div>
-
         </div>
     </section>
 
@@ -264,7 +271,7 @@
                 @endforeach
             </div>
             <div class="d-flex justify-content-end">
-                <a href="/headlines" class="btn btn-outline-primary">
+                <a href="{{ route('headline.show', ['id' => $post->headline_id]) }}" class="btn btn-outline-primary">
                     Selengkapnya <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
@@ -287,8 +294,19 @@
 
                     var iconId = this.getAttribute('data-icon-id');
                     var selectedSubmenu = document.getElementById('iconMenu' + iconId);
+                    var iconRect = this.getBoundingClientRect(); // Dapatkan posisi ikon yang diklik
+                    var submenuRect = selectedSubmenu
+                        .getBoundingClientRect(); // Dapatkan posisi submenu
 
-                    // Tutup semua submenu yang lain
+                    // Hitung posisi segitiga agar sejajar dengan ikon yang diklik
+                    var trianglePosition = (iconRect.left + iconRect.width / 2) - submenuRect.left -
+                        10;
+
+                    // Pindahkan segitiga (::before) agar sejajar dengan ikon
+                    selectedSubmenu.style.setProperty('--triangle-position',
+                        `${trianglePosition}px`);
+
+                    // Tutup submenu lain jika terbuka
                     document.querySelectorAll('.submenu-collapse').forEach(function(submenu) {
                         if (submenu !== selectedSubmenu && submenu.classList.contains(
                                 'show')) {
@@ -296,7 +314,7 @@
                         }
                     });
 
-                    // Toggle submenu yang di-klik
+                    // Tampilkan submenu yang diklik
                     selectedSubmenu.classList.toggle('show');
                 });
             });

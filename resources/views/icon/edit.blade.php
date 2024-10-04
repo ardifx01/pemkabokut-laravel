@@ -8,17 +8,42 @@
             @csrf
             @method('PUT')
 
+            <!-- Title Input -->
             <div class="mb-3">
                 <label for="title" class="form-label">Icon Title</label>
                 <input type="text" name="title" class="form-control" id="title" value="{{ $icon->title }}" required>
             </div>
 
+            <!-- Icon Image Input with Card Display -->
             <div class="mb-3">
                 <label for="image" class="form-label">Icon Image</label>
-                @if($icon->image)
-                    <img src="{{ asset('storage/' . $icon->image) }}" alt="{{ $icon->title }}" class="img-thumbnail mb-2" width="100">
-                @endif
-                <input type="file" name="image" class="form-control" id="image">
+
+                <div class="table-icon-section d-flex flex-column gap-2 justify-content-center align-items-center">
+                    <div class="card bg-opacity-60 text-center">
+                        <div class="card-body">
+                            @php
+                                // Cek apakah gambar merupakan URL eksternal
+                                $isExternalImage = Str::startsWith($icon->image, [
+                                    'http://',
+                                    'https://',
+                                ]);
+                            @endphp
+
+                            <!-- Jika gambar merupakan URL eksternal -->
+                            @if ($isExternalImage)
+                                <img src="{{ $icon->image }}" alt="{{ $icon->title }}" class="img-fluid"
+                                    style="width: 100px; height: 100px; object-fit: contain;">
+                            @else
+                                <img src="{{ asset('storage/' . $icon->image) }}" alt="{{ $icon->title }}"
+                                    class="img-fluid"
+                                    style="width: 100px; height: 100px; object-fit: contain;">
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upload New Image -->
+                <input type="file" name="image" class="form-control mt-2" id="image">
                 <small class="form-text text-muted">Leave empty if you don't want to change the image.</small>
             </div>
 

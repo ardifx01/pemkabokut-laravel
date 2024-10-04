@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\Headline;
 use Illuminate\Http\Request;
 
@@ -20,8 +21,11 @@ class HeadlineController extends Controller
 
     public function show($id)
     {
-        $headline = Headline::find($id);
-        return view('/headline/show', compact('headlines'));
+        // Ambil semua post yang memiliki headline_id sesuai dengan id yang diberikan dan paginasi
+        $posts = Post::where('headline_id', 1)->paginate(9); // Disesuaikan agar hanya menampilkan post dengan headline_id = 1
+
+        // Tampilkan view dengan data posts
+        return view('headline.show', compact('posts'));
     }
 
     public function store(Request $request)
@@ -79,7 +83,7 @@ class HeadlineController extends Controller
         // Redirect kembali ke halaman daftar headline dengan pesan sukses
         return redirect()->route('headline.data')->with('success', 'Headline updated successfully.');
     }
-    
+
     public function destroy($id)
     {
         // Cari headline berdasarkan ID

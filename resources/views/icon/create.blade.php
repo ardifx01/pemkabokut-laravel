@@ -3,7 +3,7 @@
 @section('content')
     <div class="container" style="margin-top: 100px; height: auto;">
         <h1>Create Portal with Dropdowns</h1>
-        <form action="{{ route('icon.storeWithDropdowns') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('icon.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>

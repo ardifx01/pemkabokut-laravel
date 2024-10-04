@@ -31,50 +31,34 @@ class IconController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
-        ]);
-
-        // Handle the file upload
-        $originalName = $request->file('image')->getClientOriginalName(); // Mendapatkan nama asli
-        $imagePath = $request->file('image')->storeAs('uploads/icons', $originalName, 'public'); // Menggunakan storeAs
-
-        Icon::create([
-            'title' => $request->input('title'),
-            'image' => $imagePath,
-        ]);
-
-        return redirect()->route('icon.index')->with('success', 'Icon created successfully.');
-    }
-
-    public function storeWithDropdowns(Request $request)
-    {
+        // Validasi input
         $request->validate([
             'title' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'dropdowns' => 'required|array',
-            'dropdowns.*.title' => 'required|string',
-            'dropdowns.*.link' => 'required|url',
-        ]); 
+            'dropdowns' => 'nullable|array',
+            'dropdowns.*.title' => 'required_with:dropdowns|string',
+            'dropdowns.*.link' => 'required_with:dropdowns|url',
+        ]);
 
-        // Handle the file upload
-        $originalName = $request->file('image')->getClientOriginalName(); // Mendapatkan nama asli
-        $imagePath = $request->file('image')->storeAs('uploads/icons', $originalName, 'public'); // Menggunakan storeAs
+        // Proses upload gambar
+        $originalName = $request->file('image')->getClientOriginalName();
+        $imagePath = $request->file('image')->storeAs('uploads/icons', $originalName, 'public');
 
-        // Create Icon
+        // Buat Icon
         $icon = Icon::create([
             'title' => $request->input('title'),
             'image' => $imagePath,
         ]);
 
-        // Create Dropdowns associated with this Icon
-        foreach ($request->input('dropdowns') as $dropdown) {
-            Dropdown::create([
-                'title' => $dropdown['title'],
-                'link' => $dropdown['link'],
-                'icon_id' => $icon->id,
-            ]);
+        // Simpan dropdowns yang terkait
+        if ($request->has('dropdowns')) {
+            foreach ($request->input('dropdowns') as $dropdownData) {
+                Dropdown::create([
+                    'title' => $dropdownData['title'],
+                    'link' => $dropdownData['link'],
+                    'icon_id' => $icon->id,
+                ]);
+            }
         }
 
         return redirect()->route('icon.index')->with('success', 'Icon and Dropdowns created successfully.');
@@ -87,55 +71,55 @@ class IconController extends Controller
     }
 
     // Show the form for editing the specified icon.
-    public function edit(Icon $icon)
+    public function edit($id)
     {
+        // Ambil Icon berdasarkan ID beserta Dropdowns yang terkait
+        $icon = Icon::with('dropdowns')->findOrFail($id);
+
         return view('icon.edit', compact('icon'));
     }
 
-    // Update the specified icon in storage.
-    public function update(Request $request, Icon $icon)
+    public function update(Request $request, $id)
     {
+        // Validasi input
         $request->validate([
             'title' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'dropdowns' => 'sometimes|array',
-            'dropdowns.*.title' => 'required|string',
-            'dropdowns.*.link' => 'required|url',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'dropdowns' => 'nullable|array',
+            'dropdowns.*.title' => 'required_with:dropdowns|string',
+            'dropdowns.*.link' => 'required_with:dropdowns|url',
         ]);
 
+        // Temukan Icon berdasarkan ID
+        $icon = Icon::findOrFail($id);
+
+        // Update gambar jika ada file baru
         if ($request->hasFile('image')) {
-            // Handle the file upload
-            $imagePath = $request->file('image')->store('uploads/icons', 'public');
+            $originalName = $request->file('image')->getClientOriginalName();
+            $imagePath = $request->file('image')->storeAs('uploads/icons', $originalName, 'public');
             $icon->image = $imagePath;
         }
 
+        // Update title
         $icon->title = $request->input('title');
         $icon->save();
 
-        // Handle dropdowns update
+        // Update dropdowns
         if ($request->has('dropdowns')) {
-            foreach ($request->input('dropdowns') as $dropdownId => $dropdownData) {
-                if (str_starts_with($dropdownId, 'new_')) {
-                    // Create new dropdown
-                    Dropdown::create([
-                        'title' => $dropdownData['title'],
-                        'link' => $dropdownData['link'],
-                        'icon_id' => $icon->id,
-                    ]);
-                } else {
-                    // Update existing dropdown
-                    $dropdown = Dropdown::find($dropdownId);
-                    if ($dropdown) {
-                        $dropdown->update([
-                            'title' => $dropdownData['title'],
-                            'link' => $dropdownData['link'],
-                        ]);
-                    }
-                }
+            // Hapus dropdowns lama
+            $icon->dropdowns()->delete();
+
+            // Simpan dropdowns baru
+            foreach ($request->input('dropdowns') as $dropdownData) {
+                Dropdown::create([
+                    'title' => $dropdownData['title'],
+                    'link' => $dropdownData['link'],
+                    'icon_id' => $icon->id,
+                ]);
             }
         }
 
-        return redirect()->route('home')->with('success', 'Icon and Dropdowns updated successfully.');
+        return redirect()->route('icon.index')->with('success', 'Icon and Dropdowns updated successfully.');
     }
 
     // Remove the specified icon from storage.

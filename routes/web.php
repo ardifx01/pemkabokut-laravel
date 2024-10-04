@@ -28,10 +28,10 @@ Route::resource('dropdown', DropdownController::class);
 
 Route::resource('icon', IconController::class);
 Route::get('/icon/create', [IconController::class, 'create'])->name('icon.create');
-Route::post('/icon/storeWithDropdowns', [IconController::class, 'storeWithDropdowns'])->name('icon.storeWithDropdowns');
+Route::post('/icon/store', [IconController::class, 'store'])->name('icon.store');
 Route::get('/icon/data', [IconController::class, 'data'])->name('icon.data');
 Route::get('/icon/edit/{id}', [IconController::class, 'edit'])->name('icon.edit');
-Route::post('/icon/update/{id}', [IconController::class, 'update'])->name('icon.update');
+Route::put('/icon/update/{id}', [IconController::class, 'update'])->name('icon.update');
 Route::delete('/icon/delete/{id}',[IconController::class,'destroy'])->name('icon.destroy');
 
 Route::get('/post/data', [PostController::class, 'data']);
@@ -42,6 +42,7 @@ Route::get('/post/edit/{id}',[PostController::class,'edit']);
 Route::post('update/{id}',[PostController::class,'update']);
 Route::delete('/post/delete/{id}', [PostController::class, 'destroy'])->name('post.destroy');
 Route::post('/post/delete-image', [PostController::class, 'deleteImage']);
+Route::get('/search', [PostController::class, 'search'])->name('post.search');
 
 Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
 Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
@@ -52,7 +53,7 @@ Route::delete('/category/delete/{id}',[CategoryController::class,'destroy'])->na
 
 Route::get('/headline/create', [HeadlineController::class, 'create'])->name('headline.create');
 Route::post('/headlines', [HeadlineController::class, 'store'])->name('headlines.store');
-Route::get('/headlines/show/{id}',[HeadlineController::class,'show']);
+Route::get('/headlines/show/{id}', [HeadlineController::class, 'show'])->name('headline.show');
 Route::get('/headline/data', [HeadlineController::class, 'data'])->name('headline.data');
 Route::get('/headline/edit/{id}', [HeadlineController::class, 'edit'])->name('headline.edit');
 Route::post('/headline/update/{id}', [HeadlineController::class, 'update'])->name('headline.update');

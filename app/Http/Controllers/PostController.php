@@ -20,7 +20,7 @@ class PostController extends Controller
     {
         $posts = Post::whereNotNull('headline_id')->orderBy('published_at', 'desc')->get();
         $icons = Icon::with('dropdowns')->get();
-        $documents = Document::latest()->take(4)->get();
+        $documents = Document::orderBy('id', 'desc')->take(4)->get();
         return view('index', compact('posts', 'icons', 'documents'));
     }
 
@@ -237,5 +237,28 @@ class PostController extends Controller
         $post->delete();
 
         return redirect('/post/data')->with('success', 'Post deleted successfully.');
+    }
+
+    public function search(Request $request)
+    {
+        // Ambil query pencarian
+        $searchQuery = $request->input('query');
+
+        // Pencarian untuk Document (prioritaskan dokumen)
+        $documents = Document::where('title', 'LIKE', "%{$searchQuery}%")
+            ->orWhereHas('file', function ($query) use ($searchQuery) {
+                $query->where('file_path', 'LIKE', "%{$searchQuery}%");
+            })->get();
+
+        // Pencarian untuk Post
+        $posts = Post::where('title', 'LIKE', "%{$searchQuery}%")
+            ->orWhere('description', 'LIKE', "%{$searchQuery}%")
+            ->get();
+
+        // Gabungkan hasil pencarian, prioritas dokumen di awal
+        $results = $documents->concat($posts);
+
+        // Kirim hasil dan query pencarian ke view
+        return view('post.search', compact('results', 'searchQuery'));
     }
 }
