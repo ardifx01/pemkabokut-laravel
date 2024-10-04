@@ -37,10 +37,10 @@
         <div class="container-fluid d-flex flex-column justify-content-center align-items-center"
             style="height: 100%; position: relative; z-index: 2;">
             <!-- Welcome Text -->
-            <h1 class="text-white text-center fw-bold text-uppercase mb-3">
+            <h1 class="text-white text-center fw-bold text-uppercase mb-3" style="transform: translateY(60px);">
                 Selamat Datang<br>Pemerintah Kabupaten OKU TIMUR
             </h1>
-            <p class="text-white fs-5 text-center mb-4">
+            <p class="text-white fs-5 text-center mb-4" style="transform: translateY(60px);">
                 Temukan informasi publik terkini dari Kabupaten OKU TIMUR
             </p>
 

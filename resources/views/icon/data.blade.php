@@ -39,7 +39,7 @@
                             <td>{{ $icon->id }}</td>
                             <td>{{ $icon->title }}</td>
                             <td>
-                                <div class="icon-section d-flex flex-column gap-2 justify-content-center align-items-center">
+                                <div class="table-icon-section d-flex flex-column gap-2 justify-content-center align-items-center">
                                     <div class="card bg-opacity-60 text-center">
                                         <div class="card-body">
                                             @php

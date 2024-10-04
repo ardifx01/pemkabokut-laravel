@@ -45,7 +45,7 @@ class IconController extends Controller
             'image' => $imagePath,
         ]);
 
-        return redirect()->route('home')->with('success', 'Icon created successfully.');
+        return redirect()->route('icon.index')->with('success', 'Icon created successfully.');
     }
 
     public function storeWithDropdowns(Request $request)
@@ -56,7 +56,7 @@ class IconController extends Controller
             'dropdowns' => 'required|array',
             'dropdowns.*.title' => 'required|string',
             'dropdowns.*.link' => 'required|url',
-        ]);
+        ]); 
 
         // Handle the file upload
         $originalName = $request->file('image')->getClientOriginalName(); // Mendapatkan nama asli
@@ -77,7 +77,7 @@ class IconController extends Controller
             ]);
         }
 
-        return redirect()->route('home')->with('success', 'Icon and Dropdowns created successfully.');
+        return redirect()->route('icon.index')->with('success', 'Icon and Dropdowns created successfully.');
     }
 
     // Display the specified icon.

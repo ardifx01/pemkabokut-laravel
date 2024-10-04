@@ -31,10 +31,6 @@ class IconSeeder extends Seeder
                 'image' => 'uploads/icons/complaint.png' // Gambar lokal
             ],
             [
-                'title' => 'Transparansi Anggaran',
-                'image' => 'uploads/icons/calculation.png' // Gambar lokal
-            ],
-            [
                 'title' => 'Destinasi Wisata',
                 'image' => 'uploads/icons/destination.png' // Gambar lokal
             ],
