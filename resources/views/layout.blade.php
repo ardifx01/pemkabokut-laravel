@@ -89,6 +89,7 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         @auth
                             <!-- Menu untuk admin jika sudah login -->
+                            <li><a class="dropdown-item" href="{{ url('/post/show/36') }}">Kebijakan Privasi</a></li>
                             <li><a class="dropdown-item" href="{{ url('/post/data') }}">Post Data</a></li>
                             <li><a class="dropdown-item" href="{{ url('/category/data') }}">Category Data</a></li>
                             <li><a class="dropdown-item" href="{{ url('/headline/data') }}">Headline Data</a></li>

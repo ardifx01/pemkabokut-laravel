@@ -450,8 +450,8 @@ body {
     }
 
     .icon-section .card img {
-        width: 30px; /* Kurangi ukuran gambar */
-        height: 30px;
+        width: 50px; /* Kurangi ukuran gambar */
+        height: 50px;
     }
 
     .icon-section .portal-title p {
@@ -584,33 +584,77 @@ body {
     padding-right: 20px; /* Sesuaikan padding kanan sesuai kebutuhan */
 }
 
-/* Responsive layout for mobile screens */
+/* ======= Responsive Layout for Berita dan Pengumuman Section ======= */
 @media (max-width: 768px) {
-    /* Adjusting owl carousel items to be stacked vertically on mobile */
+    /* Adjust the padding for better spacing on mobile */
+    .pengumuman-container {
+        padding-left: 10px; /* Reduce padding on mobile */
+        padding-right: 10px;
+    }
+
+    /* Make columns stack vertically on smaller screens */
+    .col-md-8, .col-md-4 {
+        width: 100%; /* Full width on mobile */
+        margin-top: 20px; /* Add some spacing between sections */
+    }
+
+    /* Ensure the Berita Terkini section's items take full width */
     .owl-carousel .owl-item .row {
         flex-direction: column; /* Stack items vertically */
     }
 
-    /* Ensure images take up full width on mobile */
+    /* Adjust the image width to fit the screen */
     .owl-carousel .owl-item .col-md-4 {
-        width: 100%; /* Image takes full width */
-        margin-bottom: 15px; /* Add spacing below the image */
+        width: 100%;
+        margin-bottom: 15px;
     }
 
+    /* Adjust the text content width to take full space */
     .owl-carousel .owl-item .col-md-8 {
-        width: 100%; /* Text content also takes full width */
+        width: 100%;
     }
 
+    /* Adjust the size of the card-body */
     .card-body {
-        padding-top: 0;
+        padding: 10px;
+    }
+
+    /* Adjust the headline text size for better readability */
+    .card-title {
+        font-size: 18px;
+    }
+
+    /* Adjust spacing and font size for the Pengumuman section */
+    .pengumuman-container h5 {
+        font-size: 18px; /* Slightly smaller heading */
+        margin-top: 10px; /* Reduce top margin */
+    }
+
+    .pengumuman-container .list-group-item {
+        padding: 10px; /* Reduce padding */
+        font-size: 14px; /* Smaller text */
+    }
+
+    /* Adjust image size in the Pengumuman section */
+    .pengumuman-container img {
+        width: 80px; /* Slightly smaller image */
+        height: 80px;
+    }
+
+    /* Adjust description and title clamp */
+    .title-clamp {
+        -webkit-line-clamp: 2; /* Limit to 2 lines on mobile */
+        max-height: 2.4em;
+    }
+
+    .description-clamp {
+        -webkit-line-clamp: 3; /* Limit to 3 lines on mobile */
     }
 }
 
-/* ======= Responsive Styles for Index Sections ======= */
+/* ======= General Responsive Styles for Berita Terkini and Pengumuman ======= */
 @media (max-width: 991px) {
     #pengumuman-section {
-        display: flex;
-        flex-direction: column;
         padding: 20px;
     }
 

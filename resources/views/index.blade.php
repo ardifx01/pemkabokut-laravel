@@ -52,7 +52,7 @@
                         <i class="bi bi-search"></i> <!-- Icon pencarian -->
                     </span>
                     <input type="text" name="query" class="form-control border-0"
-                        placeholder="Cari informasi disini...." aria-label="Search">
+                        placeholder="Cari informasi, berita, dan dokumen disini...." aria-label="Search">
                 </div>
                 <button class="btn btn-primary btn-search" type="submit">Cari</button>
             </form>

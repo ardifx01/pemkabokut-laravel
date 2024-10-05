@@ -257,31 +257,127 @@
             margin-right: 0px !important;
         }
 
-        @media (min-width: 768px) {
+        /* ======= Responsive Layout for Mobile Devices ======= */
+        @media (max-width: 768px) {
+            #detail {
+                padding-top: 50px;
+            }
 
+            .post-section {
+                width: 100% !important;
+                padding: 0 15px;
+                /* Add padding to ensure content isn't too close to the screen edge */
+            }
+
+            .related-news-section {
+                width: 100% !important;
+                margin-top: 20px;
+                /* Ensure spacing between the main post and related news */
+            }
+
+            .related-news .post-title {
+                font-size: 14px;
+                line-height: 1.4;
+                -webkit-line-clamp: 3;
+                /* Allow up to 3 lines before truncating */
+                max-height: 4.2em;
+                /* Set max height for 3 lines */
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: normal;
+            }
+
+            /* Adjusting the image gallery for mobile */
             .image-gallery .col-lg-4,
             .image-gallery .col-md-6,
             .image-gallery .col-sm-12 {
-                padding: 5px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            #main-container {
-                padding-left: 0px;
-                padding-right: 0px;
+                padding: 5px !important;
+                /* Slight padding to keep images spaced */
+                width: 100% !important;
+                /* Full width for images on mobile */
             }
 
-            .post-content,
-            .related-news {
+            /* Adjust post content for mobile */
+            .post-content {
+                width: 100% !important;
+                margin-left: 0 !important;
                 padding: 10px;
             }
+
+            /* Adjust the size of the post images */
+            .post-image-container {
+                width: 100% !important;
+                height: auto !important;
+            }
+
+            /* Adjust the related news images for mobile */
+            .related-news img {
+                width: 100px;
+                height: 70px;
+            }
+
+            .related-news {
+                margin-left: 0 !important;
+                padding: 15px;
+            }
+
+            /* Adjust the text size and layout for mobile */
+            .post-title {
+                font-size: 16px;
+                line-height: 1.5;
+            }
+
+            .description p {
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            /* Remove unnecessary padding and margins */
+            .row {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+
+            .post-image {
+                max-width: 100%;
+                height: auto;
+                object-fit: cover;
+            }
         }
 
+        /* General Styling Adjustments */
         @media (min-width: 768px) {
-            #main-container {
-                padding-left: 0px;
-                padding-right: 0px;
+            .post-content {
+                padding: 20px;
+                margin-left: 25px;
+            }
+
+            .related-news-section {
+                width: 100%;
+                margin-left: -30px;
+            }
+
+            .post-image-container.one-image {
+                max-width: 100%;
+                max-height: 678px;
+            }
+
+            .post-image.one-image {
+                width: 100%;
+                height: auto;
+                object-fit: contain;
+            }
+
+            .post-title {
+                font-size: 18px;
+                line-height: 1.5;
+            }
+
+            .description p {
+                font-size: 15px;
+                line-height: 1.8;
             }
         }
     </style>
