@@ -133,7 +133,7 @@
 
         .related-news {
             width: 100%;
-            margin-left: -30px;
+            margin-left: 0px;
             /* Lebar Berita Lainnya disesuaikan dengan kolom */
         }
 
@@ -347,38 +347,5 @@
             }
         }
 
-        /* General Styling Adjustments */
-        @media (min-width: 768px) {
-            .post-content {
-                padding: 20px;
-                margin-left: 25px;
-            }
-
-            .related-news-section {
-                width: 100%;
-                margin-left: -30px;
-            }
-
-            .post-image-container.one-image {
-                max-width: 100%;
-                max-height: 678px;
-            }
-
-            .post-image.one-image {
-                width: 100%;
-                height: auto;
-                object-fit: contain;
-            }
-
-            .post-title {
-                font-size: 18px;
-                line-height: 1.5;
-            }
-
-            .description p {
-                font-size: 15px;
-                line-height: 1.8;
-            }
-        }
     </style>
 @endsection
