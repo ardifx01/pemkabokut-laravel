@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             DocumentSeeder::class,
             IconSeeder::class,
             FileSeeder::class,
+            DropdownSeeder::class
         ]);
     }
 }

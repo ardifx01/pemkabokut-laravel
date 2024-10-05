@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
 
     // Icon CRUD
+    Route::resource('icon', IconController::class);
     Route::get('/icon/create', [IconController::class, 'create'])->name('icon.create');
     Route::post('/icon/store', [IconController::class, 'store'])->name('icon.store');
     Route::get('/icon/data', [IconController::class, 'data'])->name('icon.data');

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('dropdowns', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('link');
+            $table->string('title')->nullable();
+            $table->string('link')->nullable();
             $table->foreignId('icon_id')->constrained('icons')->onDelete('cascade');
             $table->timestamps();
         });

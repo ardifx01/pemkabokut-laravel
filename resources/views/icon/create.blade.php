@@ -20,11 +20,11 @@
                 <div class="dropdown-entry">
                     <div class="mb-3">
                         <label for="dropdown_title" class="form-label">Dropdown Title</label>
-                        <input type="text" name="dropdowns[0][title]" class="form-control" placeholder="Enter dropdown title" required>
+                        <input type="text" name="dropdowns[0][title]" class="form-control" placeholder="Enter dropdown title">
                     </div>
                     <div class="mb-3">
                         <label for="dropdown_link" class="form-label">Dropdown Link</label>
-                        <input type="url" name="dropdowns[0][link]" class="form-control" placeholder="Enter dropdown link" required>
+                        <input type="url" name="dropdowns[0][link]" class="form-control" placeholder="Enter dropdown link">
                     </div>
                 </div>
             </div>

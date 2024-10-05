@@ -36,8 +36,8 @@ class IconController extends Controller
             'title' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'dropdowns' => 'nullable|array',
-            'dropdowns.*.title' => 'required_with:dropdowns|string',
-            'dropdowns.*.link' => 'required_with:dropdowns|url',
+            'dropdowns.*.title' => 'nullable|string',
+            'dropdowns.*.link' => 'nullable|string',
         ]);
 
         // Proses upload gambar
@@ -54,8 +54,8 @@ class IconController extends Controller
         if ($request->has('dropdowns')) {
             foreach ($request->input('dropdowns') as $dropdownData) {
                 Dropdown::create([
-                    'title' => $dropdownData['title'],
-                    'link' => $dropdownData['link'],
+                    'title' => $dropdownData['title'] ?? null,
+                    'link' => $dropdownData['link'] ?? null,
                     'icon_id' => $icon->id,
                 ]);
             }
@@ -86,8 +86,8 @@ class IconController extends Controller
             'title' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'dropdowns' => 'nullable|array',
-            'dropdowns.*.title' => 'required_with:dropdowns|string',
-            'dropdowns.*.link' => 'required_with:dropdowns|url',
+            'dropdowns.*.title' => 'nullable|string',
+            'dropdowns.*.link' => 'nullable|string',
         ]);
 
         // Temukan Icon berdasarkan ID
@@ -112,8 +112,8 @@ class IconController extends Controller
             // Simpan dropdowns baru
             foreach ($request->input('dropdowns') as $dropdownData) {
                 Dropdown::create([
-                    'title' => $dropdownData['title'],
-                    'link' => $dropdownData['link'],
+                    'title' => $dropdownData['title'] ?? null,
+                    'link' => $dropdownData['link'] ?? null,
                     'icon_id' => $icon->id,
                 ]);
             }

@@ -105,6 +105,7 @@
                             </li>
                         @else
                             <!-- Menu untuk halaman login dan welcome jika belum login -->
+                            <li><a class="dropdown-item" href="{{ url('/post/show/36') }}">Kebijakan Privasi</a></li>
                             <li><a class="dropdown-item" href="{{ url('/welcome') }}">Admin</a></li>
                         @endauth
                     </ul>

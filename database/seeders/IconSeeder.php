@@ -15,11 +15,11 @@ class IconSeeder extends Seeder
     {
         $icons = [
             [
-                'title' => 'Website OPD',
+                'title' => 'Pelayanan Kependudukan',
                 'image' => 'uploads/icons/public-service.png' // Gambar lokal
             ],
             [
-                'title' => 'Layanan Publik',
+                'title' => 'Pelayanan Masyarakat',
                 'image' => 'uploads/icons/social-services.png' // Gambar lokal
             ],
             [
@@ -27,20 +27,24 @@ class IconSeeder extends Seeder
                 'image' => 'uploads/icons/tax.png' // Gambar lokal
             ],
             [
-                'title' => 'Perizinan',
-                'image' => 'uploads/icons/complaint.png' // Gambar lokal
-            ],
-            [
-                'title' => 'Inovasi Daerah',
-                'image' => 'uploads/icons/destination.png' // Gambar lokal
-            ],
-            [
-                'title' => 'Pengaduan',
+                'title' => 'Produk Hukum',
                 'image' => 'uploads/icons/law-book.png' // Gambar lokal
             ],
             [
-                'title' => 'Administrasi Pemerintah',
+                'title' => 'Layanan Publik',
+                'image' => 'uploads/icons/complaint.png' // Gambar lokal
+            ],
+            [
+                'title' => 'Website OPD',
+                'image' => 'uploads/icons/destination.png' // Gambar lokal
+            ],
+            [
+                'title' => 'Inovasi Daerah',
                 'image' => 'uploads/icons/calculation.png' // Gambar lokal
+            ],
+            [
+                'title' => 'Statistik',
+                'image' => 'uploads/icons/bar-chart.png' // Gambar lokal
             ]
         ];
 
