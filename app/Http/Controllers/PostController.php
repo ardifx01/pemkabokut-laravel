@@ -49,11 +49,11 @@ class PostController extends Controller
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                // Ambil nama asli file
+                // Nama file ori
                 $originalName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
                 $extension = $image->getClientOriginalExtension();
 
-                // Membuat nama file yang unik
+                // Counter untuk duplikat file
                 $filename = $originalName;
                 $counter = 1;
                 while (Storage::disk('public')->exists("uploads/{$filename}.{$extension}")) {
@@ -64,7 +64,7 @@ class PostController extends Controller
                 // Simpan file ke penyimpanan dengan nama baru
                 $image_path = $image->storeAs('uploads', "{$filename}.{$extension}", 'public');
 
-                // Tambahkan path ke array
+                // Membungkus path menjadi array
                 $image_paths[] = $image_path;
             }
         }
@@ -81,7 +81,7 @@ class PostController extends Controller
         foreach ($images as $key => $img) {
             $src = $img->getAttribute('src');
 
-            // Check if the image is base64-encoded
+            // Mengecek jika base64-encoded
             if (strpos($src, 'data:image/') === 0) {
                 $data = base64_decode(explode(',', explode(';', $src)[1])[1]);
                 $image_name = "/uploads/" . time() . $key . '.png';

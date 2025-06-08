@@ -44,7 +44,7 @@ class IconSeeder extends Seeder
             ],
             [
                 'title' => 'Statistik',
-                'image' => 'uploads/icons/bar-chart.png' // Gambar lokal
+                'image' => 'uploads/icons/statistik.png' // Gambar lokal
             ]
         ];
 

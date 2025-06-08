@@ -72,6 +72,8 @@
         </form>
     </div>
 
+    <link rel="stylesheet" href="{{ asset('css/portal.css') }}">
+
     <script>
         let dropdownIndex = {{ $icon->dropdowns->count() }};
 

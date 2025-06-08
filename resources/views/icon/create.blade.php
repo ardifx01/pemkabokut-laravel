@@ -35,6 +35,8 @@
         </form>
     </div>
 
+    <link rel="stylesheet" href="{{ asset('css/portal.css') }}">
+
     <script>
         let dropdownIndex = 1;
         document.getElementById('add-dropdown').addEventListener('click', function() {

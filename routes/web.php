@@ -63,7 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/icon/delete/{id}', [IconController::class, 'destroy'])->name('icon.destroy');
 
     // Post CRUD
-    Route::get('/post/data', [PostController::class, 'data']);
+    Route::get('/post/data', [PostController::class, 'data'])->name('post.data');
     Route::get('/post/create', [PostController::class, 'create']);
     Route::post('post', [PostController::class, 'store']);
     Route::get('/post/edit/{id}', [PostController::class, 'edit']);
@@ -88,6 +88,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/headline/delete/{id}', [HeadlineController::class, 'destroy'])->name('headline.destroy');
 
     // Data CRUD
+    Route::get('/data/index', [DataController::class, 'index'])->name('data.index');
     Route::get('/data/create', [DataController::class, 'create'])->name('data.create');
     Route::post('/data', [DataController::class, 'store'])->name('data.store');
     Route::delete('/data/delete/{id}', [DataController::class, 'destroy'])->name('data.destroy');

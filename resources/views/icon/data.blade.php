@@ -83,4 +83,6 @@
             </table>
         </div>
     </div>
+
+    <link rel="stylesheet" href="{{ asset('css/portal.css') }}">
 @endsection

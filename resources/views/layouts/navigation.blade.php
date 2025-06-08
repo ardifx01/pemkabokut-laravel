@@ -15,6 +15,27 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('category.data')" :active="request()->routeIs('icon.index')">
+                        {{ __('Category') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('headline.data')" :active="request()->routeIs('icon.index')">
+                        {{ __('Headlines') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('post.data')" :active="request()->routeIs('icon.index')">
+                        {{ __('Post') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('data.index')" :active="request()->routeIs('icon.index')">
+                        {{ __('Data') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('document.data')" :active="request()->routeIs('icon.index')">
+                        {{ __('Documents') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('file.data')" :active="request()->routeIs('icon.index')">
+                        {{ __('Files') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('icon.index')" :active="request()->routeIs('icon.index')">
+                        {{ __('Icons') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -69,6 +90,9 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('icon.index')" :active="request()->routeIs('icon.index')">
+                {{ __('Icons') }}
             </x-responsive-nav-link>
         </div>
 

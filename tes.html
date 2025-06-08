@@ -1,179 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>Navbar Dropdown Test</title>
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-        />
-        <style>
-            /* Mengaktifkan dropdown saat di-hover pada layar besar */
-            @media (min-width: 992px) {
-                .navbar-nav .nav-item.dropdown:hover .dropdown-menu {
-                    display: block;
-                    visibility: visible;
-                    opacity: 1;
-                }
-            }
-        </style>
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Navbar</a>
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav"
-                    aria-controls="navbarNav"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span class="navbar-toggler-icon"></span>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom Styles */
+        #sidebar {
+            transition: all 0.3s;
+            width: 250px;
+        }
+
+        #sidebar.closed {
+            width: 0;
+            overflow: hidden;
+        }
+
+        #content {
+            transition: all 0.3s;
+            margin-left: 250px;
+        }
+
+        #content.full {
+            margin-left: 0;
+        }
+
+        .sidebar-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .sidebar-menu {
+            padding: 1rem;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 1rem;
+        }
+
+        .dropdown-menu {
+            right: 0;
+            left: auto;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="bg-dark text-white vh-100 position-fixed">
+        <div class="sidebar-header">
+            <img src="https://via.placeholder.com/100" alt="Logo" class="rounded-circle" width="100">
+            <h4>My Dashboard</h4>
+        </div>
+        <div class="px-3">
+            <input type="text" class="form-control mb-3" placeholder="Search...">
+        </div>
+        <ul class="list-unstyled sidebar-menu px-3">
+            <li><a href="#" class="text-white text-decoration-none">Home</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Profile</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Settings</a></li>
+            <li><a href="#" class="text-white text-decoration-none">Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div id="content" class="w-100">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom px-4">
+            <button class="btn btn-outline-primary me-3" id="toggleSidebar">☰</button>
+            <span class="navbar-brand mb-0 h1">Dashboard</span>
+
+            <div class="ms-auto dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="settingsMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                    ⚙
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Home</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a
-                                class="nav-link dropdown-toggle"
-                                href="#"
-                                id="navbarDropdown"
-                                role="button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                            >
-                                Dropdown
-                            </a>
-                            <ul
-                                class="dropdown-menu"
-                                aria-labelledby="navbarDropdown"
-                            >
-                                <li>
-                                    <a class="dropdown-item" href="#">Action</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#"
-                                        >Another action</a
-                                    >
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Contact</a>
-                        </li>
-                    </ul>
-                </div>
+                <ul class="dropdown-menu" aria-labelledby="settingsMenu">
+                    <li><a class="dropdown-item" href="#">Account</a></li>
+                    <li><a class="dropdown-item" href="#">Privacy</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Logout</a></li>
+                </ul>
             </div>
         </nav>
 
-        <!-- Bootstrap Bundle with Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
+        <!-- Placeholder Content -->
+        <div class="container mt-4">
+            <h1>Welcome to the Dashboard</h1>
+            <p>Content goes here...</p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Sidebar Toggle Script -->
+    <script>
+        document.getElementById('toggleSidebar').addEventListener('click', function () {
+            const sidebar = document.getElementById('sidebar');
+            const content = document.getElementById('content');
+            sidebar.classList.toggle('closed');
+            content.classList.toggle('full');
+        });
+    </script>
+</body>
 </html>
-
-<div
-    class="portal-overlay d-flex flex-wrap gap-2 justify-content-center rounded-3 py-3 mt-3"
->
-    <a href=" " target="_blank">
-        <div
-            class="d-flex flex-column gap-2 justify-content-center align-items-center"
-        >
-            <div class="card border-0 bg-primary bg-opacity-60 text-center">
-                <div class="card-body">
-                    <img class="img-fluid" src=" " alt="" />
-                </div>
-            </div>
-            <div class="portal-title">
-                <p class="text-center text-white fw-normal">...</p>
-            </div>
-        </div>
-    </a>
-</div>
-
-<ul id="menu">
-    <li
-        class="menubar parent con-tooltip top animate__animated animate__backInDown"
-    >
-        <a
-            class="delay-demo"
-            data-parent="#menu"
-            href="#1"
-            data-toggle="collapse"
-        >
-            <img
-                src="(image icons)"
-                alt=""
-        /></a>
-        <span class="title">title icons</span>
-        <div class="tooltip">
-            <p>title icons</p>
-        </div>
-    </li>
-    <div id="1" class="content collapse column-full">
-        <div id="callouts--top" class="well">
-            <ul id="submenu">
-                <li class="(tampilkan semua dropdown dengan icon_id dari icon yang di klik)"> 
-                    <a href="(link dropdown)"
-                        >title dropdown</a
-                    >
-                </li>
-                
-            </ul>
-            ::after
-        </div>
-    </div>
-</ul>
-
-<section id="carousel">
-    <div id="carouselSlider" class="carousel slide" data-bs-ride="carousel">
-        <div class="mask d-flex align-items-center justify-content-center">
-            <div class="caption">
-                <h1 class="text-white text-center fw-bold text-uppercase">Selamat Datang<br> Kabupaten Bandung Barat</h1>
-                <p class="text-white fs-5 text-center">Temukan informasi publik terkini dari Kabupaten Bandung Barat</p>
-
-                <div class="search">
-                    <form action="https://bandungbaratkab.go.id/pencarian">
-                        <div class="search-box">
-                            <i class="fa fa-search"></i>
-                            <input type="text" name="q" placeholder="Cari informasi disini....">
-                            <button>Cari</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="portal-overlay d-flex flex-wrap gap-2 justify-content-center rounded-3 py-3 mt-3">
-                    <a href="https://disdukcapil.bandungbaratkab.go.id/online/login" target="_blank"> <!-- Ubah jadi muncul submenu dari icon -->
-                        <div class="d-flex flex-column gap-2 justify-content-center align-items-center">
-                            <div class="card border-0 bg-primary bg-opacity-60 text-center">
-                                <div class="card-body">
-                                    <img class="img-fluid" src="(image dari icon)" alt="">
-                                </div>
-                            </div>
-                            <div class="portal-title">
-                                <p class="text-center text-white fw-normal">title dari icon</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                    <img src="(gambar carousel saya)" class="d-block w-100" alt="...">
-                </div>
-                            <div class="carousel-item ">
-                    <img src="(gambar carousel saya)" class="d-block w-100" alt="...">
-                </div>
-                            <div class="carousel-item ">
-                    <img src="(gambar carousel saya)" class="d-block w-100" alt="...">
-                </div>
-                    </div>
-    </div>
-</section>

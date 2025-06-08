@@ -97,7 +97,7 @@
                             <li><a class="dropdown-item" href="{{ url('/document/data') }}">Document Data</a></li>
                             <li><a class="dropdown-item" href="{{ url('/file/data') }}">File Data</a></li>
                             <li><a class="dropdown-item" href="{{ url('/icon') }}">Create Portal</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/welcome') }}">Admin</a></li>
+                            <li><a class="dropdown-item" href="{{ url('/dashboard') }}">Admin</a></li>
                             <li>
                                 <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                                     @csrf
@@ -107,7 +107,7 @@
                         @else
                             <!-- Menu untuk halaman login dan welcome jika belum login -->
                             <li><a class="dropdown-item" href="{{ url('/post/show/36') }}">Kebijakan Privasi</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/welcome') }}">Admin</a></li>
+                            <li><a class="dropdown-item" href="{{ url('/login') }}">Admin</a></li>
                         @endauth
                     </ul>
                 </div>
