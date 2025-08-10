@@ -214,7 +214,7 @@
 
 /* Segitiga yang mengarah ke ikon yang diklik */
 .submenu-collapse::before {
-    content: '';
+    content: "";
     position: absolute;
     margin-top: 2px;
     top: -10px; /* Posisikan segitiga di atas submenu */
@@ -300,7 +300,8 @@
     }
 
     /* Make columns stack vertically on smaller screens */
-    .col-md-8, .col-md-4 {
+    .col-md-8,
+    .col-md-4 {
         width: 100%; /* Full width on mobile */
         margin-top: 20px; /* Add some spacing between sections */
     }
@@ -484,4 +485,70 @@
 #headline .btn-outline-primary {
     font-size: 16px;
     border-radius: 5px;
+}
+
+/* ======= UMKM Latest Business Green Blinking Effect ======= */
+.newest-business {
+    color: #28a745 !important; /* Bootstrap success green */
+    animation: blinkGreen 2s infinite;
+    font-weight: bold;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+}
+
+.newest-business:hover {
+    color: #20c997 !important;
+    text-shadow: 0 0 15px #20c997;
+    animation-duration: 1s; /* Speed up animation on hover */
+}
+
+.newest-business small {
+    animation: blinkBadge 2s infinite;
+    display: inline-block;
+}
+
+@keyframes blinkGreen {
+    0% {
+        color: #28a745;
+        text-shadow: 0 0 8px #28a745;
+        opacity: 1;
+    }
+    25% {
+        color: #34ce57;
+        text-shadow: 0 0 12px #34ce57, 0 0 18px #34ce57;
+        opacity: 0.9;
+    }
+    50% {
+        color: #20c997; /* Lighter green */
+        text-shadow: 0 0 15px #20c997, 0 0 20px #20c997, 0 0 25px #20c997;
+        opacity: 1;
+    }
+    75% {
+        color: #34ce57;
+        text-shadow: 0 0 12px #34ce57, 0 0 18px #34ce57;
+        opacity: 0.9;
+    }
+    100% {
+        color: #28a745;
+        text-shadow: 0 0 8px #28a745;
+        opacity: 1;
+    }
+}
+
+@keyframes blinkBadge {
+    0% {
+        background-color: #28a745;
+        box-shadow: 0 0 5px #28a745;
+        transform: scale(1);
+    }
+    50% {
+        background-color: #20c997;
+        box-shadow: 0 0 10px #20c997, 0 0 15px #20c997;
+        transform: scale(1.1);
+    }
+    100% {
+        background-color: #28a745;
+        box-shadow: 0 0 5px #28a745;
+        transform: scale(1);
+    }
 }

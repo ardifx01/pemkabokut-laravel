@@ -3,7 +3,7 @@
 @section('title', 'Data Posts')
 
 @section('content')
-    <section style="padding-top: 100px;" >
+    <section style="padding-top: 100px;">
         <div class="card bg-white p-4 shadow rounded-4 border-0">
             <div class="d-flex justify-content-between mb-4">
                 <div>
@@ -11,13 +11,15 @@
                 </div>
                 <div class="d-flex align-items-center">
                     {{-- Button Sort --}}
-                    <a href="{{ url('/post/data?sort_order=' . ($sort_order == 'asc' ? 'desc' : 'asc')) }}" class="btn btn-secondary me-3 d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                    <a href="{{ url('/admin/post/data?sort_order=' . ($sort_order == 'asc' ? 'desc' : 'asc')) }}"
+                        class="btn btn-secondary me-3 d-flex justify-content-center align-items-center"
+                        style="width: 40px; height: 40px;">
                         {{-- Gambar panah berdasarkan sort_order --}}
                         <img src="{{ asset('icons/sort.png') }}" alt="Sort Icon" style="width: 20px; height: 20px;">
                     </a>
 
                     {{-- Button Add New Post --}}
-                    <a href="/post/create" class="btn btn-primary">Add new Post</a>
+                    <a href="/admin/post/create" class="btn btn-primary">Add new Post</a>
                 </div>
             </div>
 
@@ -51,21 +53,23 @@
                                 <td>{{ $post->headline->title ?? 'No Headline' }}</td>
                                 <td>
                                     @if ($post->image)
-                                        <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}" height="100">
+                                        <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}"
+                                            height="100">
                                     @else
                                         <p>No Image</p>
                                     @endif
                                 </td>
                                 <td>
                                     <a href="/post/show/{{ $post->id }}" class="btn btn-success">Show</a>
-                                    <a href="/post/edit/{{ $post->id }}" class="btn btn-info">Edit</a>
+                                    <a href="/admin/post/edit/{{ $post->id }}" class="btn btn-info">Edit</a>
                                     <form action="{{ route('post.destroy', $post->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this post?')">
+                                        <button class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Are you sure you want to delete this post?')">
                                             Delete
                                         </button>
-                                    </form>                                                                      
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

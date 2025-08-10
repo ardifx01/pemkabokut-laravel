@@ -9,6 +9,7 @@ use App\Models\Post;
 use App\Models\Category;
 use App\Models\Document;
 use App\Models\Headline;
+use App\Models\Business;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -21,7 +22,8 @@ class PostController extends Controller
         $posts = Post::whereNotNull('headline_id')->orderBy('published_at', 'desc')->get();
         $icons = Icon::with('dropdowns')->get();
         $documents = Document::orderBy('id', 'desc')->take(4)->get();
-        return view('index', compact('posts', 'icons', 'documents'));
+        $approvedBusinesses = Business::where('status', 1)->orderBy('created_at', 'desc')->get(); // Sort by newest ID
+        return view('index', compact('posts', 'icons', 'documents', 'approvedBusinesses'));
     }
 
     public function data(Request $request)
@@ -33,20 +35,33 @@ class PostController extends Controller
         $posts = Post::orderBy('id', $sort_order)->get();
 
         // Kirim variabel sorting order ke view agar tombol tetap sinkron
-        return view('/post/data', compact('posts', 'sort_order'));
+        return view('/admin/post/data', compact('posts', 'sort_order'));
     }
 
     public function create()
     {
         $categories = Category::all();
         $headlines = Headline::all();
-        return view('/post/create', compact('categories', 'headlines'));
+        return view('/admin/post/create', compact('categories', 'headlines'));
     }
 
+    /**
+     * Store a newly created post in storage.
+     * 
+     * This method handles:
+     * 1. Multiple file uploads with duplicate name prevention
+     * 2. Base64 image extraction from rich text editor content
+     * 3. HTML content processing and image path conversion
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
+        // Array to store uploaded image paths
         $image_paths = [];
-
+        
+        // Process multiple file uploads if any
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 // Nama file ori
@@ -69,47 +84,60 @@ class PostController extends Controller
             }
         }
 
-        // Simpan array path gambar sebagai string JSON di database
+        // Process HTML content to extract and convert base64 images
         $description = $request->description;
 
+        // Enable internal error handling for DOM operations
         libxml_use_internal_errors(true);
         $dom = new DOMDocument();
         $dom->loadHTML('<?xml encoding="utf-8" ?>' . $description, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
 
+        // Find all img tags in the HTML content
         $images = $dom->getElementsByTagName('img');
 
+        // Loop through each image tag to process base64 images
         foreach ($images as $key => $img) {
             $src = $img->getAttribute('src');
 
-            // Mengecek jika base64-encoded
+            // Check if image is base64-encoded (from rich text editors)
             if (strpos($src, 'data:image/') === 0) {
+                // Decode base64 image data
                 $data = base64_decode(explode(',', explode(';', $src)[1])[1]);
+                // Generate unique filename with timestamp and key
                 $image_name = "/uploads/" . time() . $key . '.png';
+                // Save decoded image to public uploads folder
                 file_put_contents(public_path() . $image_name, $data);
 
+                // Replace base64 src with file path
                 $img->removeAttribute('src');
                 $img->setAttribute('src', $image_name);
             }
         }
+        // Get processed HTML content
         $description = $dom->saveHTML();
 
+        // Create new post with processed data
         Post::create([
             'title' => $request->title,
-            'image' => json_encode($image_paths), // Simpan sebagai JSON
-            'description' => $description,
+            'image' => json_encode($image_paths), // Store as JSON array
+            'description' => $description, // HTML with converted image paths
             'category_id' => $request->category_id,
             'headline_id' => $request->headline_id,
             'published_at' => $request->published_at,
         ]);
 
-        return redirect('/post/data');
+        return redirect('admin/post/data');
     }
 
-
+    // Menampilkan detail post berdasarkan ID
     public function show($id)
     {
         $post = Post::find($id);
 
+        // Jika post tidak ditemukan, tampilkan pesan tidak ditemukan
+        if (!$post) {
+        dd('Post dengan ID ' . $id . ' tidak ditemukan');
+    }
         $post->increment('views');
 
         return view('/post/show', compact('post'));
@@ -120,18 +148,28 @@ class PostController extends Controller
         $post = Post::find($id);
         $categories = Category::all();
         $headlines = Headline::all();
-        return view('/post/edit', compact('post', 'categories', 'headlines'));
+        return view('/admin/post/edit', compact('post', 'categories', 'headlines'));
     }
 
 
+    /**
+     * Update the specified post in storage.
+     * 
+     * Similar to store method but preserves existing images and adds new ones.
+     * Also processes base64 images from rich text editor content.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, $id)
     {
         $post = Post::find($id);
-
-        // Array untuk menyimpan path gambar
+        
+        // Get existing images or initialize empty array
         $image_paths = json_decode($post->image, true) ?? [];
 
-        // Proses file gambar yang diunggah
+        // Process new uploaded images and add to existing ones
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 // Ambil nama asli file
@@ -188,7 +226,7 @@ class PostController extends Controller
             'published_at' => $request->published_at,
         ]);
 
-        return redirect('/post/data');
+        return redirect('admin/post/data');
     }
 
     public function deleteImage(Request $request)
@@ -236,7 +274,7 @@ class PostController extends Controller
         // Hapus post
         $post->delete();
 
-        return redirect('/post/data')->with('success', 'Post deleted successfully.');
+        return redirect('admin/post/data')->with('success', 'Post deleted successfully.');
     }
 
     public function search(Request $request)

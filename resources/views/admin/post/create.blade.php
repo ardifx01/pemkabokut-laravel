@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Edit Post</title>
+    <title>Create Post</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -145,13 +145,13 @@
         <div class="row justify-content-md-center">
             <div class="col-md-10 col-centered">
                 <div class="text-center mb-5">
-                    <h1>Edit Post</h1>
+                    <h1>Create a New Post</h1>
                 </div>
-                <form action="/update/{{ $post->id }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group mb-4">
                         <label for="title">Title:</label>
-                        <input type="text" class="form-control" name="title" value="{{ $post->title }}">
+                        <input type="text" class="form-control" name="title" placeholder="Enter the title">
                     </div>
 
                     <div class="form-group mb-4">
@@ -159,10 +159,7 @@
                         <select name="category_id" class="form-control" id="category-select">
                             <option value="">-- Select Category --</option>
                             @foreach ($categories as $category)
-                                <option value="{{ $category->id }}"
-                                    {{ $post->category_id == $category->id ? 'selected' : '' }}>
-                                    {{ $category->title }}
-                                </option>
+                                <option value="{{ $category->id }}">{{ $category->title }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -172,10 +169,7 @@
                         <select name="headline_id" class="form-control" id="headline-select">
                             <option value="">-- Select Headline --</option>
                             @foreach ($headlines as $headline)
-                                <option value="{{ $headline->id }}"
-                                    {{ $post->headline_id == $headline->id ? 'selected' : '' }}>
-                                    {{ $headline->title }}
-                                </option>
+                                <option value="{{ $headline->id }}">{{ $headline->title }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -192,29 +186,14 @@
                             style="margin-top: 25px;">Add Image</button>
                     </div>
 
-                    <div id="image-preview" class="mt-3">
-                        @if ($post->image)
-                            @php
-                                $images = json_decode($post->image);
-                            @endphp
-                            @foreach ($images as $image)
-                                <div class="file-item">
-                                    <img src="{{ asset('storage/' . $image) }}" class="img-fluid" alt="Uploaded Image"
-                                        width="150">
-                                    <button class="remove-file-btn" data-image="{{ $image }}">X</button>
-                                    <!-- Tambahkan data-image -->
-                                </div>
-                            @endforeach
-                        @endif
-                    </div>
+                    <div id="image-preview" class="mt-3"></div>
 
                     <label for="description">Description:</label>
-                    <textarea name="description" id="description" cols="30" rows="10">{{ $post->description }}</textarea>
+                    <textarea name="description" id="description" cols="30" rows="10"></textarea>
 
                     <div class="form-group mb-4">
                         <label for="published_at">Tanggal publish:</label>
-                        <input type="datetime-local" class="form-control" name="published_at"
-                            value="{{ $post->published_at ? $post->published_at->format('Y-m-d\TH:i') : '' }}">
+                        <input type="datetime-local" class="form-control" name="published_at" id="published_at">
                     </div>
 
                     <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
@@ -248,7 +227,7 @@
             const imagePreviewContainer = document.getElementById('image-preview');
             let selectedImages = new DataTransfer();
 
-            // Fungsi untuk memperbarui pratinjau gambar baru
+            // Fungsi untuk memperbarui pratinjau gambar
             function updateImagePreview(files) {
                 Array.from(files).forEach((file, index) => {
                     const imageItem = document.createElement('div');
@@ -264,12 +243,10 @@
                     removeBtn.textContent = 'X';
 
                     // Hapus gambar ketika tombol X diklik
-                    removeBtn.addEventListener('click', function(event) {
-                        event.preventDefault(); // Mencegah aksi default tombol submit
-                        event.stopPropagation(); // Mencegah event bubbling
-                        imageItem.remove(); // Menghapus elemen gambar dari pratinjau
-                        selectedImages.items.remove(index); // Menghapus gambar dari DataTransfer
-                        imageInput.files = selectedImages.files; // Memperbarui file input
+                    removeBtn.addEventListener('click', function() {
+                        imageItem.remove();
+                        selectedImages.items.remove(index);
+                        imageInput.files = selectedImages.files;
 
                         if (selectedImages.items.length === 0) {
                             imageInput.value = ''; // Reset input jika tidak ada gambar
@@ -294,37 +271,8 @@
             imageInput.addEventListener('change', function(event) {
                 updateImagePreview(event.target.files);
             });
-
-            // Menangani penghapusan gambar dari pratinjau dan server
-            $(document).on('click', '.remove-file-btn', function(e) {
-                e.preventDefault();
-                const imageItem = $(this).closest('.file-item');
-                const imageName = $(this).data('image');
-
-                $.ajax({
-                    url: '/post/delete-image', // Buat route untuk handle delete
-                    method: 'POST',
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        image: imageName,
-                        post_id: "{{ $post->id }}"
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            imageItem.remove(); // Menghapus elemen pratinjau gambar
-                        } else {
-                            alert('Gagal menghapus gambar.');
-                        }
-                    },
-                    error: function() {
-                        alert('Terjadi kesalahan.');
-                    }
-                });
-            });
         });
     </script>
-
-
 </body>
 
 </html>

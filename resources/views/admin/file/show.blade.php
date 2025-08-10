@@ -21,7 +21,7 @@
                         <p class="mb-4">
                             <a href="/" class="text-decoration-none text-dark">Beranda</a> /
                             @if ($file->document)
-                                <a href="/document/{{ $file->document->id }}"
+                                <a href="{{ route('document.show', $file->document->id) }}"
                                     class="text-decoration-none text-dark">{{ $file->document->title }}</a> /
                             @endif
                             @if ($file->data)

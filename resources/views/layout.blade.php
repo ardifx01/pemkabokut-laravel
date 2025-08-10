@@ -90,14 +90,14 @@
                         @auth
                             <!-- Menu untuk admin jika sudah login -->
                             <li><a class="dropdown-item" href="{{ url('/post/show/36') }}">Kebijakan Privasi</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/post/data') }}">Post Data</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/category/data') }}">Category Data</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/headline/data') }}">Headline Data</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/data/index') }}">Add Data</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/document/data') }}">Document Data</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/file/data') }}">File Data</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/icon') }}">Create Portal</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/dashboard') }}">Admin</a></li>
+                            <li><a class="dropdown-item" href="{{ url('admin/post/data') }}">Post Data</a></li>
+                            <li><a class="dropdown-item" href="{{ url('admin/category/data') }}">Category Data</a></li>
+                            <li><a class="dropdown-item" href="{{ url('admin/headline/data') }}">Headline Data</a></li>
+                            <li><a class="dropdown-item" href="{{ url('admin/data/index') }}">Add Data</a></li>
+                            <li><a class="dropdown-item" href="{{ route('document.data') }}">Document Data</a></li>
+                            <li><a class="dropdown-item" href="{{ url('admin/file/data') }}">File Data</a></li>
+                            <li><a class="dropdown-item" href="{{ url('admin/icon/data') }}">Create Portal</a></li>
+                            <li><a class="dropdown-item" href="{{ url('admin/dashboard') }}">Admin</a></li>
                             <li>
                                 <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                                     @csrf

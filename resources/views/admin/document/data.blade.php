@@ -10,7 +10,7 @@
                     <h4>Data Documents</h4>
                 </div>
                 <div>
-                    <a href="/document/create" class="btn btn-primary">Add new Document</a>
+                    <a href="{{ route('document.create') }}" class="btn btn-primary">Add new Document</a>
                 </div>
             </div>
 
@@ -41,9 +41,10 @@
                                 <td>{{ $document->data->title ?? 'No Data' }}</td>
 
                                 <td>
-                                    <a href="/data/show/{{ $document->id }}" class="btn btn-success">Show</a>
-                                    <a href="/document/edit/{{ $document->id }}" class="btn btn-info">Edit</a>
-                                    <form action="{{ route('document.destroy', $document->id) }}" method="POST" class="d-inline">
+                                    <a href="{{ route('document.show', $document->id) }}" class="btn btn-success">Show</a>
+                                    <a href="{{ route('document.edit', $document->id) }}" class="btn btn-info">Edit</a>
+                                    <form action="{{ route('document.destroy', $document->id) }}" method="POST"
+                                        class="d-inline">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-danger btn-sm"

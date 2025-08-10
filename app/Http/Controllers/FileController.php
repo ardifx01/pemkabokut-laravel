@@ -18,13 +18,13 @@ class FileController extends Controller
     public function data()
     {
         $files = File::all();
-        return view('/file/data', compact('files'));
+        return view('admin.file.data', compact('files'));
     }
     public function create()
     {
         $documents = Document::all(); // Untuk dropdown pilihan dokumen
         $data = Data::all(); // Untuk dropdown pilihan data
-        return view('/file/create', compact('documents', 'data'));
+        return view('admin.file.create', compact('documents', 'data'));
     }
 
     // Menyimpan file baru ke database
@@ -73,7 +73,7 @@ class FileController extends Controller
         $file = File::findOrFail($id);
         $documents = Document::all(); // Untuk dropdown pilihan dokumen
         $data = Data::all(); // Untuk dropdown pilihan data
-        return view('/file/edit', compact('file', 'documents', 'data'));
+        return view('admin.file.edit', compact('file', 'documents', 'data'));
     }
 
     public function update(Request $request, $id)
@@ -129,6 +129,6 @@ class FileController extends Controller
     public function show($id)
     {
         $file = File::find($id);
-        return view('/file/show', compact('file'));
+        return view('admin.file.show', compact('file'));
     }
 }

@@ -12,19 +12,19 @@ class IconController extends Controller
     {
         $icons = Icon::all();
         $icons = Icon::with('dropdowns')->get();
-        return view('icon.data', compact('icons'));
+        return view('admin.icon.data', compact('icons'));
     }
 
     public function data()
     {
         $icons = Icon::all();
-        return view('icon.data', compact('icons'));
+        return view('admin.icon.data', compact('icons'));
     }
 
     // Show the form for creating a new icon.
     public function create()
     {
-        return view('icon.create');
+        return view('admin.icon.create');
     }
 
     // app/Http/Controllers/IconController.php
@@ -67,7 +67,7 @@ class IconController extends Controller
     // Display the specified icon.
     public function show(Icon $icon)
     {
-        return view('icons.show', compact('icon'));
+        return view('admin.icon.show', compact('icon'));
     }
 
     // Show the form for editing the specified icon.
@@ -76,7 +76,7 @@ class IconController extends Controller
         // Ambil Icon berdasarkan ID beserta Dropdowns yang terkait
         $icon = Icon::with('dropdowns')->findOrFail($id);
 
-        return view('icon.edit', compact('icon'));
+        return view('admin.icon.edit', compact('icon'));
     }
 
     public function update(Request $request, $id)

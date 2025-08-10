@@ -1,16 +1,16 @@
 @extends('layout')
 
-@section('title', 'Data Files')
+@section('title', 'Data Documents & Files')
 
 @section('content')
-    <section style="padding-top: 120px; height: 525px;">
+    <section style="padding-top: 120px;">
         <div class="card bg-white p-4 shadow rounded-4 border-0">
             <div class="d-flex justify-content-between mb-4">
                 <div>
-                    <h4>Data Files</h4>
+                    <h4>Data Folder Documents & Files</h4>
                 </div>
                 <div>
-                    <a href="/file/create" class="btn btn-primary">Add new Files</a>
+                    <a href="{{ route('data.create') }}" class="btn btn-primary">Add new Data</a>
                 </div>
             </div>
 
@@ -28,30 +28,29 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Path</th>
-                            <th>Date</th>
-                            <th>Data</th>
-                            <th>Document</th>
+                            <th>Title</th>
+                            <th>Category</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($files as $file)
+                        @foreach ($data as $data)
                             <tr>
-                                <td>{{ $file->id }}</td>
-                                <td>{{ $file->file_path }}</td>
-                                <td>{{ $file->file_date }}</td>
-                                <td>{{ $file->data->title ?? 'No Data' }}</td>
-                                <td>{{ $file->document->title ?? 'No Document' }}</td>
+                                <td>{{ $data->id }}</td>
+                                <td>{{ $data->title }}</td>
+                                <td>{{ $data->category->title ?? 'No Category' }}</td>
 
                                 <td>
-                                    <a href="/file/show/{{ $file->id }}" class="btn btn-success">Show</a>
-                                    <a href="/file/edit/{{ $file->id }}" class="btn btn-info">Edit</a>
-                                    <form action="{{ route('file.destroy', $file->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this file?');">
+                                    <a href="{{ route('data.show', $data->id) }}" class="btn btn-success">Show</a>
+                                    <a href="/data/edit/{{ $data->id }}" class="btn btn-info">Edit</a>
+                                    <form action="{{ route('data.destroy', $data->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>                                    
+                                        <button class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Are you sure you want to delete this document?')">
+                                            Delete
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

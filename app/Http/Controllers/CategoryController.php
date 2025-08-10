@@ -10,12 +10,12 @@ class CategoryController extends Controller
     public function data()
     {
         $categories = Category::all();
-        return view('category.data', compact('categories'));
+        return view('admin.category.data', compact('categories'));
     }
 
     public function create()
     {
-        return view('category.create');
+        return view('admin.category.create');
     }
 
     public function store(Request $request)
@@ -46,7 +46,7 @@ class CategoryController extends Controller
         }
 
         // Tampilkan view untuk mengedit kategori
-        return view('category.edit', compact('category'));
+        return view('admin.category.edit', compact('category'));
     }
 
     // Fungsi untuk memperbarui kategori
@@ -88,6 +88,6 @@ class CategoryController extends Controller
         $category->delete();
 
         // Redirect kembali ke halaman daftar kategori dengan pesan sukses
-        return redirect('category/data')->with('success', 'Category deleted successfully.');
+        return redirect()->route('category.data')->with('success', 'Category deleted successfully.');
     }
 }

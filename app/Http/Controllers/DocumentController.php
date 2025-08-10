@@ -21,13 +21,13 @@ class DocumentController extends Controller
     public function data()
     {
         $documents = Document::all();
-        return view('/document/data', compact('documents'));
+        return view('admin.document.data', compact('documents'));
     }
 
     public function create()
     {
         $data = Data::all();
-        return view('document.create', compact('data'));
+        return view('admin.document.create', compact('data'));
     }
 
     public function store(Request $request)
@@ -69,7 +69,7 @@ class DocumentController extends Controller
         $document = Document::with('file')->findOrFail($id);
         $data = Data::all(); // Dropdown data
 
-        return view('document.edit', compact('document', 'data'));
+        return view('admin.document.edit', compact('document', 'data'));
     }
 
     public function update(Request $request, $id)
@@ -131,6 +131,6 @@ class DocumentController extends Controller
         $document = Document::with('data', 'file')->findOrFail($id);
 
         // Jika dokumen ditemukan, kirim ke view
-        return view('document.show', compact('document'));
+        return view('admin.document.show', compact('document'));
     }
 }

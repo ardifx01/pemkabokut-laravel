@@ -11,13 +11,13 @@ class DataController extends Controller
     public function index()
     {
         $data = Data::all();
-        return view('/data/index', compact('data'));
+        return view('admin.data.index', compact('data'));
     }
 
     public function create()
     {
         $categories = Category::all();
-        return view('data.create', compact('categories'));
+        return view('admin.data.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -51,7 +51,7 @@ class DataController extends Controller
         $data->delete();
 
         // Redirect kembali ke halaman daftar data dengan pesan sukses
-        return redirect('data/index')->with('success', 'Data deleted successfully.');
+        return redirect()->route('data.index')->with('success', 'Data deleted successfully.');
     }
     public function show($id)
     {

@@ -11,12 +11,12 @@ class HeadlineController extends Controller
     public function data()
     {
         $headlines = Headline::all();
-        return view('headline.data', compact('headlines'));
+        return view('admin.headline.data', compact('headlines'));
     }
 
     public function create()
     {
-        return view('headline.create');
+        return view('admin.headline.create');
     }
 
     public function show($id)
@@ -56,7 +56,7 @@ class HeadlineController extends Controller
         }
 
         // Tampilkan view untuk mengedit headline
-        return view('headline.edit', compact('headline'));
+        return view('admin.headline.edit', compact('headline'));
     }
 
     // Fungsi untuk memperbarui headline
