@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Icon extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'image'];
+    protected $fillable = ['user_id', 'title', 'image'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     // Hubungan dengan Dropdown (One to Many)
     public function dropdowns()

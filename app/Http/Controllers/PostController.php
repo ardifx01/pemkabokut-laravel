@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 
 class PostController extends Controller
 {
@@ -23,19 +24,55 @@ class PostController extends Controller
         $icons = Icon::with('dropdowns')->get();
         $documents = Document::orderBy('id', 'desc')->take(4)->get();
         $approvedBusinesses = Business::where('status', 1)->orderBy('created_at', 'desc')->get(); // Sort by newest ID
-        return view('index', compact('posts', 'icons', 'documents', 'approvedBusinesses'));
+        
+        // Get UMKM settings from cache
+        $umkmSettings = [
+            'hide_registration' => Cache::get('umkm_hide_registration', false),
+            'hide_menu' => Cache::get('umkm_hide_menu', false)
+        ];
+        
+        return view('index', compact('posts', 'icons', 'documents', 'approvedBusinesses', 'umkmSettings'));
     }
 
     public function data(Request $request)
     {
         // Cek apakah terdapat request untuk sorting, default adalah 'desc' (terbaru)
         $sort_order = $request->get('sort_order', 'desc');
+        
+        // Get filter parameters
+        $category_filter = $request->get('category_filter');
+        $headline_filter = $request->get('headline_filter');
 
-        // Dapatkan posts dengan sorting berdasarkan 'id'
-        $posts = Post::orderBy('id', $sort_order)->get();
+        // Build query with filters
+        $query = Post::with(['category', 'headline', 'user']);
+        
+        // Apply category filter
+        if ($category_filter && $category_filter !== 'all') {
+            if ($category_filter === 'no_category') {
+                $query->whereNull('category_id');
+            } else {
+                $query->where('category_id', $category_filter);
+            }
+        }
+        
+        // Apply headline filter
+        if ($headline_filter && $headline_filter !== 'all') {
+            if ($headline_filter === 'no_headline') {
+                $query->whereNull('headline_id');
+            } else {
+                $query->where('headline_id', $headline_filter);
+            }
+        }
+        
+        // Apply sorting
+        $posts = $query->orderBy('id', $sort_order)->get();
+        
+        // Get all categories and headlines for filter options
+        $categories = \App\Models\Category::all();
+        $headlines = \App\Models\Headline::all();
 
-        // Kirim variabel sorting order ke view agar tombol tetap sinkron
-        return view('/admin/post/data', compact('posts', 'sort_order'));
+        // Kirim variabel ke view
+        return view('/admin/post/data', compact('posts', 'sort_order', 'categories', 'headlines', 'category_filter', 'headline_filter'));
     }
 
     public function create()
@@ -124,6 +161,7 @@ class PostController extends Controller
             'category_id' => $request->category_id,
             'headline_id' => $request->headline_id,
             'published_at' => $request->published_at,
+            'user_id' => auth()->id(), // Menyimpan user yang sedang login
         ]);
 
         return redirect('admin/post/data');

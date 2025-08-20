@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('businesses', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('nama', 255);
             $table->enum('jenis', [
                 'Makanan dan Minuman',
@@ -33,6 +34,8 @@ return new class extends Migration
             $table->json('foto')->nullable(); // untuk menyimpan array gambar dalam format JSON
             $table->tinyInteger('status')->default(0)->comment('0 untuk pending, 1 untuk approved');
             $table->timestamps();
+            
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

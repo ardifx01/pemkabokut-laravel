@@ -1,97 +1,97 @@
-@extends('layout')
+@extends('admin.layouts.navigation')
 
 @section('content')
-    <section style="padding-top: 100px;">
-        <div class="container p-5">
-            <div class="text-center">
-                <h1>Edit File</h1>
+    <div class="container p-5">
+        <div class="text-center">
+            <h1>Edit File</h1>
+        </div>
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form action="{{ route('file.update', $file->id) }}" method="POST" enctype="multipart/form-data" id="file-form">
+            @csrf
+            @method('PUT')
+
+            <div class="mb-3 d-flex align-items-center">
+                <div class="me-2" style="flex: 1;">
+                    <label for="file_path" class="form-label">Files</label>
+                    <input type="file" class="form-control" id="file_path" name="file_path[]" multiple
+                        style="width: 725px;">
+                </div>
+
+                <!-- Button to trigger file input -->
+                <button type="button" id="add-file-btn" class="btn btn-secondary mb-3" style="margin-top: 45px">Add
+                    File</button>
             </div>
 
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            <!-- Container untuk ikon dan nama file yang sudah ada dan yang dipilih -->
+            <div id="file-preview" class="mt-3">
+                @if ($file->file_path)
+                    <!-- Pratinjau file yang sudah ada -->
+                    @php
+                        $fileExtension = pathinfo($file->file_path, PATHINFO_EXTENSION);
+                        $iconPath = '';
 
-            <form action="{{ route('file.update', $file->id) }}" method="POST" enctype="multipart/form-data" id="file-form">
-                @csrf
-                @method('PUT')
+                        if ($fileExtension === 'pdf') {
+                            $iconPath = asset('icons/pdf-icon.png');
+                        } elseif (in_array($fileExtension, ['doc', 'docx'])) {
+                            $iconPath = asset('icons/word-icon.png');
+                        } elseif (in_array($fileExtension, ['xls', 'xlsx'])) {
+                            $iconPath = asset('icons/excel-icon.png');
+                        } else {
+                            $iconPath = asset('icons/default-icon.png');
+                        }
+                    @endphp
 
-                <div class="mb-3 d-flex align-items-center">
-                    <div class="me-2" style="flex: 1;">
-                        <label for="file_path" class="form-label">Files</label>
-                        <input type="file" class="form-control" id="file_path" name="file_path[]" multiple
-                            style="width: 725px;">
+                    <div class="file-item d-flex align-items-center mb-2">
+                        <img src="{{ $iconPath }}" alt="File Icon" width="50" class="me-2">
+                        <span>{{ basename($file->file_path) }}</span>
                     </div>
+                @endif
+            </div>
 
-                    <!-- Button to trigger file input -->
-                    <button type="button" id="add-file-btn" class="btn btn-secondary mb-3" style="margin-top: 45px">Add
-                        File</button>
-                </div>
+            <div class="mb-3">
+                <label for="file_date" class="form-label">File Date</label>
+                <input type="date" class="form-control" id="file_date" name="file_date"
+                    value="{{ old('file_date', $file->file_date) }}" required>
+            </div>
 
-                <!-- Container untuk ikon dan nama file yang sudah ada dan yang dipilih -->
-                <div id="file-preview" class="mt-3">
-                    @if ($file->file_path)
-                        <!-- Pratinjau file yang sudah ada -->
-                        @php
-                            $fileExtension = pathinfo($file->file_path, PATHINFO_EXTENSION);
-                            $iconPath = '';
+            <div class="mb-3">
+                <label for="document_id" class="form-label">Document</label>
+                <select class="form-control select2" id="document_id" name="document_id"
+                    data-placeholder="Select a Document">
+                    <option value="">Select a Document</option>
+                    @foreach ($documents as $document)
+                        <option value="{{ $document->id }}" {{ $document->id == $file->document_id ? 'selected' : '' }}>
+                            {{ $document->title }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
-                            if ($fileExtension === 'pdf') {
-                                $iconPath = asset('icons/pdf-icon.png');
-                            } elseif (in_array($fileExtension, ['doc', 'docx'])) {
-                                $iconPath = asset('icons/word-icon.png');
-                            } elseif (in_array($fileExtension, ['xls', 'xlsx'])) {
-                                $iconPath = asset('icons/excel-icon.png');
-                            } else {
-                                $iconPath = asset('icons/default-icon.png');
-                            }
-                        @endphp
+            <div class="mb-3">
+                <label for="data_id" class="form-label">Data</label>
+                <select class="form-control select2" id="data_id" name="data_id" data-placeholder="Select Data">
+                    <option value="">Select Data</option>
+                    @foreach ($data as $dataItem)
+                        <option value="{{ $dataItem->id }}" {{ $dataItem->id == $file->data_id ? 'selected' : '' }}>
+                            {{ $dataItem->title }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
-                        <div class="file-item d-flex align-items-center mb-2">
-                            <img src="{{ $iconPath }}" alt="File Icon" width="50" class="me-2">
-                            <span>{{ basename($file->file_path) }}</span>
-                        </div>
-                    @endif
-                </div>
-
-                <div class="mb-3">
-                    <label for="file_date" class="form-label">File Date</label>
-                    <input type="date" class="form-control" id="file_date" name="file_date" value="{{ old('file_date', $file->file_date) }}" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="document_id" class="form-label">Document</label>
-                    <select class="form-control select2" id="document_id" name="document_id" data-placeholder="Select a Document">
-                        <option value="">Select a Document</option>
-                        @foreach ($documents as $document)
-                            <option value="{{ $document->id }}" {{ $document->id == $file->document_id ? 'selected' : '' }}>
-                                {{ $document->title }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label for="data_id" class="form-label">Data</label>
-                    <select class="form-control select2" id="data_id" name="data_id" data-placeholder="Select Data">
-                        <option value="">Select Data</option>
-                        @foreach ($data as $dataItem)
-                            <option value="{{ $dataItem->id }}" {{ $dataItem->id == $file->data_id ? 'selected' : '' }}>
-                                {{ $dataItem->title }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <button type="submit" class="btn btn-primary">Update File</button>
-            </form>
-        </div>
-    </section>
+            <button type="submit" class="btn btn-primary">Update File</button>
+        </form>
+    </div>
 
     <!-- Tambahkan CSS untuk mengatur tinggi Select2 -->
     <style>

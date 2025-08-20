@@ -83,89 +83,110 @@
                 @endforeach
 
                 <!-- Manual UMKM Icon Menu -->
-                <div class="icon-container d-flex flex-column gap-2 justify-content-center align-items-center">
-                    <div class="card bg-opacity-60 text-center">
-                        <div class="card-body">
-                            <!-- UMKM Icon image - using logo as fallback -->
-                            <img src="{{ asset('icons/market.png') }}" alt="UMKM" class="img-fluid submenu-toggle"
-                                data-icon-id="umkm">
+                @if (!$umkmSettings['hide_menu'])
+                    <div class="icon-container d-flex flex-column gap-2 justify-content-center align-items-center">
+                        <div class="card bg-opacity-60 text-center">
+                            <div class="card-body">
+                                <!-- UMKM Icon image - using logo as fallback -->
+                                <img src="{{ asset('icons/market.png') }}" alt="UMKM" class="img-fluid submenu-toggle"
+                                    data-icon-id="umkm">
+                            </div>
                         </div>
-                    </div>
-                    <div class="portal-title">
-                        <p class="text-center text-white">UMKM</p>
-                    </div>
-                    <!-- UMKM Submenu Collapse -->
-                    <div id="iconMenuumkm" class="submenu-collapse">
-                        <ul>
-                            <li>
-                                <a href="{{ route('umkm.index') }}" target="_blank"
-                                    style="display: flex; align-items: center; gap: 10px; padding: 12px 8px; border-bottom: 1px solid #e9ecef;">
-                                    <div
-                                        style="width: 40px; height: 40px; background: linear-gradient(45deg, #007bff, #0056b3); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
-                                        <i class="bi bi-plus-circle" style="color: white; font-size: 18px;"></i>
-                                    </div>
-                                    <div style="flex: 1;">
-                                        <strong>Pendaftaran UMKM</strong>
-                                        <div style="font-size: 11px; color: #6c757d;">Daftarkan bisnis Anda</div>
-                                    </div>
-                                </a>
-                            </li>
-                            @foreach ($approvedBusinesses as $index => $business)
-                                <li>
-                                    <a href="{{ route('umkm.show', $business->id) }}" target="_blank"
-                                        @if ($index === 0) class="newest-business" @endif
-                                        style="display: flex; align-items: center; gap: 10px; padding: 12px 8px; border-bottom: 1px solid #f1f3f4; transition: all 0.2s ease; text-decoration: none;"
-                                        onmouseover="this.style.backgroundColor='#f8f9fa';"
-                                        onmouseout="this.style.backgroundColor='transparent';">
-                                        @php
-                                            $businessPhotos = $business->foto; // foto sudah di-cast sebagai array
-                                            $firstPhoto =
-                                                $businessPhotos && is_array($businessPhotos)
-                                                    ? $businessPhotos[0]
-                                                    : null;
-                                        @endphp
-
-                                        @if ($firstPhoto)
-                                            <!-- Foto Business dengan bentuk persegi -->
-                                            @if (Str::startsWith($firstPhoto, ['http://', 'https://']))
-                                                <img src="{{ $firstPhoto }}" alt="{{ $business->nama }}"
-                                                    style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; flex-shrink: 0; border: 2px solid #e9ecef;">
-                                            @else
-                                                <img src="{{ asset('storage/' . $firstPhoto) }}"
-                                                    alt="{{ $business->nama }}"
-                                                    style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; flex-shrink: 0; border: 2px solid #e9ecef;">
-                                            @endif
-                                        @else
-                                            <!-- Placeholder jika tidak ada foto -->
+                        <div class="portal-title">
+                            <p class="text-center text-white">UMKM</p>
+                        </div>
+                        <!-- UMKM Submenu Collapse -->
+                        <div id="iconMenuumkm" class="submenu-collapse">
+                            <ul>
+                                @if (!$umkmSettings['hide_registration'])
+                                    <li>
+                                        <a href="{{ route('umkm.index') }}" target="_blank"
+                                            style="display: flex; align-items: center; gap: 10px; padding: 12px 8px; border-bottom: 1px solid #e9ecef;">
                                             <div
-                                                style="width: 40px; height: 40px; background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border: 2px solid #dee2e6;">
-                                                <i class="bi bi-building" style="color: #6c757d; font-size: 16px;"></i>
+                                                style="width: 40px; height: 40px; background: linear-gradient(45deg, #007bff, #0056b3); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+                                                <i class="bi bi-plus-circle" style="color: white; font-size: 18px;"></i>
                                             </div>
-                                        @endif
+                                            <div style="flex: 1;">
+                                                <strong>Pendaftaran UMKM</strong>
+                                                <div style="font-size: 11px; color: #6c757d;">Daftarkan bisnis Anda</div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                @endif
+                                @foreach ($approvedBusinesses as $index => $business)
+                                    <li>
+                                        <a href="{{ route('umkm.show', $business->id) }}" target="_blank"
+                                            @if ($index === 0) class="newest-business" @endif
+                                            style="display: flex; align-items: center; gap: 10px; padding: 12px 8px; border-bottom: 1px solid #f1f3f4; transition: all 0.2s ease; text-decoration: none;"
+                                            onmouseover="this.style.backgroundColor='#f8f9fa';"
+                                            onmouseout="this.style.backgroundColor='transparent';">
+                                            @php
+                                                $businessPhotos = $business->foto; // foto sudah di-cast sebagai array
+                                                $firstPhoto =
+                                                    $businessPhotos && is_array($businessPhotos)
+                                                        ? $businessPhotos[0]
+                                                        : null;
+                                            @endphp
 
-                                        <div style="flex: 1; min-width: 0;">
-                                            <div
-                                                style="font-weight: 500; color: #333; font-size: 14px; line-height: 1.2; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                                {{ $business->nama }}
-                                                @if ($index === 0)
-                                                    <span
-                                                        style="font-size: 9px; background: linear-gradient(45deg, #28a745, #20c997); color: white; padding: 2px 5px; border-radius: 10px; margin-left: 3px; font-weight: bold; text-transform: uppercase;">NEW</span>
-                                                @endif
-                                            </div>
-                                            <div style="font-size: 11px; color: #6c757d; line-height: 1.1;">
-                                                @if ($business->jenis)
-                                                    {{ $business->jenis }}
+                                            @if ($firstPhoto)
+                                                <!-- Foto Business dengan bentuk persegi -->
+                                                @if (Str::startsWith($firstPhoto, ['http://', 'https://']))
+                                                    <img src="{{ $firstPhoto }}" alt="{{ $business->nama }}"
+                                                        style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; flex-shrink: 0; border: 2px solid #e9ecef;">
                                                 @else
-                                                    Bisnis UMKM
+                                                    <img src="{{ asset('storage/' . $firstPhoto) }}"
+                                                        alt="{{ $business->nama }}"
+                                                        style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; flex-shrink: 0; border: 2px solid #e9ecef;">
+                                                @endif
+                                            @else
+                                                <!-- Placeholder jika tidak ada foto -->
+                                                <div
+                                                    style="width: 40px; height: 40px; background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border: 2px solid #dee2e6;">
+                                                    <i class="bi bi-building" style="color: #6c757d; font-size: 16px;"></i>
+                                                </div>
+                                            @endif
+
+                                            <div style="flex: 1; min-width: 0;">
+                                                <div
+                                                    style="font-weight: 500; color: #333; font-size: 14px; line-height: 1.2; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                    {{ $business->nama }}
+                                                    @if ($index === 0)
+                                                        <span
+                                                            style="font-size: 9px; background: linear-gradient(45deg, #28a745, #20c997); color: white; padding: 2px 5px; border-radius: 10px; margin-left: 3px; font-weight: bold; text-transform: uppercase;">NEW</span>
+                                                    @endif
+                                                </div>
+                                                <div style="font-size: 11px; color: #6c757d; line-height: 1.1;">
+                                                    @if ($business->jenis)
+                                                        {{ $business->jenis }}
+                                                    @else
+                                                        Bisnis UMKM
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                @endforeach
+
+                                @if ($approvedBusinesses->isEmpty())
+                                    <li style="padding: 20px; text-align: center;">
+                                        <div style="color: #6c757d; font-style: italic;">
+                                            <i class="bi bi-info-circle"
+                                                style="font-size: 18px; margin-bottom: 8px; display: block;"></i>
+                                            <div style="font-size: 14px;">Belum ada UMKM yang terdaftar</div>
+                                            <div style="font-size: 12px; margin-top: 4px;">Silakan daftarkan bisnis Anda
+                                                @if (!$umkmSettings['hide_registration'])
+                                                    menggunakan tombol "Pendaftaran UMKM" di atas
+                                                @else
+                                                    dengan menghubungi admin
                                                 @endif
                                             </div>
                                         </div>
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
+                                    </li>
+                                @endif
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
     </section>
@@ -242,9 +263,9 @@
                                                             Tanggal tidak tersedia
                                                         @endif
                                                     </span>
-                                                    <small><i class="bi bi-person"></i> Admin &nbsp; <i
-                                                            class="bi bi-eye"></i>
-                                                        {{ $post->views }}</small>
+                                                    <small><i class="bi bi-person"></i>
+                                                        {{ $post->user ? $post->user->name : 'User' }} &nbsp; <i
+                                                            class="bi bi-eye"></i> {{ $post->views }}</small>
                                                 </div>
                                                 <p class="card-text description-clamp">
                                                     {{ Str::limit(html_entity_decode(strip_tags($post->description)), 200, '...') }}
@@ -287,7 +308,8 @@
                                     </div>
                                     <small><i class="bi bi-calendar"></i>
                                         {{ $document->created_at->format('d M Y') }}</small>
-                                    <small><i class="bi bi-person"></i> Admin &nbsp; <i class="bi bi-eye"></i>
+                                    <small><i class="bi bi-person"></i> {{ $post->user ? $post->user->name : 'User' }}
+                                        &nbsp; <i class="bi bi-eye"></i>
                                         {{ $document->views ?? 0 }}</small>
                                 </div>
                             </div>
@@ -347,7 +369,8 @@
                                             @endif
                                         </span>
                                         <span class="text-white-50" style="font-size: 12px;">
-                                            <i class="bi bi-person"></i> Admin
+                                            <i class="bi bi-person"></i> {{ $post->user ? $post->user->name : 'User' }}
+                                            &nbsp;
                                         </span>
                                         <span class="text-white-50" style="font-size: 12px;">
                                             <i class="bi bi-eye"></i> {{ $post->views }}

@@ -8,6 +8,11 @@ use App\Models\User;
 use App\Models\Post;
 use App\Models\Business;
 use App\Models\Document;
+use App\Models\Category;
+use App\Models\Headline;
+use App\Models\Data;
+use App\Models\File;
+use App\Models\Icon;
 
 class DashboardController extends Controller
 {
@@ -18,10 +23,14 @@ class DashboardController extends Controller
     {
         // Mengambil data statistik untuk dashboard
         $statistics = [
-            'visitors' => 1294, // Ini bisa diganti dengan data real dari analytics
-            'subscribers' => User::count(),
-            'sales' => 1345, // Ini bisa diganti dengan data real dari sales
-            'orders' => Business::count(), // Menggunakan jumlah UMKM sebagai orders
+            'categories' => Category::count(),
+            'headlines' => Headline::count(),
+            'posts' => Post::count(),
+            'data' => Data::count(),
+            'documents' => Document::count(),
+            'files' => File::count(),
+            'businesses' => Business::count(),
+            'icons' => Icon::count(),
         ];
 
         // Data untuk chart (contoh data, bisa diganti dengan data real)
@@ -55,7 +64,10 @@ class DashboardController extends Controller
             ->take(6)
             ->get();
 
-        return view('admin.dashboard', compact('statistics', 'userStats', 'dailySales', 'recentBusinesses'));
+        // Get calendar events
+        $calendarEvents = $this->getCalendarEventsData();
+
+        return view('admin.dashboard', compact('statistics', 'userStats', 'dailySales', 'recentBusinesses', 'calendarEvents'));
     }
 
     /**
@@ -64,11 +76,14 @@ class DashboardController extends Controller
     public function getStatistics()
     {
         $statistics = [
-            'visitors' => 1294,
-            'subscribers' => User::count(),
+            'categories' => Category::count(),
+            'headlines' => Headline::count(),
             'posts' => Post::count(),
-            'businesses' => Business::count(),
+            'data' => Data::count(),
             'documents' => Document::count(),
+            'files' => File::count(),
+            'businesses' => Business::count(),
+            'icons' => Icon::count(),
         ];
 
         return response()->json($statistics);
@@ -96,5 +111,60 @@ class DashboardController extends Controller
         ];
 
         return response()->json($userStats);
+    }
+
+    /**
+     * Get calendar events data.
+     */
+    private function getCalendarEventsData()
+    {
+        // Sample events - you can replace this with dynamic data from database
+        return [
+            [
+                'title' => 'Meeting Tim',
+                'start' => '2025-08-11',
+                'backgroundColor' => '#007bff',
+                'borderColor' => '#007bff',
+                'description' => 'Meeting rutin dengan tim development'
+            ],
+            [
+                'title' => 'Review UMKM',
+                'start' => '2025-08-15',
+                'backgroundColor' => '#28a745',
+                'borderColor' => '#28a745',
+                'description' => 'Review aplikasi UMKM yang masuk'
+            ],
+            [
+                'title' => 'Deadline Report',
+                'start' => '2025-08-20',
+                'backgroundColor' => '#dc3545',
+                'borderColor' => '#dc3545',
+                'description' => 'Deadline pengumpulan laporan bulanan'
+            ],
+            [
+                'title' => 'Training',
+                'start' => '2025-08-25',
+                'backgroundColor' => '#ffc107',
+                'borderColor' => '#ffc107',
+                'textColor' => '#000',
+                'description' => 'Training penggunaan sistem baru'
+            ],
+            [
+                'title' => 'Evaluasi Sistem',
+                'start' => '2025-08-30',
+                'backgroundColor' => '#6f42c1',
+                'borderColor' => '#6f42c1',
+                'description' => 'Evaluasi kinerja sistem portal'
+            ]
+        ];
+    }
+
+    /**
+     * Get calendar events for AJAX requests.
+     */
+    public function getCalendarEvents()
+    {
+        $events = $this->getCalendarEventsData();
+        return response()->json($events);
     }
 }

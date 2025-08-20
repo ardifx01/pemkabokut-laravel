@@ -1,8 +1,8 @@
-@extends('layout')
+@extends('admin.layouts.navigation')
 
 @section('content')
     <div class="container p-4">
-        <section style="padding-top: 150px;">
+        <section>
             <div class="row justify-content-md-center">
                 <div class="col-md-12">
                     <div class="text-center">

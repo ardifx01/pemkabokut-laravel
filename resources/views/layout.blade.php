@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Portal Resmi Pemerintah Kabupaten Ogan Komering Ulu Timur')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -15,6 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    @stack('styles')
 </head>
 
 <body>
@@ -136,7 +138,7 @@
         </div>
     </div>
 
-    <footer class="text-center text-white bg-dark mt-5 py-3">
+    <footer class="text-center text-white bg-dark mt-0 py-3">
         <div class="container">
             <p class="mb-1">Hak Cipta © 2012 <a href="http://pemkabokut-laravel.test//">Pemerintah Kabupaten Ogan
                     Komering Ulu Timur</a></p>
@@ -151,6 +153,7 @@
     <script src="{{ asset('js/layout.js') }}"></script>
     <!-- Owl Carousel JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    @stack('scripts')
 </body>
 
 </html>

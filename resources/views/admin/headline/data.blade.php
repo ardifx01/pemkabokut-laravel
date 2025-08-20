@@ -1,9 +1,9 @@
-@extends('layout')
+@extends('admin.layouts.navigation')
 
 @section('title', 'Data Headlines')
 
 @section('content')
-    <div class="card bg-white p-4 shadow rounded-4 border-0" style="margin-top: 100px;">
+    <div class="card bg-white p-4 shadow rounded-4 border-0">
         <div class="d-flex justify-content-between mb-4">
             <div>
                 <h4>Data Headlines</h4>
@@ -42,14 +42,15 @@
                             <td>{{ $headline->updated_at->format('d M Y, H:i') }}</td>
                             <td>
                                 <a href="{{ route('headline.edit', $headline->id) }}" class="btn btn-info">Edit</a>
-                                <form action="{{ route('headline.destroy', $headline->id) }}" method="POST" class="d-inline">
+                                <form action="{{ route('headline.destroy', $headline->id) }}" method="POST"
+                                    class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-danger btn-sm"
                                         onclick="return confirm('Are you sure you want to delete this headline?')">
                                         Delete
                                     </button>
-                                </form>                                      
+                                </form>
                             </td>
                         </tr>
                     @endforeach

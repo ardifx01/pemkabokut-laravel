@@ -1,8 +1,8 @@
-@extends('layout')
+@extends('admin.layouts.navigation')
 
 @section('content')
     {{-- Detail File --}}
-    <section id="detail" style="padding-top: 120px;">
+    <div id="detail">
         <style>
             .container-fluid {
                 padding-left: 0;
@@ -45,6 +45,6 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
     {{-- Detail File --}}
 @endsection

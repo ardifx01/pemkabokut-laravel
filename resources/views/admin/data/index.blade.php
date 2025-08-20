@@ -1,9 +1,9 @@
-@extends('layout')
+@extends('admin.layouts.navigation')
 
 @section('title', 'Data Documents & Files')
 
 @section('content')
-    <section style="padding-top: 120px;">
+    <section>
         <div class="card bg-white p-4 shadow rounded-4 border-0">
             <div class="d-flex justify-content-between mb-4">
                 <div>

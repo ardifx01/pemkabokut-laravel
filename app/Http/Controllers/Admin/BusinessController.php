@@ -81,4 +81,21 @@ class BusinessController extends Controller
             'message' => 'Business deleted successfully.'
         ]);
     }
+
+    /**
+     * Get pending businesses for notification popup.
+     */
+    public function getPendingBusinesses()
+    {
+        $pendingBusinesses = Business::where('status', 0)
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get(['id', 'nama', 'email', 'foto', 'created_at']);
+        
+        return response()->json([
+            'success' => true,
+            'count' => Business::where('status', 0)->count(),
+            'businesses' => $pendingBusinesses
+        ]);
+    }
 }

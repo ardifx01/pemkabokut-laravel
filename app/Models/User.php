@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email', 
         'password',
+        'foto',
+        'email_verified_at',
+        'remember_token',
     ];
 
     /**
@@ -42,4 +45,36 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Get all posts by this user
+     */
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    /**
+     * Get all documents by this user
+     */
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
+
+    /**
+     * Get all businesses by this user
+     */
+    public function businesses()
+    {
+        return $this->hasMany(Business::class);
+    }
+
+    /**
+     * Get all icons by this user
+     */
+    public function icons()
+    {
+        return $this->hasMany(Icon::class);
+    }
 }

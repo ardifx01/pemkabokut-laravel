@@ -3,23 +3,29 @@
 @section('title', 'UMKM Management - Kata Admin')
 
 @section('content')
-    <div class="container-fluid">
-        <!-- Page Header -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h1 class="h3 mb-1 text-gray-800">UMKM Management</h1>
-                        <p class="text-muted mb-0">Manage all registered UMKM businesses</p>
-                    </div>
-                    <div>
-                        <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-secondary me-2">
-                            <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
-                        </a>
+    <!-- Blue Background Section -->
+    <div
+        style="background: linear-gradient(rgba(7, 63, 151, 0.8), rgba(7, 63, 151, 0.8)), url('{{ asset('images/Perjaya.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat; position: relative; margin: -21px -23px 0 -23px; padding: 20px 20px 120px 20px;">
+        <div class="container-fluid">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="h3 mb-1 text-white">UMKM Management</h1>
+                            <p class="text-white-50 mb-0">Manage all registered UMKM businesses</p>
+                        </div>
+                        <div>
+                            <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-light me-2">
+                                <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="container-fluid" style="margin-top: -120px; position: relative; z-index: 10;">
 
         <!-- Filter Cards -->
         <div class="row mb-4">
@@ -61,44 +67,26 @@
             </div>
         </div>
 
-        <!-- Filter Form -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <form method="GET" action="{{ route('admin.businesses.index') }}">
-                            <div class="row align-items-end">
-                                <div class="col-md-3">
-                                    <label for="status" class="form-label">Filter by Status</label>
-                                    <select class="form-select" id="status" name="status">
-                                        <option value="">All Status</option>
-                                        <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Approved
-                                        </option>
-                                        <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Pending
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fas fa-filter me-1"></i>Filter
-                                    </button>
-                                    <a href="{{ route('admin.businesses.index') }}" class="btn btn-outline-secondary">
-                                        <i class="fas fa-refresh me-1"></i>Reset
-                                    </a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Businesses Table -->
         <div class="row">
             <div class="col-12">
                 <div class="card shadow-sm">
-                    <div class="card-header py-3">
+                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
                         <h6 class="m-0 font-weight-bold text-primary">UMKM List</h6>
+                        <form method="GET" action="{{ route('admin.businesses.index') }}"
+                            class="d-flex gap-2 align-items-center mb-0">
+                            <select class="form-select form-select-sm" id="status" name="status" style="width: 150px;">
+                                <option value="">All Status</option>
+                                <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Approved</option>
+                                <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Pending</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fas fa-filter me-1"></i>Filter
+                            </button>
+                            <a href="{{ route('admin.businesses.index') }}" class="btn btn-outline-secondary btn-sm">
+                                <i class="fas fa-refresh me-1"></i>Reset
+                            </a>
+                        </form>
                     </div>
                     <div class="card-body">
                         @if ($businesses->count() > 0)
@@ -190,6 +178,12 @@
             </div>
         </div>
     </div>
+
+    <style>
+        .table th {
+            background-color: #ffffff;
+        }
+    </style>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>

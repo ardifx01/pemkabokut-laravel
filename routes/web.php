@@ -49,6 +49,8 @@ Route::get('admin/dashboard', [DashboardController::class, 'index'])->middleware
 Route::middleware(['auth', 'verified'])->prefix('admin/api')->group(function () {
     Route::get('/statistics', [DashboardController::class, 'getStatistics'])->name('admin.api.statistics');
     Route::get('/user-stats', [DashboardController::class, 'getUserStats'])->name('admin.api.user-stats');
+    Route::get('/calendar-events', [DashboardController::class, 'getCalendarEvents'])->name('admin.api.calendar-events');
+    Route::get('/pending-businesses', [AdminBusinessController::class, 'getPendingBusinesses'])->name('admin.api.pending-businesses');
 });
 
 // Admin Business Management Routes
@@ -58,6 +60,29 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::post('/businesses/{business}/approve', [AdminBusinessController::class, 'approve'])->name('admin.businesses.approve');
     Route::post('/businesses/{business}/reject', [AdminBusinessController::class, 'reject'])->name('admin.businesses.reject');
     Route::delete('/businesses/{business}', [AdminBusinessController::class, 'destroy'])->name('admin.businesses.destroy');
+});
+
+// Admin Profile Routes
+Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
+    Route::get('/profile', [App\Http\Controllers\Admin\AdminProfileController::class, 'show'])->name('admin.profile.show');
+    Route::put('/profile', [App\Http\Controllers\Admin\AdminProfileController::class, 'update'])->name('admin.profile.update');
+    Route::put('/profile/password', [App\Http\Controllers\Admin\AdminProfileController::class, 'updatePassword'])->name('admin.profile.update-password');
+    Route::get('/profile/delete-photo', [App\Http\Controllers\Admin\AdminProfileController::class, 'deletePhoto'])->name('admin.profile.delete-photo');
+});
+
+// Admin Settings Routes
+Route::middleware(['auth', 'verified'])->prefix('admin/settings')->group(function () {
+    Route::post('/toggle-umkm-registration', [App\Http\Controllers\Admin\SettingController::class, 'toggleUmkmRegistration']);
+    Route::post('/toggle-umkm-menu', [App\Http\Controllers\Admin\SettingController::class, 'toggleUmkmMenu']);
+    Route::get('/get-umkm-settings', [App\Http\Controllers\Admin\SettingController::class, 'getUmkmSettings']);
+});
+
+// Admin User Management Routes
+Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
+    Route::get('/users', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('admin.users.index');
+    Route::get('/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'show'])->name('admin.users.show');
+    Route::post('/users/{user}/deactivate', [App\Http\Controllers\Admin\UserController::class, 'deactivate'])->name('admin.users.deactivate');
+    Route::post('/users/{user}/activate', [App\Http\Controllers\Admin\UserController::class, 'activate'])->name('admin.users.activate');
 });
 
 // Route untuk profile yang hanya dapat diakses oleh user setelah login
@@ -130,6 +155,7 @@ Route::middleware('auth')->group(function () {
     // UMKM CRUD (routes yang memerlukan authentication)
     Route::get('admin/umkm/{id}/edit', [BusinessController::class, 'edit'])->name('umkm.edit');
     Route::put('admin/umkm/{id}', [BusinessController::class, 'update'])->name('umkm.update');
+    Route::delete('admin/umkm/{id}/photo', [BusinessController::class, 'deletePhoto'])->name('umkm.deletePhoto');
     Route::delete('/umkm/{id}', [BusinessController::class, 'destroy'])->name('umkm.destroy');
     Route::post('/umkm/{id}/approve', [BusinessController::class, 'approve'])->name('umkm.approve');
     Route::post('/umkm/{id}/reject', [BusinessController::class, 'reject'])->name('umkm.reject');

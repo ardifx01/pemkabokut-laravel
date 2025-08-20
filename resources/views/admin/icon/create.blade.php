@@ -1,7 +1,7 @@
-@extends('layout')
+@extends('admin.layouts.navigation')
 
 @section('content')
-    <div class="container" style="margin-top: 100px; height: auto;">
+    <div class="container" style="height: auto;">
         <h1>Create Portal with Dropdowns</h1>
         <form action="{{ route('icon.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -20,11 +20,13 @@
                 <div class="dropdown-entry">
                     <div class="mb-3">
                         <label for="dropdown_title" class="form-label">Dropdown Title</label>
-                        <input type="text" name="dropdowns[0][title]" class="form-control" placeholder="Enter dropdown title">
+                        <input type="text" name="dropdowns[0][title]" class="form-control"
+                            placeholder="Enter dropdown title">
                     </div>
                     <div class="mb-3">
                         <label for="dropdown_link" class="form-label">Dropdown Link</label>
-                        <input type="url" name="dropdowns[0][link]" class="form-control" placeholder="Enter dropdown link">
+                        <input type="url" name="dropdowns[0][link]" class="form-control"
+                            placeholder="Enter dropdown link">
                     </div>
                 </div>
             </div>

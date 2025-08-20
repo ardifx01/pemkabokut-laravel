@@ -48,6 +48,7 @@ class IconController extends Controller
         $icon = Icon::create([
             'title' => $request->input('title'),
             'image' => $imagePath,
+            'user_id' => auth()->id(),
         ]);
 
         // Simpan dropdowns yang terkait
@@ -57,6 +58,7 @@ class IconController extends Controller
                     'title' => $dropdownData['title'] ?? null,
                     'link' => $dropdownData['link'] ?? null,
                     'icon_id' => $icon->id,
+                    'user_id' => auth()->id(),
                 ]);
             }
         }

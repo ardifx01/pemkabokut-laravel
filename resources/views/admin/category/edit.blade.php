@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('admin.layouts.navigation')
 
 @section('title', 'Edit Category')
 
@@ -10,7 +10,8 @@
             @csrf
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $category->title) }}" required>
+                <input type="text" class="form-control" id="title" name="title"
+                    value="{{ old('title', $category->title) }}" required>
             </div>
 
             <button type="submit" class="btn btn-primary">Update Category</button>

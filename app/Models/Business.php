@@ -18,9 +18,6 @@ class Business extends Model
         'nib',
         'deskripsi',
         'foto',
-        'google_maps_link',
-        'latitude',
-        'longitude',
         'status',
         'user_id'
     ];
@@ -28,8 +25,6 @@ class Business extends Model
     protected $casts = [
         'status' => 'integer',
         'foto' => 'array',
-        'latitude' => 'decimal:8',
-        'longitude' => 'decimal:8',
     ];
 
     public function user()

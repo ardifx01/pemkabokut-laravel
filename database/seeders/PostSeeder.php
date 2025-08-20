@@ -14,51 +14,52 @@ class PostSeeder extends Seeder
     public function run(): void
     {
         $posts = [
-            ['title' => 'Sejarah', 'category_id' => 1, 'description' => 'Ini adalah deskripsi untuk Sejarah.'],
-            ['title' => 'Arti Lambang', 'category_id' => 1],
-            ['title' => 'Motto Daerah', 'category_id' => 1],
-            ['title' => 'Visi dan Misi', 'category_id' => 1],
-            ['title' => 'Pendidikan', 'category_id' => 1],
-            ['title' => 'Kesehatan', 'category_id' => 1],
-            ['title' => 'Agama', 'category_id' => 1],
-            ['title' => 'Tenaga Kerja', 'category_id' => 1],
+            ['title' => 'Sejarah', 'user_id' => 1, 'category_id' => 1, 'description' => 'Ini adalah deskripsi untuk Sejarah.'],
+            ['title' => 'Arti Lambang', 'user_id' => 1, 'category_id' => 1],
+            ['title' => 'Motto Daerah', 'user_id' => 1, 'category_id' => 1],
+            ['title' => 'Visi dan Misi', 'user_id' => 1, 'category_id' => 1],
+            ['title' => 'Pendidikan', 'user_id' => 1, 'category_id' => 1],
+            ['title' => 'Kesehatan', 'user_id' => 1, 'category_id' => 1],
+            ['title' => 'Agama', 'user_id' => 1, 'category_id' => 1],
+            ['title' => 'Tenaga Kerja', 'user_id' => 1, 'category_id' => 1],
 
-            ['title' => 'Peta Wilayah', 'category_id' => 2],
-            ['title' => 'Letak, Luas & Batas', 'category_id' => 2],
-            ['title' => 'Cuaca & Iklim', 'category_id' => 2],
-            ['title' => 'Topografi', 'category_id' => 2],
-            ['title' => 'Demografi', 'category_id' => 2],
-            ['title' => 'Sosial - Ekonomi', 'category_id' => 2],
-            ['title' => 'Budaya Daerah', 'category_id' => 2],
+            ['title' => 'Peta Wilayah', 'user_id' => 1, 'category_id' => 2],
+            ['title' => 'Letak, Luas & Batas', 'user_id' => 1, 'category_id' => 2],
+            ['title' => 'Cuaca & Iklim', 'user_id' => 1, 'category_id' => 2],
+            ['title' => 'Topografi', 'user_id' => 1, 'category_id' => 2],
+            ['title' => 'Demografi', 'user_id' => 1, 'category_id' => 2],
+            ['title' => 'Sosial - Ekonomi', 'user_id' => 1, 'category_id' => 2],
+            ['title' => 'Budaya Daerah', 'user_id' => 1, 'category_id' => 2],
 
-            ['title' => 'Bupati OKU Timur', 'category_id' => 3],
-            ['title' => 'Wakil Bupati OKU Timur', 'category_id' => 3],
-            ['title' => 'Sekretaris Daerah', 'category_id' => 3],
-            ['title' => 'Asisten I', 'category_id' => 3],
-            ['title' => 'Asisten II', 'category_id' => 3],
-            ['title' => 'Asisten III', 'category_id' => 3],
-            ['title' => 'Kepala Dinas', 'category_id' => 3],
+            ['title' => 'Bupati OKU Timur', 'user_id' => 1, 'category_id' => 3],
+            ['title' => 'Wakil Bupati OKU Timur', 'user_id' => 1, 'category_id' => 3],
+            ['title' => 'Sekretaris Daerah', 'user_id' => 1, 'category_id' => 3],
+            ['title' => 'Asisten I', 'user_id' => 1, 'category_id' => 3],
+            ['title' => 'Asisten II', 'user_id' => 1, 'category_id' => 3],
+            ['title' => 'Asisten III', 'user_id' => 1, 'category_id' => 3],
+            ['title' => 'Kepala Dinas', 'user_id' => 1, 'category_id' => 3],
 
-            ['title' => 'Perkebunan', 'category_id' => 4],
-            ['title' => 'Pertanian', 'category_id' => 4],
-            ['title' => 'Peternakan dan Perikanan', 'category_id' => 4],
-            ['title' => 'Kehutanan', 'category_id' => 4],
-            ['title' => 'Pertambangan', 'category_id' => 4],
-            ['title' => 'Perindustrian', 'category_id' => 4],
-            ['title' => 'Perdagangan', 'category_id' => 4],
-            ['title' => 'Pariwisata', 'category_id' => 4],
+            ['title' => 'Perkebunan', 'user_id' => 1, 'category_id' => 4],
+            ['title' => 'Pertanian', 'user_id' => 1, 'category_id' => 4],
+            ['title' => 'Peternakan dan Perikanan', 'user_id' => 1, 'category_id' => 4],
+            ['title' => 'Kehutanan', 'user_id' => 1, 'category_id' => 4],
+            ['title' => 'Pertambangan', 'user_id' => 1, 'category_id' => 4],
+            ['title' => 'Perindustrian', 'user_id' => 1, 'category_id' => 4],
+            ['title' => 'Perdagangan', 'user_id' => 1, 'category_id' => 4],
+            ['title' => 'Pariwisata', 'user_id' => 1, 'category_id' => 4],
 
-            ['title' => 'Jalan dan Kereta Api', 'category_id' => 5],
-            ['title' => 'Listrik', 'category_id' => 5],
-            ['title' => 'Telekomunikasi', 'category_id' => 5],
-            ['title' => 'Sarana Air Bersih', 'category_id' => 5],
+            ['title' => 'Jalan dan Kereta Api', 'user_id' => 1, 'category_id' => 5],
+            ['title' => 'Listrik', 'user_id' => 1, 'category_id' => 5],
+            ['title' => 'Telekomunikasi', 'user_id' => 1, 'category_id' => 5],
+            ['title' => 'Sarana Air Bersih', 'user_id' => 1, 'category_id' => 5],
 
-            ['title' => 'Galeri', 'category_id' => 8],
+            ['title' => 'Galeri', 'user_id' => 1, 'category_id' => 8],
 
-            ['title' => 'Kebijakan Privasi', 'category_id' => 9],
+            ['title' => 'Kebijakan Privasi', 'user_id' => 1, 'category_id' => 9],
 
             [
                 'title' => 'Buka Lomba Senam Lansia dan Jantung Sehat, dr. Sheila Bangga Dengan Jelita dan Lolita',
+                'user_id' => 1,
                 'category_id' => null,
                 'headline_id' => 1,
                 'image' => json_encode([
@@ -69,6 +70,7 @@ class PostSeeder extends Seeder
             ],
             [
                 'title' => 'Masyarakat Membludak, Bang Enos Hadiri Pesta Rakyat Bersama Endank Soekamti.',
+                'user_id' => 1,
                 'category_id' => null,
                 'headline_id' => 1,
                 'image' => json_encode([
@@ -83,6 +85,7 @@ class PostSeeder extends Seeder
             
             [
                 'title' => 'Pemerintah Kabupaten OKU Timur melalui Dinas Pemberdayaan Perempuan dan Perlindungan Anak (DPPPA) berkolaborasi dengan Tim Penggerak PKK menggelar Lomba dan Pembinaan Pola Asuh Anak dan Remaja (PAAR) di Era Digital.',
+                'user_id' => 1,
                 'category_id' => null,
                 'headline_id' => 1,
                 'image' => json_encode([
@@ -93,6 +96,7 @@ class PostSeeder extends Seeder
             ],
             [
                 'title' => 'Bupati OKU Timur Hadiri Pelantikan Kepengurusan Ikatan Jurnalis Televisi Indonesia (IJTI) Kabupaten OKU Timur.',
+                'user_id' => 1,
                 'category_id' => null,
                 'headline_id' => 1,
                 'image' => json_encode([

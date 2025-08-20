@@ -43,6 +43,7 @@ class DocumentController extends Controller
         $document = Document::create([
             'title' => $request->title,
             'data_id' => $request->data_id,
+            'user_id' => auth()->id(),
         ]);
 
         // Simpan file yang terkait dengan dokumen
@@ -57,6 +58,7 @@ class DocumentController extends Controller
                     'file_date' => $request->file_date,
                     'document_id' => $document->id,
                     'data_id' => $request->data_id,
+                    'user_id' => auth()->id(),
                 ]);
             }
         }

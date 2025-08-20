@@ -207,6 +207,42 @@
     column-gap: 20px; /* Jarak antar kolom */
 }
 
+/* Styling khusus untuk submenu UMKM */
+#iconMenuumkm.submenu-collapse {
+    column-count: 1; /* Gunakan 1 kolom untuk UMKM */
+    max-height: 400px; /* Batasi tinggi maksimal */
+    overflow-y: auto; /* Tambahkan scroll jika konten terlalu panjang */
+}
+
+/* Styling khusus untuk list UMKM */
+#iconMenuumkm .submenu-collapse ul,
+#iconMenuumkm ul {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+#iconMenuumkm .submenu-collapse ul li,
+#iconMenuumkm ul li {
+    margin-bottom: 0;
+    break-inside: avoid; /* Hindari pemecahan item antar kolom */
+    width: 100%;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+#iconMenuumkm .submenu-collapse ul li:last-child,
+#iconMenuumkm ul li:last-child {
+    border-bottom: none;
+}
+
+/* Styling untuk pesan kosong UMKM */
+#iconMenuumkm ul li[style*="text-align: center"] {
+    border-bottom: none !important;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    margin: 10px 0;
+}
+
 /* Tampilkan submenu ketika kelas show ditambahkan */
 .submenu-collapse.show {
     display: block;

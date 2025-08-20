@@ -164,4 +164,30 @@ class BusinessController extends Controller
         
         return redirect()->back()->with('success', 'UMKM ditolak.');
     }
+
+    /**
+     * Delete specific photo from business
+     */
+    public function deletePhoto(Request $request, string $id)
+    {
+        $business = Business::findOrFail($id);
+        $photoIndex = $request->input('photo_index');
+        
+        if ($business->foto && isset($business->foto[$photoIndex])) {
+            // Delete file from storage
+            Storage::disk('public')->delete($business->foto[$photoIndex]);
+            
+            // Remove photo from array
+            $photos = $business->foto;
+            unset($photos[$photoIndex]);
+            $photos = array_values($photos); // Reindex array
+            
+            // Update business
+            $business->update(['foto' => $photos]);
+            
+            return response()->json(['success' => true, 'message' => 'Foto berhasil dihapus']);
+        }
+        
+        return response()->json(['success' => false, 'message' => 'Foto tidak ditemukan']);
+    }
 }
