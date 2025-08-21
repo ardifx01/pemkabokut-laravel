@@ -355,8 +355,9 @@
                             style="border: none; text-decoration: none;">
                             @if (Auth::user()->foto && file_exists(storage_path('app/public/users/' . Auth::user()->foto)))
                                 <img src="{{ asset('storage/users/' . Auth::user()->foto) }}"
-                                    alt="Foto {{ Auth::user()->name }}" class="rounded-circle me-2" width="36"
-                                    height="36" style="object-fit: cover; border: 2px solid #e9ecef;">
+                                    alt="Foto {{ Auth::user()->name }}" class="rounded-circle me-2" width="40"
+                                    height="40"
+                                    style="object-fit: cover; border: 2px solid #e9ecef; object-position: top;">
                             @else
                                 <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-2"
                                     style="width: 36px; height: 36px; font-size: 14px; font-weight: bold; border: 2px solid #e9ecef;">

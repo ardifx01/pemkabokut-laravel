@@ -64,6 +64,9 @@
                                     <dt class="col-sm-4">Jenis Usaha:</dt>
                                     <dd class="col-sm-8">{{ $business->jenis }}</dd>
 
+                                    <dt class="col-sm-4">Owner:</dt>
+                                    <dd class="col-sm-8">{{ $business->owner }}</dd>
+
                                     <dt class="col-sm-4">Email:</dt>
                                     <dd class="col-sm-8">{{ $business->email }}</dd>
                                 </dl>

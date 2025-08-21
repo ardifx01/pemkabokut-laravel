@@ -26,6 +26,7 @@ return new class extends Migration
                 'Pendidikan',
                 'Teknologi'
             ]);
+            $table->string('owner', 255);
             $table->string('alamat', 255);
             $table->string('nomor_telepon', 15);
             $table->string('email', 255);

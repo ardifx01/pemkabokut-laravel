@@ -25,6 +25,7 @@
                                 <th>No</th>
                                 <th>Nama UMKM</th>
                                 <th>Jenis Usaha</th>
+                                <th>Owner</th>
                                 <th>Alamat</th>
                                 <th>Telepon</th>
                                 <th>Email</th>
@@ -40,6 +41,7 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $business->nama }}</td>
                                     <td>{{ $business->jenis }}</td>
+                                    <td>{{ $business->owner }}</td>
                                     <td>{{ Str::limit($business->alamat, 30) }}</td>
                                     <td>{{ $business->nomor_telepon }}</td>
                                     <td>{{ $business->email }}</td>
@@ -51,8 +53,8 @@
                                                     ? $business->foto[0]
                                                     : $business->foto;
                                             @endphp
-                                            <img src="{{ asset('storage/' . $foto) }}" alt="Foto UMKM" class="img-thumbnail"
-                                                style="width: 50px; height: 50px; object-fit: cover;">
+                                            <img src="{{ asset('storage/' . $foto) }}" alt="Foto UMKM"
+                                                class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
                                         @else
                                             <span class="text-muted">Tidak ada foto</span>
                                         @endif

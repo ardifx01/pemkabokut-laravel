@@ -21,8 +21,6 @@
     </div>
 
     <div class="container-fluid px-4" style="margin-top: -120px; position: relative; z-index: 10;">
-
-
         <!-- Statistics Cards -->
         <div class="row mb-4">
             <div class="col-xl-3 col-md-6 mb-4">
@@ -47,9 +45,9 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                    User Aktif</div>
+                                    User Terverifikasi</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    {{ $users->where('email_verified_at', '!=', null)->count() }}</div>
+                                    {{ $users->where('is_verified', true)->count() }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-user-check fa-2x text-gray-300"></i>
@@ -66,7 +64,7 @@
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                     User Belum Verifikasi</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    {{ $users->where('email_verified_at', null)->count() }}</div>
+                                    {{ $users->where('is_verified', false)->count() }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-user-times fa-2x text-gray-300"></i>
@@ -108,8 +106,8 @@
                     </div>
                     <select class="form-select form-select-sm" style="width: 150px;" id="filterStatus">
                         <option value="">Semua Status</option>
-                        <option value="active">Aktif</option>
-                        <option value="inactive">Nonaktif</option>
+                        <option value="active">Terverifikasi</option>
+                        <option value="inactive">Belum terverifikasi</option>
                     </select>
                 </div>
             </div>
@@ -133,34 +131,34 @@
                                     <td class="text-center fw-bold">{{ $user->id }}</td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center">
-                                            @if ($user->profile_photo_path)
-                                                <img src="{{ asset('storage/' . $user->profile_photo_path) }}"
-                                                    alt="{{ $user->name }}" class="rounded-circle" width="40"
-                                                    height="40">
+                                            @if ($user->foto)
+                                                <img src="{{ asset('storage/users/' . $user->foto) }}"
+                                                    alt="{{ $user->name }}" class="rounded-circle"
+                                                    style="width: 50px; height: 50px; object-fit: cover; object-position: top;">
                                             @else
                                                 <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&color=7F9CF5&background=EBF4FF&size=40"
                                                     alt="{{ $user->name }}"
                                                     class="rounded-circle {{ $user->email_verified_at ? '' : 'opacity-50' }}"
-                                                    width="40" height="40">
+                                                    width="50" height="50">
                                             @endif
                                         </div>
                                     </td>
                                     <td>
                                         <div class="d-flex flex-column">
                                             <span
-                                                class="fw-medium {{ $user->email_verified_at ? '' : 'text-muted' }}">{{ $user->name }}</span>
+                                                class="fw-medium {{ $user->is_verified ? '' : 'text-muted' }}">{{ $user->name }}</span>
                                             <small
-                                                class="text-muted">{{ $user->email_verified_at ? 'Verified User' : 'Unverified User' }}</small>
+                                                class="text-muted">{{ $user->is_verified ? 'Terverifikasi' : 'Belum Verifikasi' }}</small>
                                         </div>
                                     </td>
                                     <td>
                                         <span
-                                            class="{{ $user->email_verified_at ? 'text-primary' : 'text-muted' }}">{{ $user->email }}</span>
+                                            class="{{ $user->is_verified ? 'text-primary' : 'text-muted' }}">{{ $user->email }}</span>
                                     </td>
                                     <td>
-                                        @if ($user->email_verified_at)
+                                        @if ($user->is_verified)
                                             <span class="badge bg-success px-3 py-2">
-                                                <i class="fas fa-check-circle me-1"></i>Aktif
+                                                <i class="fas fa-check-circle me-1"></i>Terverifikasi
                                             </span>
                                         @else
                                             <span class="badge bg-warning px-3 py-2">
@@ -181,14 +179,15 @@
                                                 onclick="viewUser({{ $user->id }})">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            @if ($user->email_verified_at)
+                                            @if ($user->id != 1 && auth()->id() === 1)
                                                 <button class="btn btn-warning btn-sm" title="Nonaktifkan"
                                                     onclick="deactivateUser({{ $user->id }})">
                                                     <i class="fas fa-user-slash"></i>
                                                 </button>
-                                            @else
-                                                <button class="btn btn-success btn-sm" title="Aktifkan"
-                                                    onclick="activateUser({{ $user->id }})">
+                                            @endif
+                                            @if (!$user->is_verified && auth()->id() === 1)
+                                                <button class="btn btn-success btn-sm" title="Verifikasi User"
+                                                    onclick="verifyUser({{ $user->id }})">
                                                     <i class="fas fa-user-check"></i>
                                                 </button>
                                             @endif
@@ -329,7 +328,7 @@
 
                     const statusText = statusBadge.textContent.toLowerCase();
                     let status = '';
-                    if (statusText.includes('aktif') && !statusText.includes('belum')) {
+                    if (statusText.includes('terverifikasi') && !statusText.includes('belum terverifikasi')) {
                         status = 'active';
                     } else {
                         status = 'inactive';
@@ -348,7 +347,6 @@
 
         // User management functions
         function viewUser(userId) {
-            // Redirect to user detail page
             window.location.href = `/admin/users/${userId}`;
         }
 
@@ -380,6 +378,31 @@
         function activateUser(userId) {
             if (confirm('Apakah Anda yakin ingin mengaktifkan user ini?')) {
                 fetch(`/admin/users/${userId}/activate`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            showToast(data.message, 'success');
+                            setTimeout(() => location.reload(), 1500);
+                        } else {
+                            showToast(data.message, 'error');
+                        }
+                    })
+                    .catch(error => {
+                        showToast('Terjadi kesalahan', 'error');
+                        console.error('Error:', error);
+                    });
+            }
+        }
+
+        function verifyUser(userId) {
+            if (confirm('Verifikasi user ini?')) {
+                fetch(`/admin/users/${userId}/verify`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

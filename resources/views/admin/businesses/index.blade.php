@@ -1,6 +1,6 @@
 @extends('admin.layouts.navigation')
 
-@section('title', 'UMKM Management - Kata Admin')
+@section('title', 'UMKM Management - Sistem Admin Portal Informasi OKU Timur')
 
 @section('content')
     <!-- Blue Background Section -->
@@ -96,6 +96,7 @@
                                         <tr>
                                             <th>Photo</th>
                                             <th>Name</th>
+                                            <th>Owner</th>
                                             <th>Email</th>
                                             <th>Phone</th>
                                             <th>Type</th>
@@ -123,6 +124,7 @@
                                                     <small
                                                         class="text-muted">{{ $business->user->name ?? 'No User' }}</small>
                                                 </td>
+                                                <td>{{ $business->owner }}</td>
                                                 <td>{{ $business->email }}</td>
                                                 <td>{{ $business->nomor_telepon }}</td>
                                                 <td>{{ $business->jenis }}</td>
@@ -132,6 +134,21 @@
                                                     @else
                                                         <span class="badge bg-warning">Pending</span>
                                                     @endif
+                                                    <div class="mt-2">
+                                                        @php
+                                                            $user = $business->user;
+                                                        @endphp
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name ?? 'Unknown') }}&color=7F9CF5&background=EBF4FF&size=32"
+                                                                alt="User" class="rounded-circle me-2" width="32"
+                                                                height="32">
+                                                            <div>
+                                                                <div class="fw-medium">{{ $user->name ?? 'Unknown' }}</div>
+                                                                <small class="text-muted">ID:
+                                                                    {{ $user->id ?? '-' }}</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <div class="btn-group" role="group">
@@ -140,20 +157,41 @@
                                                             <i class="fas fa-eye"></i>
                                                         </a>
                                                         @if ($business->status == 0)
-                                                            <button class="btn btn-sm btn-outline-success approve-btn"
-                                                                data-id="{{ $business->id }}" title="Approve">
-                                                                <i class="fas fa-check"></i>
-                                                            </button>
+                                                            <form
+                                                                action="{{ route('admin.businesses.approve', $business->id) }}"
+                                                                method="POST" style="display:inline;">
+                                                                @csrf
+                                                                <button type="submit"
+                                                                    class="btn btn-sm btn-outline-success"
+                                                                    onclick="return confirm('Setujui UMKM ini?')"
+                                                                    title="Approve">
+                                                                    <i class="fas fa-check"></i>
+                                                                </button>
+                                                            </form>
                                                         @else
-                                                            <button class="btn btn-sm btn-outline-warning reject-btn"
-                                                                data-id="{{ $business->id }}" title="Set to Pending">
-                                                                <i class="fas fa-times"></i>
-                                                            </button>
+                                                            <form
+                                                                action="{{ route('admin.businesses.reject', $business->id) }}"
+                                                                method="POST" style="display:inline;">
+                                                                @csrf
+                                                                <button type="submit"
+                                                                    class="btn btn-sm btn-outline-warning"
+                                                                    onclick="return confirm('Tolak UMKM ini?')"
+                                                                    title="Set to Pending">
+                                                                    <i class="fas fa-times"></i>
+                                                                </button>
+                                                            </form>
                                                         @endif
-                                                        <button class="btn btn-sm btn-outline-danger delete-btn"
-                                                            data-id="{{ $business->id }}" title="Delete">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
+                                                        <form
+                                                            action="{{ route('admin.businesses.destroy', $business->id) }}"
+                                                            method="POST" style="display:inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                                onclick="return confirm('Hapus UMKM ini? Tindakan ini tidak dapat dibatalkan!')"
+                                                                title="Delete">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </form>
                                                     </div>
                                                 </td>
                                             </tr>

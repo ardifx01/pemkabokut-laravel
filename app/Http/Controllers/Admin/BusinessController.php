@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Business;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class BusinessController extends Controller
 {
@@ -39,12 +40,12 @@ class BusinessController extends Controller
      */
     public function approve(Business $business)
     {
-        $business->update(['status' => 1]);
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'Business approved successfully.'
+        $business->update([
+            'status' => 1,
+            'user_id' => Auth::id()
         ]);
+        return redirect()->route('admin.businesses.index')
+            ->with('success', 'Business approved successfully.');
     }
 
     /**
@@ -52,12 +53,12 @@ class BusinessController extends Controller
      */
     public function reject(Business $business)
     {
-        $business->update(['status' => 0]);
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'Business status changed to pending.'
+        $business->update([
+            'status' => 0,
+            'user_id' => Auth::id()
         ]);
+        return redirect()->route('admin.businesses.index')
+            ->with('success', 'Business status changed to pending.');
     }
 
     /**
@@ -75,11 +76,8 @@ class BusinessController extends Controller
         }
         
         $business->delete();
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'Business deleted successfully.'
-        ]);
+
+        return redirect()->route('admin.businesses.index')->with('success', 'Business deleted successfully.');
     }
 
     /**

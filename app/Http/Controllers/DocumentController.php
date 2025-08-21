@@ -21,7 +21,8 @@ class DocumentController extends Controller
     public function data()
     {
         $documents = Document::all();
-        return view('admin.document.data', compact('documents'));
+        $datas = Data::all();
+        return view('admin.document.data', compact('documents', 'datas'));
     }
 
     public function create()

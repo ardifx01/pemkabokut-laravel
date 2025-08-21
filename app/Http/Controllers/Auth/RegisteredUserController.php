@@ -41,14 +41,13 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'email_verified_at' => now(), // Auto verify email
-            'remember_token' => Str::random(10), // Generate remember token
+            'email_verified_at' => now(),
+            'remember_token' => Str::random(10),
+            'is_verified' => false,
         ]);
 
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        return redirect(RouteServiceProvider::HOME);
+    event(new Registered($user));
+    // Jangan login otomatis jika belum diverifikasi
+    return redirect()->route('login')->with('status', 'Akun Anda menunggu verifikasi admin.');
     }
 }

@@ -33,6 +33,7 @@ class BusinessController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'jenis' => 'required|in:Makanan dan Minuman,Pakaian dan Aksesoris,Jasa,Kerajinan Tangan,Elektronik,Kesehatan,Transportasi,Pendidikan,Teknologi',
+            'owner' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
             'nomor_telepon' => 'required|string|max:15',
             'email' => 'required|email|max:255',
@@ -53,6 +54,7 @@ class BusinessController extends Controller
         Business::create([
             'nama' => $request->nama,
             'jenis' => $request->jenis,
+            'owner' => $request->owner,
             'alamat' => $request->alamat,
             'nomor_telepon' => $request->nomor_telepon,
             'email' => $request->email,
@@ -93,6 +95,7 @@ class BusinessController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'jenis' => 'required|in:Makanan dan Minuman,Pakaian dan Aksesoris,Jasa,Kerajinan Tangan,Elektronik,Kesehatan,Transportasi,Pendidikan,Teknologi',
+            'owner' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
             'nomor_telepon' => 'required|string|max:15',
             'email' => 'required|email|max:255',
@@ -113,6 +116,7 @@ class BusinessController extends Controller
         $business->update([
             'nama' => $request->nama,
             'jenis' => $request->jenis,
+            'owner' => $request->owner,
             'alamat' => $request->alamat,
             'nomor_telepon' => $request->nomor_telepon,
             'email' => $request->email,

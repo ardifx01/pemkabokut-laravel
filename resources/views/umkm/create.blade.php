@@ -66,6 +66,14 @@
                                     </select>
                                 </div>
 
+                                <!-- Owner -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="owner" class="form-label">Nama Pemilik <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="owner" name="owner"
+                                        value="{{ old('owner') }}" required>
+                                </div>
+
                                 <!-- Email -->
                                 <div class="col-md-6 mb-3">
                                     <label for="email" class="form-label">Email <span
@@ -105,7 +113,8 @@
                                         <input type="url" class="form-control" id="google_maps_link"
                                             name="google_maps_link" value="{{ old('google_maps_link') }}"
                                             placeholder="https://maps.app.goo.gl/... atau https://www.google.com/maps/...">
-                                        <button type="button" class="btn btn-success" onclick="extractLocationFromLink()">
+                                        <button type="button" class="btn btn-success"
+                                            onclick="extractLocationFromLink()">
                                             <i class="fas fa-map-marker-alt"></i> Preview Lokasi
                                         </button>
                                     </div>

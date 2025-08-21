@@ -44,14 +44,17 @@
                             <td>{{ $file->document->title ?? 'No Document' }}</td>
 
                             <td>
-                                <a href="/file/show/{{ $file->id }}" class="btn btn-success">Show</a>
-                                <a href="{{ route('file.edit', $file->id) }}" class="btn btn-info">Edit</a>
-                                <form action="{{ route('file.destroy', $file->id) }}" method="POST"
-                                    onsubmit="return confirm('Are you sure you want to delete this file?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
+                                <div class="d-flex gap-2">
+                                    <a href="/file/show/{{ $file->id }}" class="btn btn-success">Show</a>
+                                    <a href="{{ route('file.edit', $file->id) }}" class="btn btn-info">Edit</a>
+                                    <form action="{{ route('file.destroy', $file->id) }}" method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this file?');"
+                                        style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

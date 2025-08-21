@@ -17,17 +17,32 @@
                             <i class="fas fa-arrow-left me-1"></i>Back to List
                         </a>
                         @if ($business->status == 0)
-                            <button class="btn btn-success approve-btn" data-id="{{ $business->id }}">
-                                <i class="fas fa-check me-1"></i>Approve
-                            </button>
+                            <form action="{{ route('admin.businesses.approve', $business->id) }}" method="POST"
+                                style="display:inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-success"
+                                    onclick="return confirm('Setujui UMKM ini?')">
+                                    <i class="fas fa-check me-1"></i>Approve
+                                </button>
+                            </form>
                         @else
-                            <button class="btn btn-warning reject-btn" data-id="{{ $business->id }}">
-                                <i class="fas fa-times me-1"></i>Set to Pending
-                            </button>
+                            <form action="{{ route('admin.businesses.reject', $business->id) }}" method="POST"
+                                style="display:inline;">
+                                @csrf
+                                <button type="submit" class="btn btn-warning" onclick="return confirm('Tolak UMKM ini?')">
+                                    <i class="fas fa-times me-1"></i>Set to Pending
+                                </button>
+                            </form>
                         @endif
-                        <button class="btn btn-danger delete-btn" data-id="{{ $business->id }}">
-                            <i class="fas fa-trash me-1"></i>Delete
-                        </button>
+                        <form action="{{ route('admin.businesses.destroy', $business->id) }}" method="POST"
+                            style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger"
+                                onclick="return confirm('Hapus UMKM ini? Tindakan ini tidak dapat dibatalkan!')">
+                                <i class="fas fa-trash me-1"></i>Delete
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -113,6 +128,14 @@
                             </div>
                             <div class="col-sm-9">
                                 {{ $business->nama }}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <strong>Owner:</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                {{ $business->owner }}
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -311,36 +334,6 @@
             });
         });
 
-        // Delete business function
-        $(document).on('click', '.delete-btn', function() {
-            const businessId = $(this).data('id');
-
-            Swal.fire({
-                title: 'Delete UMKM?',
-                text: 'This action cannot be undone!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#dc3545',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: `/admin/businesses/${businessId}`,
-                        type: 'DELETE',
-                        success: function(response) {
-                            if (response.success) {
-                                Swal.fire('Deleted!', response.message, 'success').then(() => {
-                                    window.location.href = '/admin/businesses';
-                                });
-                            }
-                        },
-                        error: function() {
-                            Swal.fire('Error!', 'Something went wrong.', 'error');
-                        }
-                    });
-                }
-            });
-        });
+        // ...existing code...
     </script>
 @endsection

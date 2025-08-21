@@ -9,6 +9,37 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected static function booted()
+    {
+        static::created(function ($post) {
+            \App\Models\LogAktivitas::create([
+                'model' => 'Post',
+                'title' => $post->title,
+                'user_id' => auth()->id(),
+                'type' => 'Create',
+                'datetime' => now(),
+            ]);
+        });
+        static::updated(function ($post) {
+            \App\Models\LogAktivitas::create([
+                'model' => 'Post',
+                'title' => $post->title,
+                'user_id' => auth()->id(),
+                'type' => 'Update',
+                'datetime' => now(),
+            ]);
+        });
+        static::deleted(function ($post) {
+            \App\Models\LogAktivitas::create([
+                'model' => 'Post',
+                'title' => $post->title,
+                'user_id' => auth()->id(),
+                'type' => 'Delete',
+                'datetime' => now(),
+            ]);
+        });
+    }
+
     protected $fillable = [
         'user_id',
         'title',
@@ -36,5 +67,7 @@ class Post extends Model
     {
         return $this->belongsTo(Headline::class);
     }
+
+    
 }
 

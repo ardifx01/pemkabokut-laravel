@@ -16,10 +16,19 @@
                             <p class="text-white-50 mb-0" id="welcomeText">Selamat datang, Admin - <span
                                     id="currentDateTime"></span></p>
                         </div>
-                        <div>
-                            <button class="btn btn-light">
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" id="createNewDropdown"
+                                data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-plus me-1"></i>Create New
                             </button>
+                            <ul class="dropdown-menu" aria-labelledby="createNewDropdown">
+                                <li><a class="dropdown-item" href="{{ route('post.create') }}"><i
+                                            class="fas fa-file-alt me-2"></i>Post</a></li>
+                                <li><a class="dropdown-item" href="{{ route('document.create') }}"><i
+                                            class="fas fa-file-pdf me-2"></i>Dokumen</a></li>
+                                <li><a class="dropdown-item" href="{{ route('icon.create') }}"><i
+                                            class="fas fa-globe me-2"></i>Portal</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -191,158 +200,76 @@
             </div>
         </div>
 
-        <!-- New Customers and Transaction History Row -->
+        <!-- Log Aktivitas -->
         <div class="row">
-            <!-- Transaction History Card -->
             <div class="col-12">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                        <h6 class="m-0 font-weight-bold text-primary">Transaction History</h6>
-                        <div class="dropdown">
-                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
-                                data-bs-toggle="dropdown">
-                                <i class="fas fa-ellipsis-h"></i>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">View All</a></li>
-                                <li><a class="dropdown-item" href="#">Export</a></li>
-                                <li><a class="dropdown-item" href="#">Filter</a></li>
-                            </ul>
+                        <div class="card-body">
+                            <h6 class="m-0 font-weight-bold text-primary mb-3">Log Aktivitas</h6>
+                            <div class="table-responsive" style="max-height:400px; overflow-y:auto; overflow-x:auto;">
+                                <table class="table table-bordered mb-0">
+                                    <thead class="text-muted small">
+                                        <tr>
+                                            <th>Tanggal & Waktu</th>
+                                            <th>Aktivitas</th>
+                                            <th>User</th>
+                                            <th>Jenis Aktivitas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php
+                                            $perPage = 10;
+                                            $page = request()->query('page', 1);
+                                            $logs = App\Models\LogAktivitas::with('user')
+                                                ->orderByDesc('datetime')
+                                                ->get();
+                                            $total = $logs->count();
+                                            $logsPage = $logs->slice(($page - 1) * $perPage, $perPage);
+                                        @endphp
+                                        @foreach ($logsPage as $log)
+                                            <tr>
+                                                <td>{{ \Carbon\Carbon::parse($log->datetime)->format('d M Y, H:i') }}</td>
+                                                <td>{{ $log->model }}: {{ $log->title }}</td>
+                                                <td>{{ $log->user ? $log->user->name : '-' }}</td>
+                                                <td>
+                                                    @if ($log->type == 'Create')
+                                                        <span class="badge bg-success">Create</span>
+                                                    @elseif ($log->type == 'Update')
+                                                        <span class="badge bg-warning text-dark">Update</span>
+                                                    @elseif ($log->type == 'Delete')
+                                                        <span class="badge bg-danger">Delete</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-borderless">
-                                <thead class="text-muted small">
-                                    <tr>
-                                        <th>PAYMENT NUMBER</th>
-                                        <th>DATE & TIME</th>
-                                        <th>AMOUNT</th>
-                                        <th>STATUS</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="text-success me-2">
-                                                    <i class="fas fa-check-circle"></i>
-                                                </div>
-                                                <div>
-                                                    <div class="font-weight-bold">Payment from #10231</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-muted small">Mar 19, 2020, 2.45pm</td>
-                                        <td class="font-weight-bold">$250.00</td>
-                                        <td>
-                                            <span class="badge bg-success text-white">Completed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="text-success me-2">
-                                                    <i class="fas fa-check-circle"></i>
-                                                </div>
-                                                <div>
-                                                    <div class="font-weight-bold">Payment from #10231</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-muted small">Mar 19, 2020, 2.45pm</td>
-                                        <td class="font-weight-bold">$250.00</td>
-                                        <td>
-                                            <span class="badge bg-success text-white">Completed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="text-success me-2">
-                                                    <i class="fas fa-check-circle"></i>
-                                                </div>
-                                                <div>
-                                                    <div class="font-weight-bold">Payment from #10231</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-muted small">Mar 19, 2020, 2.45pm</td>
-                                        <td class="font-weight-bold">$250.00</td>
-                                        <td>
-                                            <span class="badge bg-success text-white">Completed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="text-success me-2">
-                                                    <i class="fas fa-check-circle"></i>
-                                                </div>
-                                                <div>
-                                                    <div class="font-weight-bold">Payment from #10231</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-muted small">Mar 19, 2020, 2.45pm</td>
-                                        <td class="font-weight-bold">$250.00</td>
-                                        <td>
-                                            <span class="badge bg-success text-white">Completed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="text-success me-2">
-                                                    <i class="fas fa-check-circle"></i>
-                                                </div>
-                                                <div>
-                                                    <div class="font-weight-bold">Payment from #10231</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-muted small">Mar 19, 2020, 2.45pm</td>
-                                        <td class="font-weight-bold">$250.00</td>
-                                        <td>
-                                            <span class="badge bg-success text-white">Completed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="text-success me-2">
-                                                    <i class="fas fa-check-circle"></i>
-                                                </div>
-                                                <div>
-                                                    <div class="font-weight-bold">Payment from #10231</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-muted small">Mar 19, 2020, 2.45pm</td>
-                                        <td class="font-weight-bold">$250.00</td>
-                                        <td>
-                                            <span class="badge bg-success text-white">Completed</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="text-success me-2">
-                                                    <i class="fas fa-check-circle"></i>
-                                                </div>
-                                                <div>
-                                                    <div class="font-weight-bold">Payment from #10231</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-muted small">Mar 19, 2020, 2.45pm</td>
-                                        <td class="font-weight-bold">$250.00</td>
-                                        <td>
-                                            <span class="badge bg-success text-white">Completed</span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        </td>
+                        </tr>
+                        </tbody>
+                        </table>
+                        <!-- Pagination -->
+                        <div class="d-flex justify-content-end mt-2">
+                            @php
+                                $lastPage = ceil($total / $perPage);
+                            @endphp
+                            <nav>
+                                <ul class="pagination pagination-sm mb-0">
+                                    <li class="page-item {{ $page == 1 ? 'disabled' : '' }}">
+                                        <a class="page-link" href="?page={{ $page - 1 }}">&laquo;</a>
+                                    </li>
+                                    @for ($i = 1; $i <= $lastPage; $i++)
+                                        <li class="page-item {{ $page == $i ? 'active' : '' }}">
+                                            <a class="page-link"
+                                                href="?page={{ $i }}">{{ $i }}</a>
+                                        </li>
+                                    @endfor
+                                    <li class="page-item {{ $page == $lastPage ? 'disabled' : '' }}">
+                                        <a class="page-link" href="?page={{ $page + 1 }}">&raquo;</a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
@@ -350,6 +277,22 @@
         </div>
     </div>
 
+
+    <style>
+        /* Custom style for FullCalendar more popover */
+        .fc-more-popover {
+            max-height: 300px !important;
+            overflow-y: auto !important;
+            min-width: 250px !important;
+            max-width: 350px !important;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;
+            border-radius: 8px !important;
+        }
+
+        .fc-popover-body {
+            padding-right: 8px !important;
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>

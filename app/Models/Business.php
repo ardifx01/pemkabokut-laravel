@@ -9,9 +9,41 @@ class Business extends Model
 {
     use HasFactory;
 
+    protected static function booted()
+    {
+        static::created(function ($business) {
+            \App\Models\LogAktivitas::create([
+                'model' => 'Business',
+                'title' => $business->nama,
+                'user_id' => auth()->id(),
+                'type' => 'Create',
+                'datetime' => now(),
+            ]);
+        });
+        static::updated(function ($business) {
+            \App\Models\LogAktivitas::create([
+                'model' => 'Business',
+                'title' => $business->nama,
+                'user_id' => auth()->id(),
+                'type' => 'Update',
+                'datetime' => now(),
+            ]);
+        });
+        static::deleted(function ($business) {
+            \App\Models\LogAktivitas::create([
+                'model' => 'Business',
+                'title' => $business->nama,
+                'user_id' => auth()->id(),
+                'type' => 'Delete',
+                'datetime' => now(),
+            ]);
+        });
+    }
+
     protected $fillable = [
         'nama',
         'jenis',
+        'owner',
         'alamat',
         'nomor_telepon',
         'email',

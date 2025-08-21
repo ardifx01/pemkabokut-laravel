@@ -66,8 +66,9 @@
                                         <div class="mb-3">
                                             @if ($user->foto && file_exists(storage_path('app/public/users/' . $user->foto)))
                                                 <img src="{{ asset('storage/users/' . $user->foto) }}"
-                                                    class="rounded-circle img-thumbnail" width="150" height="150"
-                                                    style="object-fit: cover;" id="profilePhotoPreview">
+                                                    class="rounded-circle" width="150" height="150"
+                                                    style="object-fit: cover; object-position: top;"
+                                                    id="profilePhotoPreview">
                                             @else
                                                 <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto img-thumbnail"
                                                     style="width: 150px; height: 150px; font-size: 48px; font-weight: bold;"
@@ -193,10 +194,6 @@
                             <div class="p-2">
                                 <small class="text-muted">ID Pengguna:</small><br>
                                 <span class="fw-bold">#{{ str_pad($user->id, 4, '0', STR_PAD_LEFT) }}</span>
-                            </div>
-                            <div class="p-2">
-                                <small class="text-muted">Status Akun:</small><br>
-                                <span class="badge bg-success">Aktif</span>
                             </div>
                             <div class="p-2">
                                 <small class="text-muted">Terakhir Login:</small><br>

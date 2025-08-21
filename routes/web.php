@@ -83,6 +83,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::get('/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'show'])->name('admin.users.show');
     Route::post('/users/{user}/deactivate', [App\Http\Controllers\Admin\UserController::class, 'deactivate'])->name('admin.users.deactivate');
     Route::post('/users/{user}/activate', [App\Http\Controllers\Admin\UserController::class, 'activate'])->name('admin.users.activate');
+    Route::post('/users/{user}/verify', [App\Http\Controllers\Admin\UserController::class, 'verify'])->name('admin.users.verify');
 });
 
 // Route untuk profile yang hanya dapat diakses oleh user setelah login

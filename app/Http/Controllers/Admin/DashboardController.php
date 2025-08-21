@@ -118,45 +118,53 @@ class DashboardController extends Controller
      */
     private function getCalendarEventsData()
     {
-        // Sample events - you can replace this with dynamic data from database
-        return [
-            [
-                'title' => 'Meeting Tim',
-                'start' => '2025-08-11',
+        $events = [];
+
+        // Posts
+        foreach (Post::all() as $post) {
+            $events[] = [
+                'title' => 'Create Post: ' . ($post->title ?? 'No Title'),
+                'start' => $post->created_at->format('Y-m-d'),
                 'backgroundColor' => '#007bff',
                 'borderColor' => '#007bff',
-                'description' => 'Meeting rutin dengan tim development'
-            ],
-            [
-                'title' => 'Review UMKM',
-                'start' => '2025-08-15',
+                'description' => 'Post dibuat oleh ' . ($post->user->name ?? '-')
+            ];
+        }
+
+        // Documents
+        foreach (Document::all() as $document) {
+            $events[] = [
+                'title' => 'Create Document: ' . ($document->title ?? 'No Title'),
+                'start' => $document->created_at->format('Y-m-d'),
                 'backgroundColor' => '#28a745',
                 'borderColor' => '#28a745',
-                'description' => 'Review aplikasi UMKM yang masuk'
-            ],
-            [
-                'title' => 'Deadline Report',
-                'start' => '2025-08-20',
-                'backgroundColor' => '#dc3545',
-                'borderColor' => '#dc3545',
-                'description' => 'Deadline pengumpulan laporan bulanan'
-            ],
-            [
-                'title' => 'Training',
-                'start' => '2025-08-25',
+                'description' => 'Document dibuat oleh ' . ($document->user->name ?? '-')
+            ];
+        }
+
+        // Icons
+        foreach (Icon::all() as $icon) {
+            $events[] = [
+                'title' => 'Create Icon: ' . ($icon->title ?? 'No Title'),
+                'start' => $icon->created_at->format('Y-m-d'),
                 'backgroundColor' => '#ffc107',
                 'borderColor' => '#ffc107',
-                'textColor' => '#000',
-                'description' => 'Training penggunaan sistem baru'
-            ],
-            [
-                'title' => 'Evaluasi Sistem',
-                'start' => '2025-08-30',
+                'description' => 'Icon dibuat oleh ' . ($icon->user->name ?? '-')
+            ];
+        }
+
+        // Businesses
+        foreach (Business::all() as $business) {
+            $events[] = [
+                'title' => 'Create Business: ' . ($business->nama ?? 'No Name'),
+                'start' => $business->created_at->format('Y-m-d'),
                 'backgroundColor' => '#6f42c1',
                 'borderColor' => '#6f42c1',
-                'description' => 'Evaluasi kinerja sistem portal'
-            ]
-        ];
+                'description' => 'Business dibuat oleh ' . ($business->user->name ?? '-')
+            ];
+        }
+
+        return $events;
     }
 
     /**

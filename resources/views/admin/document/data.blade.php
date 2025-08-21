@@ -36,7 +36,21 @@
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
-
+                    <!-- Filter Data -->
+                    <form method="GET" action="{{ url('/admin/document/data') }}" class="d-flex gap-2 align-items-center"
+                        id="filterForm">
+                        <select name="data_filter" class="form-select form-select-sm" style="width: 180px;">
+                            <option value="all" {{ ($data_filter ?? 'all') === 'all' ? 'selected' : '' }}>Semua Data
+                            </option>
+                            <option value="no_data" {{ ($data_filter ?? '') === 'no_data' ? 'selected' : '' }}>Tanpa Data
+                            </option>
+                            @foreach ($datas as $data)
+                                <option value="{{ $data->id }}"
+                                    {{ ($data_filter ?? '') == $data->id ? 'selected' : '' }}>
+                                    {{ $data->title }}</option>
+                            @endforeach
+                        </select>
+                    </form>
                     <!-- Add Document Button -->
                     <a href="{{ route('document.create') }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-plus me-2"></i>Add Document
@@ -67,7 +81,8 @@
                                 <tr>
                                     <td class="text-center fw-bold">{{ $document->id }}</td>
                                     <td>{{ $document->title }}</td>
-                                    <td>{{ $document->data->title ?? 'No Data' }}</td>
+                                    <td data-id="{{ $document->data->id ?? '' }}">
+                                        {{ $document->data->title ?? 'No Data' }}</td>
                                     <td class="text-center">
                                         @if ($document->user)
                                             <div class="d-flex align-items-center justify-content-center">
@@ -106,4 +121,45 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchDocument');
+            const dataFilter = document.querySelector('select[name="data_filter"]');
+            const table = document.getElementById('documentsTable');
+            const rows = table.querySelectorAll('tbody tr');
+
+            function filterTable() {
+                const searchValue = searchInput.value.toLowerCase();
+                const filterValue = dataFilter.value;
+
+                rows.forEach(row => {
+                    const title = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                    const dataCell = row.querySelector('td:nth-child(3)');
+                    const dataTitle = dataCell.textContent;
+                    const dataId = dataCell.getAttribute('data-id');
+
+                    let show = true;
+
+                    // Filter by search
+                    if (searchValue && !title.includes(searchValue)) {
+                        show = false;
+                    }
+
+                    // Filter by data
+                    if (filterValue !== 'all') {
+                        if (filterValue === 'no_data' && dataTitle !== 'No Data') {
+                            show = false;
+                        } else if (filterValue !== 'no_data' && dataId !== filterValue) {
+                            show = false;
+                        }
+                    }
+
+                    row.style.display = show ? '' : 'none';
+                });
+            }
+
+            searchInput.addEventListener('input', filterTable);
+            dataFilter.addEventListener('change', filterTable);
+        });
+    </script>
 @endsection

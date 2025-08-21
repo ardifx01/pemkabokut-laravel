@@ -41,14 +41,18 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
+        $user = \App\Models\User::where('email', $this->email)->first();
+        if (! $user || ! $user->is_verified) {
+            throw ValidationException::withMessages([
+                'email' => 'Akun Anda belum diverifikasi admin.',
+            ]);
+        }
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
-
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
             ]);
         }
-
         RateLimiter::clear($this->throttleKey());
     }
 
