@@ -84,6 +84,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::post('/users/{user}/deactivate', [App\Http\Controllers\Admin\UserController::class, 'deactivate'])->name('admin.users.deactivate');
     Route::post('/users/{user}/activate', [App\Http\Controllers\Admin\UserController::class, 'activate'])->name('admin.users.activate');
     Route::post('/users/{user}/verify', [App\Http\Controllers\Admin\UserController::class, 'verify'])->name('admin.users.verify');
+        Route::delete('/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('admin.user.destroy');
 });
 
 // Route untuk profile yang hanya dapat diakses oleh user setelah login
@@ -154,12 +155,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('admin/file/{id}', [FileController::class, 'destroy'])->name('file.destroy');
 
     // UMKM CRUD (routes yang memerlukan authentication)
-    Route::get('admin/umkm/{id}/edit', [BusinessController::class, 'edit'])->name('umkm.edit');
-    Route::put('admin/umkm/{id}', [BusinessController::class, 'update'])->name('umkm.update');
-    Route::delete('admin/umkm/{id}/photo', [BusinessController::class, 'deletePhoto'])->name('umkm.deletePhoto');
-    Route::delete('/umkm/{id}', [BusinessController::class, 'destroy'])->name('umkm.destroy');
-    Route::post('/umkm/{id}/approve', [BusinessController::class, 'approve'])->name('umkm.approve');
-    Route::post('/umkm/{id}/reject', [BusinessController::class, 'reject'])->name('umkm.reject');
+    Route::get('admin/businesses/{id}/edit', [AdminBusinessController::class, 'edit'])->name('businesses.edit');
+    Route::put('admin/businesses/{id}', [AdminBusinessController::class, 'update'])->name('businesses.update');
+    Route::delete('admin/businesses/{id}/photo', [AdminBusinessController::class, 'deletePhoto'])->name('businesses.deletePhoto');
+    Route::delete('admin/businesses/{id}', [AdminBusinessController::class, 'destroy'])->name('businesses.destroy');
+    Route::post('admin/businesses/{id}/approve', [AdminBusinessController::class, 'approve'])->name('businesses.approve');
+    Route::post('admin/businesses/{id}/reject', [AdminBusinessController::class, 'reject'])->name('businesses.reject');
 
 });
 

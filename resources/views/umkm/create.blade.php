@@ -112,7 +112,7 @@
                                     <div class="input-group">
                                         <input type="url" class="form-control" id="google_maps_link"
                                             name="google_maps_link" value="{{ old('google_maps_link') }}"
-                                            placeholder="https://maps.app.goo.gl/... atau https://www.google.com/maps/...">
+                                            placeholder="Contoh: https://www.google.com/maps/place/Nama+Tempat/@-6.2087634,106.845599,17z">
                                         <button type="button" class="btn btn-success"
                                             onclick="extractLocationFromLink()">
                                             <i class="fas fa-map-marker-alt"></i> Preview Lokasi
@@ -381,24 +381,14 @@
             const examples = `
 Contoh format link Google Maps yang didukung:
 
-1. Link Bagikan:
-   https://maps.app.goo.gl/ABC123
+Contoh Link Place:
+https://www.google.com/maps/place/Nama+Tempat/@-6.2087634,106.845599,17z
 
-2. Link Langsung:
-   https://www.google.com/maps/@-6.2087634,106.845599,17z
-
-3. Link Pencarian:
-   https://maps.google.com/maps?q=-6.2087634,106.845599
-
-4. Link Place:
-   https://www.google.com/maps/place/Nama+Tempat/@-6.2087634,106.845599,17z
-
-Cara mendapatkan link:
-1. Buka Google Maps di browser/aplikasi
+Cara mendapatkan link yang berfungsi:
+1. Buka Google Maps di browser desktop
 2. Cari atau tandai lokasi usaha Anda
-3. Klik tombol "Bagikan" atau "Share"
-4. Copy link yang muncul
-5. Paste di kolom di atas
+3. Copy link yang muncul di search bar browser
+4. Paste di kolom di atas
             `;
             alert(examples);
         }

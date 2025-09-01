@@ -40,11 +40,12 @@ class DocumentController extends Controller
             'file_date' => 'required|date',
         ]);
 
-        // Buat Document baru
+        // Buat Document baru dengan created_at dari file_date
         $document = Document::create([
             'title' => $request->title,
             'data_id' => $request->data_id,
             'user_id' => auth()->id(),
+            'created_at' => $request->file_date,
         ]);
 
         // Simpan file yang terkait dengan dokumen
@@ -87,10 +88,11 @@ class DocumentController extends Controller
         // Temukan dokumen berdasarkan ID
         $document = Document::findOrFail($id);
 
-        // Update dokumen
+        // Update dokumen dan created_at
         $document->update([
             'title' => $request->title,
             'data_id' => $request->data_id,
+            'created_at' => $request->file_date,
         ]);
 
         // Simpan file yang terkait dengan dokumen
@@ -105,6 +107,7 @@ class DocumentController extends Controller
                     'file_date' => $request->file_date,
                     'document_id' => $document->id,
                     'data_id' => $request->data_id,
+                    'created_at' => $request->file_date,
                 ]);
             }
         }

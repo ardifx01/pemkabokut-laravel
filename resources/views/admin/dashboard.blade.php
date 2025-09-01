@@ -16,19 +16,24 @@
                             <p class="text-white-50 mb-0" id="welcomeText">Selamat datang, Admin - <span
                                     id="currentDateTime"></span></p>
                         </div>
-                        <div class="dropdown">
-                            <button class="btn btn-light dropdown-toggle" type="button" id="createNewDropdown"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-plus me-1"></i>Create New
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="createNewDropdown">
-                                <li><a class="dropdown-item" href="{{ route('post.create') }}"><i
-                                            class="fas fa-file-alt me-2"></i>Post</a></li>
-                                <li><a class="dropdown-item" href="{{ route('document.create') }}"><i
-                                            class="fas fa-file-pdf me-2"></i>Dokumen</a></li>
-                                <li><a class="dropdown-item" href="{{ route('icon.create') }}"><i
-                                            class="fas fa-globe me-2"></i>Portal</a></li>
-                            </ul>
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="dropdown">
+                                <button class="btn btn-light dropdown-toggle" type="button" id="createNewDropdown"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-plus me-1"></i>Create New
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="createNewDropdown">
+                                    <li><a class="dropdown-item" href="{{ route('post.create') }}"><i
+                                                class="fas fa-file-alt me-2"></i>Post</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('document.create') }}"><i
+                                                class="fas fa-file-pdf me-2"></i>Dokumen</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('icon.create') }}"><i
+                                                class="fas fa-globe me-2"></i>Portal</a></li>
+                                </ul>
+                            </div>
+                            <a href="/" class="btn btn-primary" target="_blank" rel="noopener">
+                                <i class="fas fa-home me-1"></i>Main Dashboard
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -201,12 +206,23 @@
         </div>
 
         <!-- Log Aktivitas -->
+        <a id="log-aktivitas"></a>
         <div class="row">
             <div class="col-12">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex justify-content-between align-items-center">
                         <div class="card-body">
                             <h6 class="m-0 font-weight-bold text-primary mb-3">Log Aktivitas</h6>
+                            <!-- Search Form -->
+                            <form method="GET" action="#log-aktivitas" class="mb-3">
+                                <div class="input-group">
+                                    <input type="text" name="search_log" class="form-control"
+                                        placeholder="Cari aktivitas, user, atau jenis..."
+                                        value="{{ request('search_log') }}">
+                                    <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i>
+                                        Cari</button>
+                                </div>
+                            </form>
                             <div class="table-responsive" style="max-height:400px; overflow-y:auto; overflow-x:auto;">
                                 <table class="table table-bordered mb-0">
                                     <thead class="text-muted small">
@@ -221,9 +237,19 @@
                                         @php
                                             $perPage = 10;
                                             $page = request()->query('page', 1);
-                                            $logs = App\Models\LogAktivitas::with('user')
-                                                ->orderByDesc('datetime')
-                                                ->get();
+                                            $search = request()->query('search_log');
+                                            $logsQuery = App\Models\LogAktivitas::with('user')->orderByDesc('datetime');
+                                            if ($search) {
+                                                $logsQuery->where(function ($q) use ($search) {
+                                                    $q->where('model', 'like', "%$search%")
+                                                        ->orWhere('title', 'like', "%$search%")
+                                                        ->orWhere('type', 'like', "%$search%")
+                                                        ->orWhereHas('user', function ($uq) use ($search) {
+                                                            $uq->where('name', 'like', "%$search%");
+                                                        });
+                                                });
+                                            }
+                                            $logs = $logsQuery->get();
                                             $total = $logs->count();
                                             $logsPage = $logs->slice(($page - 1) * $perPage, $perPage);
                                         @endphp

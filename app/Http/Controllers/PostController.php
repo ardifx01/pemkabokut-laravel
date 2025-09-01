@@ -64,8 +64,8 @@ class PostController extends Controller
             }
         }
         
-        // Apply sorting
-        $posts = $query->orderBy('id', $sort_order)->get();
+    // Apply sorting by published_at
+    $posts = $query->orderBy('published_at', $sort_order)->get();
         
         // Get all categories and headlines for filter options
         $categories = \App\Models\Category::all();
@@ -150,10 +150,10 @@ class PostController extends Controller
                 $img->setAttribute('src', $image_name);
             }
         }
-        // Get processed HTML content
+        
         $description = $dom->saveHTML();
 
-        // Create new post with processed data
+        
         Post::create([
             'title' => $request->title,
             'image' => json_encode($image_paths), // Store as JSON array
@@ -167,7 +167,7 @@ class PostController extends Controller
         return redirect('admin/post/data');
     }
 
-    // Menampilkan detail post berdasarkan ID
+    
     public function show($id)
     {
         $post = Post::find($id);

@@ -554,7 +554,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('admin.users.index') }}" class="nav-link">
                         <i class="fas fa-users"></i>
                         <span>Users</span>
                     </a>
@@ -576,7 +576,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('headline.data') }}" class="nav-link">
                             <i class="fas fa-bullhorn"></i>
                             <span>Headlines</span>
                         </a>
@@ -588,19 +588,19 @@
                 <div class="nav-section-title">DOKUMEN PUBLIK</div>
                 <ul class="sidebar-nav">
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('data.index') }}" class="nav-link">
                             <i class="fas fa-database"></i>
                             <span>Data</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('document.data') }}" class="nav-link">
                             <i class="fas fa-file-alt"></i>
                             <span>Dokumen</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('file.data') }}" class="nav-link">
                             <i class="fas fa-folder"></i>
                             <span>Files</span>
                         </a>
@@ -612,7 +612,7 @@
                 <div class="nav-section-title">LAYANAN MASYARAKAT</div>
                 <ul class="sidebar-nav">
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('icon.data') }}" class="nav-link">
                             <i class="fas fa-globe"></i>
                             <span>Portal</span>
                         </a>
@@ -638,11 +638,14 @@
                         <div class="text-center" style="margin-bottom: 40px;">
                             <h1>Create a New Post</h1>
                         </div>
-                        <form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data">
+                        <form id="create-post-form" action="{{ route('post.store') }}" method="post"
+                            enctype="multipart/form-data" novalidate>
                             @csrf
                             <div class="form-group" style="margin-bottom: 25px;">
                                 <label for="title">Title:</label>
-                                <input type="text" class="form-control" name="title" placeholder="Enter the title">
+                                <input type="text" class="form-control" name="title" id="title"
+                                    placeholder="Enter the title">
+                                <div id="title-error" class="text-danger" style="margin-top:5px;display:none;"></div>
                             </div>
 
                             <div class="form-group" style="margin-bottom: 25px;">
@@ -653,6 +656,8 @@
                                         <option value="{{ $category->id }}">{{ $category->title }}</option>
                                     @endforeach
                                 </select>
+                                <div id="category-error" class="text-danger" style="margin-top:5px;display:none;">
+                                </div>
                             </div>
 
                             <div class="form-group" style="margin-bottom: 25px;">
@@ -663,6 +668,8 @@
                                         <option value="{{ $headline->id }}">{{ $headline->title }}</option>
                                     @endforeach
                                 </select>
+                                <div id="headline-error" class="text-danger" style="margin-top:5px;display:none;">
+                                </div>
                             </div>
 
                             <!-- Bagian ini menampilkan input gambar dan tombol Add -->
@@ -688,7 +695,8 @@
                             <div class="form-group" style="margin-bottom: 25px;">
                                 <label for="published_at">Tanggal publish:</label>
                                 <input type="datetime-local" class="form-control" name="published_at"
-                                    id="published_at">
+                                    id="published_at" value="{{ date('Y-m-d\TH:i') }}"
+                                    placeholder="YYYY-MM-DDTHH:MM">
                             </div>
 
                             <button type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
@@ -701,6 +709,34 @@
 
     <script>
         $(document).ready(function() {
+            // Validasi form
+            $('#create-post-form').on('submit', function(e) {
+                let valid = true;
+                // Title required
+                const title = $('#title').val().trim();
+                if (!title) {
+                    $('#title-error').text('Title wajib diisi.').show();
+                    valid = false;
+                } else {
+                    $('#title-error').hide();
+                }
+
+                // Minimal salah satu category atau headline harus dipilih
+                const category = $('#category-select').val();
+                const headline = $('#headline-select').val();
+                if (!category && !headline) {
+                    $('#category-error').text('Pilih minimal salah satu Category atau Headline.').show();
+                    $('#headline-error').text('Pilih minimal salah satu Category atau Headline.').show();
+                    valid = false;
+                } else {
+                    $('#category-error').hide();
+                    $('#headline-error').hide();
+                }
+
+                if (!valid) {
+                    e.preventDefault();
+                }
+            });
             // Sidebar toggle functionality
             $('#sidebarToggle').click(function() {
                 const sidebar = $('#sidebar');

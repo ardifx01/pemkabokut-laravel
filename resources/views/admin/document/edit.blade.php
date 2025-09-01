@@ -12,7 +12,7 @@
                 <form action="{{ route('document.update', $document->id) }}" method="post" enctype="multipart/form-data"
                     id="file-form">
                     @csrf
-                    @method('PUT')
+                    @method('PATCH')
 
                     <!-- Input untuk judul dokumen -->
                     <div class="form-group">

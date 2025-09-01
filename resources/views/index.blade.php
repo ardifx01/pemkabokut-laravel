@@ -37,12 +37,50 @@
         <div class="container-fluid d-flex flex-column justify-content-center align-items-center"
             style="height: 100%; position: relative; z-index: 2;">
             <!-- Welcome Text -->
-            <h1 class="text-white text-center fw-bold text-uppercase mb-3" style="transform: translateY(60px);">
+            <h1 id="welcomePopup" class="text-white text-center fw-bold text-uppercase mb-3 popup-scale"
+                style="transform: translateY(60px);">
                 Selamat Datang<br>Pemerintah Kabupaten OKU TIMUR
             </h1>
-            <p class="text-white fs-5 text-center mb-4" style="transform: translateY(60px);">
+            <p id="infoPopup" class="text-white fs-5 text-center mb-4 popup-left" style="transform: translateY(60px);">
                 Temukan informasi publik terkini dari Kabupaten OKU TIMUR
             </p>
+            <style>
+                .popup-scale {
+                    opacity: 0;
+                    transform: scale(0.2) translateY(60px);
+                    transition: opacity 0.7s cubic-bezier(.68, -0.55, .27, 1.55), transform 0.7s cubic-bezier(.68, -0.55, .27, 1.55);
+                    z-index: 9999;
+                }
+
+                .popup-scale.show {
+                    opacity: 1;
+                    transform: scale(1) translateY(0);
+                }
+
+                .popup-left {
+                    opacity: 0;
+                    transform: translateX(-100vw);
+                    transition: opacity 0.7s cubic-bezier(.68, -0.55, .27, 1.55), transform 0.7s cubic-bezier(.68, -0.55, .27, 1.55);
+                    z-index: 9999;
+                }
+
+                .popup-left.show {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            </style>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var welcome = document.getElementById('welcomePopup');
+                    var info = document.getElementById('infoPopup');
+                    setTimeout(function() {
+                        welcome.classList.add('show');
+                    }, 200);
+                    setTimeout(function() {
+                        info.classList.add('show');
+                    }, 900);
+                });
+            </script>
 
             <!-- Search Form -->
             <form class="search-form d-flex justify-content-between align-items-center" method="GET"
@@ -113,61 +151,9 @@
                                         </a>
                                     </li>
                                 @endif
-                                @foreach ($approvedBusinesses as $index => $business)
-                                    <li>
-                                        <a href="{{ route('umkm.show', $business->id) }}" target="_blank"
-                                            @if ($index === 0) class="newest-business" @endif
-                                            style="display: flex; align-items: center; gap: 10px; padding: 12px 8px; border-bottom: 1px solid #f1f3f4; transition: all 0.2s ease; text-decoration: none;"
-                                            onmouseover="this.style.backgroundColor='#f8f9fa';"
-                                            onmouseout="this.style.backgroundColor='transparent';">
-                                            @php
-                                                $businessPhotos = $business->foto; // foto sudah di-cast sebagai array
-                                                $firstPhoto =
-                                                    $businessPhotos && is_array($businessPhotos)
-                                                        ? $businessPhotos[0]
-                                                        : null;
-                                            @endphp
-
-                                            @if ($firstPhoto)
-                                                <!-- Foto Business dengan bentuk persegi -->
-                                                @if (Str::startsWith($firstPhoto, ['http://', 'https://']))
-                                                    <img src="{{ $firstPhoto }}" alt="{{ $business->nama }}"
-                                                        style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; flex-shrink: 0; border: 2px solid #e9ecef;">
-                                                @else
-                                                    <img src="{{ asset('storage/' . $firstPhoto) }}"
-                                                        alt="{{ $business->nama }}"
-                                                        style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; flex-shrink: 0; border: 2px solid #e9ecef;">
-                                                @endif
-                                            @else
-                                                <!-- Placeholder jika tidak ada foto -->
-                                                <div
-                                                    style="width: 40px; height: 40px; background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border: 2px solid #dee2e6;">
-                                                    <i class="bi bi-building" style="color: #6c757d; font-size: 16px;"></i>
-                                                </div>
-                                            @endif
-
-                                            <div style="flex: 1; min-width: 0;">
-                                                <div
-                                                    style="font-weight: 500; color: #333; font-size: 14px; line-height: 1.2; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                                    {{ $business->nama }}
-                                                    @if ($index === 0)
-                                                        <span
-                                                            style="font-size: 9px; background: linear-gradient(45deg, #28a745, #20c997); color: white; padding: 2px 5px; border-radius: 10px; margin-left: 3px; font-weight: bold; text-transform: uppercase;">NEW</span>
-                                                    @endif
-                                                </div>
-                                                <div style="font-size: 11px; color: #6c757d; line-height: 1.1;">
-                                                    @if ($business->jenis)
-                                                        {{ $business->jenis }}
-                                                    @else
-                                                        Bisnis UMKM
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                @endforeach
-
-                                @if ($approvedBusinesses->isEmpty())
+                            </ul>
+                            @if ($approvedBusinesses->isEmpty())
+                                <ul>
                                     <li style="padding: 20px; text-align: center;">
                                         <div style="color: #6c757d; font-style: italic;">
                                             <i class="bi bi-info-circle"
@@ -182,8 +168,63 @@
                                             </div>
                                         </div>
                                     </li>
-                                @endif
-                            </ul>
+                                </ul>
+                            @else
+                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                                    @foreach ($approvedBusinesses as $index => $business)
+                                        <div style="width: 100%; min-width: 0;">
+                                            <a href="{{ route('umkm.show', $business->id) }}" target="_blank"
+                                                @if ($index === 0) class="newest-business" @endif
+                                                style="display: flex; align-items: center; gap: 10px; padding: 12px 8px; border-bottom: 1px solid #f1f3f4; transition: all 0.2s ease; text-decoration: none; width: 100%;">
+                                                @php
+                                                    $businessPhotos = $business->foto; // foto sudah di-cast sebagai array
+                                                    $firstPhoto =
+                                                        $businessPhotos && is_array($businessPhotos)
+                                                            ? $businessPhotos[0]
+                                                            : null;
+                                                @endphp
+
+                                                @if ($firstPhoto)
+                                                    <!-- Foto Business dengan bentuk persegi -->
+                                                    @if (Str::startsWith($firstPhoto, ['http://', 'https://']))
+                                                        <img src="{{ $firstPhoto }}" alt="{{ $business->nama }}"
+                                                            style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; flex-shrink: 0; border: 2px solid #e9ecef;">
+                                                    @else
+                                                        <img src="{{ asset('storage/' . $firstPhoto) }}"
+                                                            alt="{{ $business->nama }}"
+                                                            style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; flex-shrink: 0; border: 2px solid #e9ecef;">
+                                                    @endif
+                                                @else
+                                                    <!-- Placeholder jika tidak ada foto -->
+                                                    <div
+                                                        style="width: 40px; height: 40px; background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border: 2px solid #dee2e6;">
+                                                        <i class="bi bi-building"
+                                                            style="color: #6c757d; font-size: 16px;"></i>
+                                                    </div>
+                                                @endif
+
+                                                <div style="flex: 1; min-width: 0;">
+                                                    <div
+                                                        style="font-weight: 500; color: #333; font-size: 14px; line-height: 1.2; margin-bottom: 2px; white-space: normal; overflow-wrap: break-word; word-break: break-word;">
+                                                        {{ $business->nama }}
+                                                        @if ($index === 0)
+                                                            <span
+                                                                style="font-size: 9px; background: linear-gradient(45deg, #28a745, #20c997); color: white; padding: 2px 5px; border-radius: 10px; margin-left: 3px; font-weight: bold; text-transform: uppercase;">NEW</span>
+                                                        @endif
+                                                    </div>
+                                                    <div style="font-size: 11px; color: #6c757d; line-height: 1.1;">
+                                                        @if ($business->jenis)
+                                                            {{ $business->jenis }}
+                                                        @else
+                                                            Bisnis UMKM
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
                     </div>
                 @endif
@@ -292,29 +333,46 @@
                     <div style="flex-grow: 1; height: 2px; background-color: #2F4F7F;"></div>
                 </div>
                 <div class="list-group">
-                    {{-- Looping untuk menampilkan 4 dokumen terbaru --}}
-                    @foreach ($documents as $document)
+                    {{-- Looping untuk menampilkan 2 dokumen terbaru dengan tanda [ title document ] blink hijau --}}
+                    @foreach ($documents->sortByDesc('id')->take(2) as $document)
                         <a href="{{ route('data.show', $document->data_id) }}"
                             class="list-group-item list-group-item-action">
                             <div class="d-flex align-items-center">
-                                {{-- Image local yang ditambahkan di sebelah kiri --}}
                                 <img src="{{ asset('/icons/dokumen.jpg') }}" alt="Document Icon" class="me-3"
                                     style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
-
-                                {{-- Konten teks dokumen --}}
                                 <div class="flex-grow-1">
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="mb-1">{{ $document->title }}</h6>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="blink-green" style="font-weight:bold; font-size:16px;">
+                                            [ {{ $document->title }} ]
+                                        </span>
                                     </div>
                                     <small><i class="bi bi-calendar"></i>
                                         {{ $document->created_at->format('d M Y') }}</small>
-                                    <small><i class="bi bi-person"></i> {{ $post->user ? $post->user->name : 'User' }}
-                                        &nbsp; <i class="bi bi-eye"></i>
-                                        {{ $document->views ?? 0 }}</small>
+                                    <small><i class="bi bi-eye"></i> {{ $document->views ?? 0 }}</small>
                                 </div>
                             </div>
                         </a>
                     @endforeach
+                    <style>
+                        .blink-green {
+                            color: #28a745;
+                            animation: blink 1s linear infinite;
+                        }
+
+                        @keyframes blink {
+                            0% {
+                                opacity: 1;
+                            }
+
+                            50% {
+                                opacity: 0.2;
+                            }
+
+                            100% {
+                                opacity: 1;
+                            }
+                        }
+                    </style>
                 </div>
             </div>
         </div>

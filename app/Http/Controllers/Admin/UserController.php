@@ -74,4 +74,22 @@ class UserController extends Controller
             ], 500);
         }
     }
+    public function destroy(User $user)
+    {
+        if (auth()->id() !== 1 || $user->id == 1) {
+            return redirect()->back()->with('error', 'Hanya admin dengan ID 1 yang dapat menghapus user lain.');
+        }
+        try {
+            // Update related models' user_id to 1
+            \App\Models\Post::where('user_id', $user->id)->update(['user_id' => 1]);
+            \App\Models\Document::where('user_id', $user->id)->update(['user_id' => 1]);
+            \App\Models\Icon::where('user_id', $user->id)->update(['user_id' => 1]);
+            \App\Models\Business::where('user_id', $user->id)->update(['user_id' => 1]);
+            // Hapus user
+            $user->delete();
+            return redirect()->back()->with('success', 'User berhasil dihapus. Semua data terkait dialihkan ke user ID 1.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menghapus user.');
+        }
+    }
 }

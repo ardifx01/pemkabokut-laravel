@@ -71,22 +71,52 @@
         <div class="row">
             <div class="col-12">
                 <div class="card shadow-sm">
-                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                        <h6 class="m-0 font-weight-bold text-primary">UMKM List</h6>
-                        <form method="GET" action="{{ route('admin.businesses.index') }}"
-                            class="d-flex gap-2 align-items-center mb-0">
-                            <select class="form-select form-select-sm" id="status" name="status" style="width: 150px;">
-                                <option value="">All Status</option>
-                                <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Approved</option>
-                                <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Pending</option>
-                            </select>
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="fas fa-filter me-1"></i>Filter
-                            </button>
-                            <a href="{{ route('admin.businesses.index') }}" class="btn btn-outline-secondary btn-sm">
-                                <i class="fas fa-refresh me-1"></i>Reset
-                            </a>
-                        </form>
+                    <div class="card-header py-3">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap">
+                            <h6 class="m-0 font-weight-bold text-primary">UMKM List</h6>
+                            <div class="d-flex gap-2 align-items-center flex-wrap">
+                                <!-- Search Form -->
+                                <form method="GET" action="{{ route('admin.businesses.index') }}"
+                                    class="d-flex gap-2 align-items-center mb-0" id="searchForm">
+                                    <div class="input-group" style="width: 250px;">
+                                        <input type="text" class="form-control form-control-sm" name="search"
+                                            placeholder="Search businesses..." value="{{ request('search') }}"
+                                            id="searchInput">
+                                        <button class="btn btn-outline-secondary btn-sm" type="submit">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                    <!-- Preserve status filter when searching -->
+                                    @if (request('status'))
+                                        <input type="hidden" name="status" value="{{ request('status') }}">
+                                    @endif
+                                </form>
+
+                                <!-- Status Filter Form -->
+                                <form method="GET" action="{{ route('admin.businesses.index') }}"
+                                    class="d-flex gap-2 align-items-center mb-0" id="filterForm">
+                                    <select class="form-select form-select-sm" id="status" name="status"
+                                        style="width: 150px;">
+                                        <option value="">All Status</option>
+                                        <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Approved
+                                        </option>
+                                        <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Pending
+                                        </option>
+                                    </select>
+                                    <!-- Preserve search term when filtering -->
+                                    @if (request('search'))
+                                        <input type="hidden" name="search" value="{{ request('search') }}">
+                                    @endif
+                                </form>
+
+                                <!-- Clear Filters Button -->
+                                @if (request('search') || request('status'))
+                                    <a href="{{ route('admin.businesses.index') }}" class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-times"></i> Clear
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         @if ($businesses->count() > 0)
@@ -101,6 +131,7 @@
                                             <th>Phone</th>
                                             <th>Type</th>
                                             <th>Status</th>
+                                            <th>Updated At</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -150,11 +181,17 @@
                                                         </div>
                                                     </div>
                                                 </td>
+                                                <td>{{ $business->updated_at ? $business->updated_at->format('d-m-Y H:i') : '-' }}
+                                                </td>
                                                 <td>
                                                     <div class="btn-group" role="group">
                                                         <a href="{{ route('admin.businesses.show', $business) }}"
                                                             class="btn btn-sm btn-outline-info" title="Detail">
                                                             <i class="fas fa-eye"></i>
+                                                        </a>
+                                                        <a href="{{ route('businesses.edit', $business->id) }}"
+                                                            class="btn btn-sm btn-outline-warning" title="Edit">
+                                                            <i class="fas fa-edit"></i>
                                                         </a>
                                                         @if ($business->status == 0)
                                                             <form
@@ -174,7 +211,7 @@
                                                                 method="POST" style="display:inline;">
                                                                 @csrf
                                                                 <button type="submit"
-                                                                    class="btn btn-sm btn-outline-warning"
+                                                                    class="btn btn-sm btn-outline-secondary"
                                                                     onclick="return confirm('Tolak UMKM ini?')"
                                                                     title="Set to Pending">
                                                                     <i class="fas fa-times"></i>
@@ -194,6 +231,7 @@
                                                         </form>
                                                     </div>
                                                 </td>
+
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -229,6 +267,19 @@
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        // Status filter change handler
+        document.getElementById('status').addEventListener('change', function() {
+            document.getElementById('filterForm').submit();
+        });
+
+        // Search form enhancement - submit on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                document.getElementById('searchForm').submit();
             }
         });
 

@@ -43,7 +43,8 @@ class Document extends Model
     protected $fillable = [
         'user_id',
         'title',
-        'data_id'
+        'data_id',
+        'created_at'
     ];
 
     public function user()

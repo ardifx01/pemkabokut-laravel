@@ -21,13 +21,18 @@ class Post extends Model
             ]);
         });
         static::updated(function ($post) {
-            \App\Models\LogAktivitas::create([
-                'model' => 'Post',
-                'title' => $post->title,
-                'user_id' => auth()->id(),
-                'type' => 'Update',
-                'datetime' => now(),
-            ]);
+                // Cek jika hanya kolom 'views' yang berubah, jangan log aktivitas
+                $changes = $post->getChanges();
+                if (array_keys($changes) === ['views']) {
+                    return;
+                }
+                \App\Models\LogAktivitas::create([
+                    'model' => 'Post',
+                    'title' => $post->title,
+                    'user_id' => auth()->id(),
+                    'type' => 'Update',
+                    'datetime' => now(),
+                ]);
         });
         static::deleted(function ($post) {
             \App\Models\LogAktivitas::create([

@@ -190,6 +190,16 @@
                                                     onclick="verifyUser({{ $user->id }})">
                                                     <i class="fas fa-user-check"></i>
                                                 </button>
+                                                <form action="{{ route('admin.user.destroy', $user->id) }}"
+                                                    method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                        title="Hapus User"
+                                                        onclick="return confirm('Yakin ingin menghapus user ini?')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
                                             @endif
                                         </div>
                                     </td>

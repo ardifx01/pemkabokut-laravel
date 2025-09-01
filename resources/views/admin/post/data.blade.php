@@ -11,7 +11,7 @@
                 <div class="col-12">
                     <div class="d-flex justify-content-between align-items-center" style="margin-top: 20px;">
                         <div>
-                            <h1 class="h3 mb-1 text-white">Posts Management</h1>
+                            <h1 class="h3 mb-1 text-white">Post Management</h1>
                             <p class="text-white-50 mb-0">Kelola semua artikel dan berita yang dipublikasikan</p>
                         </div>
                     </div>
@@ -41,22 +41,6 @@
                 </div>
             </div>
             <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Published</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    {{ $posts->whereNotNull('published_at')->count() }}</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-check-circle fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-info shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -73,13 +57,30 @@
                 </div>
             </div>
             <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">With Headline</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ $posts->whereNotNull('headline_id')->count() }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-warning shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Categories</div>
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">With Categories</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    {{ $posts->pluck('category_id')->unique()->count() }}</div>
+                                    {{ $posts->whereNotNull('category_id')->count() }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-tags fa-2x text-gray-300"></i>
@@ -224,7 +225,6 @@
                                 <th width="10%">Author</th>
                                 <th width="5%">Category</th>
                                 <th width="12%">Headline</th>
-                                <th width="5%">Status</th>
                                 <th width="5%">Published</th>
                                 <th width="5%">Actions</th>
                             </tr>
@@ -367,13 +367,6 @@ if (str_starts_with($imageUrl, 'http')) {
                                             </span>
                                         @else
                                             <span class="badge bg-secondary rounded-pill px-3 py-1">No Headline</span>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($post->published_at)
-                                            <i class="fas fa-check-circle text-success" title="Published"></i>
-                                        @else
-                                            <i class="fas fa-clock text-warning" title="Draft"></i>
                                         @endif
                                     </td>
                                     <td class="text-center">
