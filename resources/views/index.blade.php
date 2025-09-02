@@ -177,20 +177,16 @@
                                                 @if ($index === 0) class="newest-business" @endif
                                                 style="display: flex; align-items: center; gap: 10px; padding: 12px 8px; border-bottom: 1px solid #f1f3f4; transition: all 0.2s ease; text-decoration: none; width: 100%;">
                                                 @php
-                                                    $businessPhotos = $business->foto; // foto sudah di-cast sebagai array
-                                                    $firstPhoto =
-                                                        $businessPhotos && is_array($businessPhotos)
-                                                            ? $businessPhotos[0]
-                                                            : null;
+                                                    $businessPhoto = $business->foto; // foto sekarang hanya satu string
                                                 @endphp
 
-                                                @if ($firstPhoto)
+                                                @if ($businessPhoto)
                                                     <!-- Foto Business dengan bentuk persegi -->
-                                                    @if (Str::startsWith($firstPhoto, ['http://', 'https://']))
-                                                        <img src="{{ $firstPhoto }}" alt="{{ $business->nama }}"
+                                                    @if (Str::startsWith($businessPhoto, ['http://', 'https://']))
+                                                        <img src="{{ $businessPhoto }}" alt="{{ $business->nama }}"
                                                             style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; flex-shrink: 0; border: 2px solid #e9ecef;">
                                                     @else
-                                                        <img src="{{ asset('storage/' . $firstPhoto) }}"
+                                                        <img src="{{ asset('storage/' . $businessPhoto) }}"
                                                             alt="{{ $business->nama }}"
                                                             style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; flex-shrink: 0; border: 2px solid #e9ecef;">
                                                     @endif
@@ -262,7 +258,7 @@
                 {{-- Container Pengumuman with Owl Carousel --}}
                 <div class="container py-4" style="margin-top: -20px; margin-left: -12px; width: 104%;">
                     <div id="latestArticle" class="owl-carousel owl-theme">
-                        @foreach ($posts->take(4) as $post)
+                        @foreach ($posts->where('draft', false)->take(4) as $post)
                             {{-- Menampilkan hanya 4 item --}}
                             <div class="item">
                                 <div class="card border-0 shadow-sm mb-3">
@@ -335,7 +331,7 @@
                 <div class="list-group">
                     {{-- Looping untuk menampilkan 2 dokumen terbaru dengan tanda [ title document ] blink hijau --}}
                     @foreach ($documents->sortByDesc('id')->take(2) as $document)
-                        <a href="{{ route('data.show', $document->data_id) }}"
+                        <a href="{{ route('document.show', $document->id) }}"
                             class="list-group-item list-group-item-action">
                             <div class="d-flex align-items-center">
                                 <img src="{{ asset('/icons/dokumen.jpg') }}" alt="Document Icon" class="me-3"
@@ -348,7 +344,6 @@
                                     </div>
                                     <small><i class="bi bi-calendar"></i>
                                         {{ $document->created_at->format('d M Y') }}</small>
-                                    <small><i class="bi bi-eye"></i> {{ $document->views ?? 0 }}</small>
                                 </div>
                             </div>
                         </a>
@@ -388,7 +383,7 @@
                 <div style="flex-grow: 1; height: 2px; background-color: #2F4F7F;"></div>
             </div>
             <div class="row" style="margin-top: 20px">
-                @foreach ($posts->whereNotNull('headline_id')->sortByDesc('id')->take(6) as $post)
+                @foreach ($posts->where('draft', false)->whereNotNull('headline_id')->sortByDesc('id')->take(6) as $post)
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
                         <a href="/post/show/{{ $post->id }}" class="text-decoration-none">
                             <div class="card border-0 shadow-sm">

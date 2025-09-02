@@ -33,8 +33,9 @@ Route::get('/search', [PostController::class, 'search'])->name('post.search');
 Route::get('/headlines/show/{id}', [HeadlineController::class, 'show'])->name('headline.show');
 Route::get('/data/show/{id}', [DataController::class, 'show'])->name('data.show');
 Route::get('/document/show/{id}', [DocumentController::class, 'show'])->name('document.show');
-Route::get('/file/show/{id}', [FileController::class, 'show']);
+Route::get('/file/show/{id}', [FileController::class, 'show'])->name('file.show');
 Route::get('/file/download/{id}', [FileController::class, 'download'])->name('file.download');
+Route::get('/file/serve/{id}', [FileController::class, 'serve'])->name('file.serve');
 
 // Route UMKM yang dapat diakses publik (tanpa login)
 Route::get('/umkm', [BusinessController::class, 'index'])->name('umkm.index');
@@ -57,6 +58,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin/api')->group(function () 
 Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::get('/businesses', [AdminBusinessController::class, 'index'])->name('admin.businesses.index');
     Route::get('/businesses/{business}', [AdminBusinessController::class, 'show'])->name('admin.businesses.show');
+    Route::get('/businesses/{business}/edit', [AdminBusinessController::class, 'edit'])->name('admin.businesses.edit');
+    Route::put('/businesses/{business}', [AdminBusinessController::class, 'update'])->name('admin.businesses.update');
     Route::post('/businesses/{business}/approve', [AdminBusinessController::class, 'approve'])->name('admin.businesses.approve');
     Route::post('/businesses/{business}/reject', [AdminBusinessController::class, 'reject'])->name('admin.businesses.reject');
     Route::delete('/businesses/{business}', [AdminBusinessController::class, 'destroy'])->name('admin.businesses.destroy');
@@ -85,6 +88,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::post('/users/{user}/activate', [App\Http\Controllers\Admin\UserController::class, 'activate'])->name('admin.users.activate');
     Route::post('/users/{user}/verify', [App\Http\Controllers\Admin\UserController::class, 'verify'])->name('admin.users.verify');
         Route::delete('/users/{user}', [App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('admin.user.destroy');
+    Route::post('/users/{user}/reset-password', [App\Http\Controllers\Admin\UserController::class, 'resetPassword'])->name('admin.user.reset-password');
 });
 
 // Route untuk profile yang hanya dapat diakses oleh user setelah login
@@ -114,6 +118,7 @@ Route::middleware('auth')->group(function () {
     Route::put('admin/post/update/{id}', [PostController::class, 'update'])->name('post.update');
     Route::delete('admin/post/delete/{id}', [PostController::class, 'destroy'])->name('post.destroy');
     Route::post('admin/post/delete-image', [PostController::class, 'deleteImage']);
+    Route::patch('admin/post/toggle-draft/{id}', [PostController::class, 'toggleDraft'])->name('admin.post.toggleDraft');
 
     // Category CRUD
     Route::get('admin/category/create', [CategoryController::class, 'create'])->name('category.create');
@@ -137,30 +142,24 @@ Route::middleware('auth')->group(function () {
     Route::post('admin/data', [DataController::class, 'store'])->name('data.store');
     Route::delete('admin/data/delete/{id}', [DataController::class, 'destroy'])->name('data.destroy');
 
+        Route::get('admin/data/edit/{id}', [DataController::class, 'edit'])->name('data.edit');
+        Route::put('admin/data/update/{id}', [DataController::class, 'update'])->name('data.update');
+
     // Document CRUD
     Route::get('admin/document/data', [DocumentController::class, 'data'])->name('document.data');
     Route::get('admin/document/create', [DocumentController::class, 'create'])->name('document.create');
     Route::post('admin/document', [DocumentController::class, 'store'])->name('document.store');
-    Route::get('admin/document/show/{id}', [DocumentController::class, 'show'])->name('document.show');
+    Route::get('admin/document/show/{id}', [DocumentController::class, 'adminShow'])->name('document.admin.show');
     Route::get('admin/document/edit/{id}', [DocumentController::class, 'edit'])->name('document.edit');
     Route::patch('admin/document/update/{id}', [DocumentController::class, 'update'])->name('document.update');
     Route::delete('admin/document/delete/{id}', [DocumentController::class, 'destroy'])->name('document.destroy');
 
     // File CRUD
     Route::get('admin/file/data', [FileController::class, 'data'])->name('file.data');
-    Route::get('admin/file/create', [FileController::class, 'create'])->name('file.create');
-    Route::post('admin/file', [FileController::class, 'store'])->name('file.store');
     Route::get('admin/file/edit/{id}', [FileController::class, 'edit'])->name('file.edit');
     Route::post('admin/file/update/{id}', [FileController::class, 'update'])->name('file.update');
-    Route::delete('admin/file/{id}', [FileController::class, 'destroy'])->name('file.destroy');
-
-    // UMKM CRUD (routes yang memerlukan authentication)
-    Route::get('admin/businesses/{id}/edit', [AdminBusinessController::class, 'edit'])->name('businesses.edit');
-    Route::put('admin/businesses/{id}', [AdminBusinessController::class, 'update'])->name('businesses.update');
-    Route::delete('admin/businesses/{id}/photo', [AdminBusinessController::class, 'deletePhoto'])->name('businesses.deletePhoto');
-    Route::delete('admin/businesses/{id}', [AdminBusinessController::class, 'destroy'])->name('businesses.destroy');
-    Route::post('admin/businesses/{id}/approve', [AdminBusinessController::class, 'approve'])->name('businesses.approve');
-    Route::post('admin/businesses/{id}/reject', [AdminBusinessController::class, 'reject'])->name('businesses.reject');
+    Route::delete('admin/file/{id}', [FileController::class, 'destroyAjax'])->name('file.destroy.ajax');
+    Route::delete('admin/file/delete/{id}', [FileController::class, 'destroy'])->name('file.destroy');
 
 });
 

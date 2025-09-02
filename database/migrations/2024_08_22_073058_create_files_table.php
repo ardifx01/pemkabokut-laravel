@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
             $table->string('file_path');
             $table->date('file_date');
             $table->unsignedBigInteger('document_id')->nullable(); 
-            $table->unsignedBigInteger('data_id')->nullable();
             $table->timestamps();
             $table->foreign('document_id')->references('id')->on('documents')->onDelete('cascade');
-            $table->foreign('data_id')->references('id')->on('data')->onDelete('set null');
         });
     }
 

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Data;
 use App\Models\File;
 use App\Models\Document;
 use Illuminate\Http\Request;
@@ -15,65 +14,69 @@ class FileController extends Controller
         $files = File::all();
         return view('index', compact('files'));
     }
-    public function data()
+    public function data(Request $request)
     {
-        $files = File::all();
-        return view('admin.file.data', compact('files'));
-    }
-    public function create()
-    {
-        $documents = Document::all(); // Untuk dropdown pilihan dokumen
-        $data = Data::all(); // Untuk dropdown pilihan data
-        return view('admin.file.create', compact('documents', 'data'));
-    }
+        $query = File::query();
+        $documents = Document::all();
 
-    // Menyimpan file baru ke database
-    public function store(Request $request)
-    {
-        // Validasi data yang dikirim
-        $request->validate([
-            'file_path.*' => 'required|file|mimes:pdf,doc,docx,jpg,png,zip,rar,xls,xlsx|max:20000', // Validasi array file
-            'file_date' => 'required|date',
-            'document_id' => 'nullable|exists:documents,id',
-            'data_id' => 'nullable|exists:data,id',
-        ]);
-
-        if ($request->hasFile('file_path')) {
-            foreach ($request->file('file_path') as $file) {
-                // Mendapatkan nama file asli
-                $originalName = $file->getClientOriginalName();
-
-                // Menyimpan file ke storage
-                $path = $file->storeAs('files', $originalName);
-
-                // Membuat entri file baru di database untuk setiap file
-                File::create([
-                    'file_path' => $path,
-                    'file_date' => $request->file_date,
-                    'document_id' => $request->document_id,
-                    'data_id' => $request->data_id,
-                ]);
-            }
+        // Filter by document
+        if ($request->filled('document_id')) {
+            $query->where('document_id', $request->document_id);
         }
 
-        // Redirect ke halaman yang diinginkan (misalnya halaman daftar file)
-        return redirect()->route('file.data')->with('success', 'Files created successfully.');
+        // Search by title
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        $files = $query->get();
+        return view('admin.file.data', compact('files', 'documents'));
     }
 
     public function download($id)
     {
         $file = File::findOrFail($id);
-        $pathToFile = storage_path('app/' . $file->file_path);
+        $filePath = $file->file_path;
+
+        // Handle string case (JSON encoded with escape characters)
+        if (is_string($filePath)) {
+            // Remove extra quotes and handle JSON string
+            $filePath = trim($filePath, '"');
+            $filePath = str_replace('\/', '/', $filePath);
+        }
+
+        // Handle array case (get first element)
+        if (is_array($filePath)) {
+            $filePath = $filePath[0] ?? null;
+            if ($filePath) {
+                $filePath = str_replace('\/', '/', $filePath);
+            }
+        }
+
+        // If it's a URL, redirect to it
+        if (is_string($filePath) && (str_starts_with($filePath, 'http://') || str_starts_with($filePath, 'https://'))) {
+            return redirect($filePath);
+        }
+
+        // If no valid file path
+        if (!$filePath) {
+            abort(404, 'File path not found');
+        }
+
+        $pathToFile = storage_path('app/' . $filePath);
+
+        if (!file_exists($pathToFile)) {
+            abort(404, 'File not found in storage');
+        }
 
         return response()->download($pathToFile);
     }
 
     public function edit($id)
     {
-        $file = File::findOrFail($id);
-        $documents = Document::all(); // Untuk dropdown pilihan dokumen
-        $data = Data::all(); // Untuk dropdown pilihan data
-        return view('admin.file.edit', compact('file', 'documents', 'data'));
+    $file = File::findOrFail($id);
+    $documents = Document::all(); // Untuk dropdown pilihan dokumen
+    return view('admin.file.edit', compact('file', 'documents'));
     }
 
     public function update(Request $request, $id)
@@ -83,7 +86,6 @@ class FileController extends Controller
             'file_path' => 'nullable|file|mimes:pdf,doc,docx,jpg,png,zip,rar,xls,xlsx|max:20000',
             'file_date' => 'required|date',
             'document_id' => 'nullable|exists:documents,id',
-            'data_id' => 'nullable|exists:data,id',
         ]);
 
         $file = File::findOrFail($id);
@@ -103,10 +105,10 @@ class FileController extends Controller
         }
 
         // Perbarui data file di database
-        $file->file_date = $request->file_date;
-        $file->document_id = $request->document_id;
-        $file->data_id = $request->data_id;
-        $file->save();
+    $file->title = $request->title;
+    $file->file_date = $request->file_date;
+    $file->document_id = $request->document_id;
+    $file->save();
 
         // Redirect ke halaman yang diinginkan
         return redirect()->route('file.data')->with('success', 'File updated successfully.');
@@ -126,9 +128,101 @@ class FileController extends Controller
 
         return redirect()->route('file.data')->with('success', 'File deleted successfully.');
     }
+    
+    public function destroyAjax($id)
+    {
+        try {
+            $file = File::findOrFail($id);
+            
+            // Delete the physical file from storage
+            if (Storage::exists($file->file_path)) {
+                Storage::delete($file->file_path);
+            }
+            
+            // Delete the database record
+            $file->delete();
+            
+            return response()->json(['success' => true, 'message' => 'File deleted successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Error deleting file']);
+        }
+    }
+    
     public function show($id)
     {
         $file = File::find($id);
         return view('admin.file.show', compact('file'));
+    }
+
+    public function serve($id)
+    {
+        $file = File::findOrFail($id);
+        $filePath = $file->file_path;
+
+        // Handle string case (JSON encoded with escape characters)
+        if (is_string($filePath)) {
+            // Remove extra quotes and handle JSON string
+            $filePath = trim($filePath, '"');
+            $filePath = str_replace('\/', '/', $filePath);
+        }
+
+        // Handle array case (get first element)
+        if (is_array($filePath)) {
+            $filePath = $filePath[0] ?? null;
+            if ($filePath) {
+                $filePath = str_replace('\/', '/', $filePath);
+            }
+        }
+
+        // If it's a URL, redirect to it
+        if (is_string($filePath) && (str_starts_with($filePath, 'http://') || str_starts_with($filePath, 'https://'))) {
+            return redirect($filePath);
+        }
+
+        // If no valid file path
+        if (!$filePath) {
+            abort(404, 'File path not found');
+        }
+
+        // Build storage path
+        $pathToFile = storage_path('app/' . $filePath);
+
+        if (!file_exists($pathToFile)) {
+            abort(404, 'File not found in storage');
+        }
+
+        // Get file extension for proper content type
+        $extension = strtolower(pathinfo($pathToFile, PATHINFO_EXTENSION));
+        
+        // Set proper content type headers
+        $headers = [];
+        switch ($extension) {
+            case 'pdf':
+                $headers['Content-Type'] = 'application/pdf';
+                break;
+            case 'jpg':
+            case 'jpeg':
+                $headers['Content-Type'] = 'image/jpeg';
+                break;
+            case 'png':
+                $headers['Content-Type'] = 'image/png';
+                break;
+            case 'gif':
+                $headers['Content-Type'] = 'image/gif';
+                break;
+            case 'webp':
+                $headers['Content-Type'] = 'image/webp';
+                break;
+            case 'xls':
+                $headers['Content-Type'] = 'application/vnd.ms-excel';
+                break;
+            case 'xlsx':
+                $headers['Content-Type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                break;
+            default:
+                $headers['Content-Type'] = 'application/octet-stream';
+        }
+
+        return response()->file($pathToFile, $headers);
     }
 }

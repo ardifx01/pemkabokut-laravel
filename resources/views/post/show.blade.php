@@ -91,7 +91,7 @@
                         Berita Lainnya
                     </div>
                     <div class="body">
-                        @foreach (\App\Models\Post::where('id', '!=', $post->id)->whereNotNull('headline_id')->orderBy('id', 'desc')->take(5)->get() as $otherPost)
+                        @foreach (\App\Models\Post::where('id', '!=', $post->id)->where('draft', false)->whereNotNull('headline_id')->orderBy('id', 'desc')->take(5)->get() as $otherPost)
                             <a href="/post/show/{{ $otherPost->id }}" class="text-decoration-none">
                                 <div class="d-flex mb-3">
                                     @php

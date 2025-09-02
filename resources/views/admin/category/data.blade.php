@@ -28,6 +28,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Title</th>
+                        <th>Posts</th>
                         <th>Created At</th>
                         <th>Updated At</th>
                         <th>Action</th>
@@ -38,6 +39,7 @@
                         <tr>
                             <td>{{ $category->id }}</td>
                             <td>{{ $category->title }}</td>
+                            <td>{{ $category->posts->count() }}</td>
                             <td>{{ $category->created_at->format('d M Y, H:i') }}</td>
                             <td>{{ $category->updated_at->format('d M Y, H:i') }}</td>
                             <td>

@@ -28,6 +28,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Title</th>
+                        <th>Posts</th>
                         <th>Created At</th>
                         <th>Updated At</th>
                         <th>Action</th>
@@ -38,6 +39,7 @@
                         <tr>
                             <td>{{ $headline->id }}</td>
                             <td>{{ $headline->title }}</td>
+                            <td>{{ $headline->posts->count() }}</td>
                             <td>{{ $headline->created_at->format('d M Y, H:i') }}</td>
                             <td>{{ $headline->updated_at->format('d M Y, H:i') }}</td>
                             <td>

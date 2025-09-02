@@ -162,6 +162,7 @@ class PostController extends Controller
             'headline_id' => $request->headline_id,
             'published_at' => $request->published_at,
             'user_id' => auth()->id(), // Menyimpan user yang sedang login
+                'draft' => $request->has('draft') ? (bool)$request->draft : false,
         ]);
 
         return redirect('admin/post/data');
@@ -262,6 +263,7 @@ class PostController extends Controller
             'category_id' => $request->category_id,
             'headline_id' => $request->headline_id,
             'published_at' => $request->published_at,
+                'draft' => $request->has('draft') ? (bool)$request->draft : $post->draft,
         ]);
 
         return redirect('admin/post/data');
@@ -326,9 +328,12 @@ class PostController extends Controller
                 $query->where('file_path', 'LIKE', "%{$searchQuery}%");
             })->get();
 
-        // Pencarian untuk Post
-        $posts = Post::where('title', 'LIKE', "%{$searchQuery}%")
-            ->orWhere('description', 'LIKE', "%{$searchQuery}%")
+        // Pencarian untuk Post, hanya yang draft=0
+        $posts = Post::where('draft', false)
+            ->where(function($query) use ($searchQuery) {
+                $query->where('title', 'LIKE', "%{$searchQuery}%")
+                      ->orWhere('description', 'LIKE', "%{$searchQuery}%");
+            })
             ->get();
 
         // Gabungkan hasil pencarian, prioritas dokumen di awal
@@ -336,5 +341,15 @@ class PostController extends Controller
 
         // Kirim hasil dan query pencarian ke view
         return view('post.search', compact('results', 'searchQuery'));
+    }
+    /**
+     * Toggle draft/publish status for a post
+     */
+    public function toggleDraft($id)
+    {
+        $post = Post::findOrFail($id);
+        $post->draft = !$post->draft;
+        $post->save();
+        return redirect()->back()->with('success', $post->draft ? 'Post set as draft.' : 'Post published.');
     }
 }

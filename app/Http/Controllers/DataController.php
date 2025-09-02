@@ -56,9 +56,32 @@ class DataController extends Controller
     public function show($id)
     {
         // Cari data berdasarkan ID
-        $data = Data::with(['category', 'document.file'])->findOrFail($id);
+        $data = Data::with(['category', 'documents.file'])->findOrFail($id);
 
         // Jika data ditemukan, kirim ke view
         return view('data.show', compact('data'));
     }
+
+        public function edit($id)
+        {
+            $data = Data::findOrFail($id);
+            $categories = Category::all();
+            return view('admin.data.edit', compact('data', 'categories'));
+        }
+
+        public function update(Request $request, $id)
+        {
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'category_id' => 'required|exists:categories,id',
+            ]);
+
+            $data = Data::findOrFail($id);
+            $data->update([
+                'title' => $request->title,
+                'category_id' => $request->category_id,
+            ]);
+
+            return redirect()->route('data.index')->with('success', 'Data updated successfully.');
+        }
 }

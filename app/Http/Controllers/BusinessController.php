@@ -13,7 +13,7 @@ class BusinessController extends Controller
      */
     public function index()
     {
-        $businesses = Business::latest()->get();
+    $businesses = Business::where('status', 1)->latest()->get();
         return view('umkm.data', compact('businesses'));
     }
 
@@ -39,16 +39,15 @@ class BusinessController extends Controller
             'email' => 'required|email|max:255',
             'nib' => 'required|string|max:50',
             'deskripsi' => 'required|string',
-            'foto.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        // Handle multiple image uploads
-        $fotoPaths = [];
+        // Handle single image upload with original name
+        $fotoPath = null;
         if ($request->hasFile('foto')) {
-            foreach ($request->file('foto') as $foto) {
-                $path = $foto->store('umkm', 'public');
-                $fotoPaths[] = $path;
-            }
+            $foto = $request->file('foto');
+            $originalName = $foto->getClientOriginalName();
+            $fotoPath = $foto->storeAs('umkm', $originalName, 'public');
         }
 
         Business::create([
@@ -60,7 +59,7 @@ class BusinessController extends Controller
             'email' => $request->email,
             'nib' => $request->nib,
             'deskripsi' => $request->deskripsi,
-            'foto' => $fotoPaths,
+            'foto' => $fotoPath,
             'status' => 0 // Default pending
         ]);
 
@@ -117,29 +116,4 @@ class BusinessController extends Controller
         return redirect()->back()->with('success', 'UMKM ditolak.');
     }
 
-    /**
-     * Delete specific photo from business
-     */
-    public function deletePhoto(Request $request, string $id)
-    {
-        $business = Business::findOrFail($id);
-        $photoIndex = $request->input('photo_index');
-        
-        if ($business->foto && isset($business->foto[$photoIndex])) {
-            // Delete file from storage
-            Storage::disk('public')->delete($business->foto[$photoIndex]);
-            
-            // Remove photo from array
-            $photos = $business->foto;
-            unset($photos[$photoIndex]);
-            $photos = array_values($photos); // Reindex array
-            
-            // Update business
-            $business->update(['foto' => $photos]);
-            
-            return response()->json(['success' => true, 'message' => 'Foto berhasil dihapus']);
-        }
-        
-        return response()->json(['success' => false, 'message' => 'Foto tidak ditemukan']);
-    }
 }

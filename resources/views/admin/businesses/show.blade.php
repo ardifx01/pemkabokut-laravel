@@ -57,36 +57,15 @@
                         <h6 class="m-0 font-weight-bold text-primary">Business Photos</h6>
                     </div>
                     <div class="card-body">
-                        @if ($business->foto && is_array($business->foto) && count($business->foto) > 0)
-                            <div id="businessCarousel" class="carousel slide" data-bs-ride="carousel">
-                                <div class="carousel-inner">
-                                    @foreach ($business->foto as $index => $photo)
-                                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                            <img src="{{ asset('storage/' . $photo) }}" class="d-block w-100 rounded"
-                                                alt="{{ $business->nama }}" style="height: 300px; object-fit: cover;">
-                                        </div>
-                                    @endforeach
-                                </div>
-                                @if (count($business->foto) > 1)
-                                    <button class="carousel-control-prev" type="button" data-bs-target="#businessCarousel"
-                                        data-bs-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Previous</span>
-                                    </button>
-                                    <button class="carousel-control-next" type="button" data-bs-target="#businessCarousel"
-                                        data-bs-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Next</span>
-                                    </button>
-                                @endif
-                            </div>
+                        @if ($business->foto)
+                            <img src="{{ asset('storage/' . $business->foto) }}" class="d-block w-100 rounded"
+                                alt="{{ $business->nama }}" style="height: 300px; object-fit: cover;">
                         @else
                             <div class="text-center py-5">
                                 <div class="bg-secondary text-white rounded d-flex align-items-center justify-content-center mx-auto"
-                                    style="width: 100px; height: 100px; font-size: 2rem;">
+                                    style="width: 100%; height: 300px; font-size: 2rem; font-weight: bold;">
                                     {{ strtoupper(substr($business->nama, 0, 2)) }}
                                 </div>
-                                <p class="text-muted mt-3">No photos available</p>
                             </div>
                         @endif
                     </div>
@@ -211,7 +190,7 @@
                         @endif
                         <div class="row mb-3">
                             <div class="col-sm-3">
-                                <strong>Owner:</strong>
+                                <strong>Approved by:</strong>
                             </div>
                             <div class="col-sm-9">
                                 {{ $business->user->name ?? 'No User Assigned' }}

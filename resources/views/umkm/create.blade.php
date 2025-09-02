@@ -148,10 +148,9 @@
                                 <!-- Upload Foto -->
                                 <div class="col-md-12 mb-3">
                                     <label for="foto" class="form-label">Foto Usaha</label>
-                                    <input type="file" class="form-control" id="foto" name="foto[]" multiple
+                                    <input type="file" class="form-control" id="foto" name="foto"
                                         accept="image/*" onchange="previewImages()">
-                                    <small class="text-muted">Anda dapat memilih lebih dari 1 foto. Format: JPG, JPEG, PNG,
-                                        GIF. Maksimal 2MB per foto.</small>
+                                    <small class="text-muted">Format: JPG, JPEG, PNG, GIF. Maksimal 2MB.</small>
 
                                     <!-- Preview Images -->
                                     <div id="image-preview" class="mt-3 row"></div>
@@ -355,24 +354,23 @@
             const preview = document.getElementById('image-preview');
             preview.innerHTML = '';
 
-            if (input.files) {
-                Array.from(input.files).forEach((file, index) => {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const col = document.createElement('div');
-                        col.className = 'col-md-3 mb-2';
-                        col.innerHTML = `
-                    <div class="card">
-                        <img src="${e.target.result}" class="card-img-top" style="height: 150px; object-fit: cover;">
-                        <div class="card-body p-2">
-                            <small class="text-muted">${file.name}</small>
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const col = document.createElement('div');
+                    col.className = 'col-md-3 mb-2';
+                    col.innerHTML = `
+                        <div class="card">
+                            <img src="${e.target.result}" class="card-img-top" style="height: 150px; object-fit: cover;">
+                            <div class="card-body p-2">
+                                <small class="text-muted">${file.name}</small>
+                            </div>
                         </div>
-                    </div>
-                `;
-                        preview.appendChild(col);
-                    };
-                    reader.readAsDataURL(file);
-                });
+                    `;
+                    preview.appendChild(col);
+                };
+                reader.readAsDataURL(file);
             }
         }
 

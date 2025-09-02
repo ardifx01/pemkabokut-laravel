@@ -3,6 +3,24 @@
 @section('title', 'Data Posts')
 
 @section('content')
+    <style>
+        #postsTable th:nth-child(5),
+        #postsTable td:nth-child(5) {
+            width: 120px;
+            max-width: 120px;
+            white-space: nowrap;
+        }
+
+        /* Custom styles for statistics cards */
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+    </style>
     <!-- Blue Background Section -->
     <div
         style="background: linear-gradient(rgba(7, 63, 151, 0.8), rgba(7, 63, 151, 0.8)), url('{{ asset('images/Perjaya.jpg') }}'); background-size: cover; background-position: center; background-repeat: no-repeat; position: relative; margin: -21px -23px 0 -23px; padding: 20px 20px 120px 20px;">
@@ -25,70 +43,97 @@
 
         <!-- Statistics Cards -->
         <div class="row mb-4">
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-primary shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Posts</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $posts->count() }}</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-newspaper fa-2x text-gray-300"></i>
-                            </div>
+            <!-- Total Posts Card -->
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card border-0 shadow h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="stat-icon bg-primary text-white rounded me-3">
+                            <i class="fas fa-newspaper"></i>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-info shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">With Images</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    {{ $posts->whereNotNull('image')->count() }}</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-images fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">With Headline</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    {{ $posts->whereNotNull('headline_id')->count() }}</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-check-circle fa-2x text-gray-300"></i>
-                            </div>
+                        <div>
+                            <div class="text-muted small">Total Posts</div>
+                            <div class="h4 mb-0 font-weight-bold">{{ $posts->count() }}</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-warning shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">With Categories</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    {{ $posts->whereNotNull('category_id')->count() }}</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-tags fa-2x text-gray-300"></i>
-                            </div>
+            <!-- Published Card -->
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card border-0 shadow h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="stat-icon bg-success text-white rounded me-3">
+                            <i class="fas fa-paper-plane"></i>
+                        </div>
+                        <div>
+                            <div class="text-muted small">Published</div>
+                            <div class="h4 mb-0 font-weight-bold">{{ $posts->where('draft', 0)->count() }}</div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Draft Card -->
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card border-0 shadow h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="stat-icon bg-warning text-white rounded me-3">
+                            <i class="fas fa-pencil-alt"></i>
+                        </div>
+                        <div>
+                            <div class="text-muted small">Draft</div>
+                            <div class="h4 mb-0 font-weight-bold">{{ $posts->where('draft', 1)->count() }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- With Thumbnail Card -->
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card border-0 shadow h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="stat-icon bg-info text-white rounded me-3">
+                            <i class="fas fa-images"></i>
+                        </div>
+                        <div>
+                            <div class="text-muted small">With Thumbnail</div>
+                            <div class="h4 mb-0 font-weight-bold">{{ $posts->whereNotNull('image')->count() }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- With Category Card -->
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card border-0 shadow h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="stat-icon bg-secondary text-white rounded me-3">
+                            <i class="fas fa-tags"></i>
+                        </div>
+                        <div>
+                            <div class="text-muted small">With Category</div>
+                            <div class="h4 mb-0 font-weight-bold">{{ $posts->whereNotNull('category_id')->count() }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- With Headline Card -->
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card border-0 shadow h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="stat-icon bg-danger text-white rounded me-3">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div>
+                            <div class="text-muted small">With Headline</div>
+                            <div class="h4 mb-0 font-weight-bold">{{ $posts->whereNotNull('headline_id')->count() }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
 
         <!-- Active Filters Info -->
@@ -220,12 +265,13 @@
                         <thead class="table-light">
                             <tr>
                                 <th width="1%">ID</th>
-                                <th width="15%">Image</th>
+                                <th width="17%">Image</th>
                                 <th width="25%">Title</th>
                                 <th width="10%">Author</th>
-                                <th width="5%">Category</th>
+                                <th width="3%">Category</th>
                                 <th width="12%">Headline</th>
                                 <th width="5%">Published</th>
+                                <th width="10%">Updated At</th>
                                 <th width="5%">Actions</th>
                             </tr>
                         </thead>
@@ -378,20 +424,45 @@ if (str_starts_with($imageUrl, 'http')) {
                                             <span class="text-muted">-</span>
                                         @endif
                                     </td>
+                                    <td class="text-center">
+                                        @if ($post->updated_at)
+                                            <span class="text-sm">{{ $post->updated_at->format('d/m/Y H:i') }}</span>
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
                                     <td>
-                                        <div class="btn-group" role="group">
-                                            <a href="/post/show/{{ $post->id }}" class="btn btn-success btn-sm"
-                                                title="View Post" target="_blank">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <a href="/admin/post/edit/{{ $post->id }}" class="btn btn-primary btn-sm"
-                                                title="Edit Post">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <button type="button" class="btn btn-danger btn-sm" title="Delete Post"
-                                                onclick="deletePost({{ $post->id }}, '{{ addslashes($post->title) }}')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
+                                        <div class="d-flex flex-column align-items-center gap-1">
+                                            <div class="d-flex justify-content-center gap-1 mb-1">
+                                                <a href="/post/show/{{ $post->id }}" class="btn btn-success btn-sm"
+                                                    title="View Post" target="_blank">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="/admin/post/edit/{{ $post->id }}"
+                                                    class="btn btn-primary btn-sm" title="Edit Post">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-danger btn-sm" title="Delete Post"
+                                                    onclick="deletePost({{ $post->id }}, '{{ addslashes($post->title) }}')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                            <form action="{{ route('admin.post.toggleDraft', $post->id) }}"
+                                                method="POST" class="w-100 text-center">
+                                                @csrf
+                                                @method('PATCH')
+                                                @if ($post->draft)
+                                                    <button type="submit" class="btn btn-warning btn-sm w-100 mt-1"
+                                                        title="Publish Post">
+                                                        <i class="fas fa-upload"></i> Publish
+                                                    </button>
+                                                @else
+                                                    <button type="submit" class="btn btn-secondary btn-sm w-100 mt-1"
+                                                        title="Set as Draft">
+                                                        <i class="fas fa-file-alt"></i> Draft
+                                                    </button>
+                                                @endif
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>
@@ -477,8 +548,8 @@ if (str_starts_with($imageUrl, 'http')) {
         }
 
         .post-thumbnail {
-            width: 120px;
-            height: 90px;
+            width: 180px;
+            height: 135px;
             object-fit: cover;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -496,8 +567,8 @@ if (str_starts_with($imageUrl, 'http')) {
         .image-container {
             position: relative;
             display: inline-block;
-            width: 120px;
-            height: 90px;
+            width: 180px;
+            height: 135px;
         }
 
         .no-image-placeholder {

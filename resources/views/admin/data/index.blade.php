@@ -29,6 +29,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Title</th>
+                            <th>Documents</th>
                             <th>Category</th>
                             <th>Action</th>
                         </tr>
@@ -38,11 +39,12 @@
                             <tr>
                                 <td>{{ $data->id }}</td>
                                 <td>{{ $data->title }}</td>
+                                <td>{{ $data->documents->count() }}</td>
                                 <td>{{ $data->category->title ?? 'No Category' }}</td>
 
                                 <td>
                                     <a href="{{ route('data.show', $data->id) }}" class="btn btn-success">Show</a>
-                                    <a href="/data/edit/{{ $data->id }}" class="btn btn-info">Edit</a>
+                                    <a href="{{ route('data.edit', $data->id) }}" class="btn btn-info">Edit</a>
                                     <form action="{{ route('data.destroy', $data->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')

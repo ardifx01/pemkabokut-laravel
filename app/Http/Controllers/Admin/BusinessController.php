@@ -6,6 +6,7 @@ use App\Models\Business;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BusinessController extends Controller
 {
@@ -127,7 +128,7 @@ public function edit(string $id)
     public function update(Request $request, string $id)
     {
         $business = Business::findOrFail($id);
-        
+
         $request->validate([
             'nama' => 'required|string|max:255',
             'jenis' => 'required|in:Makanan dan Minuman,Pakaian dan Aksesoris,Jasa,Kerajinan Tangan,Elektronik,Kesehatan,Transportasi,Pendidikan,Teknologi',
@@ -137,19 +138,10 @@ public function edit(string $id)
             'email' => 'required|email|max:255',
             'nib' => 'nullable|string|max:50',
             'deskripsi' => 'required|string',
-            'foto.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Handle multiple image uploads
-        $fotoPaths = $business->foto ?? [];
-        if ($request->hasFile('foto')) {
-            foreach ($request->file('foto') as $foto) {
-                $path = $foto->store('umkm', 'public');
-                $fotoPaths[] = $path;
-            }
-        }
-
-        $business->update([
+        $data = [
             'nama' => $request->nama,
             'jenis' => $request->jenis,
             'owner' => $request->owner,
@@ -158,9 +150,23 @@ public function edit(string $id)
             'email' => $request->email,
             'nib' => $request->nib,
             'deskripsi' => $request->deskripsi,
-            'foto' => $fotoPaths,
-        ]);
+        ];
+
+        // Handle single image upload with original name
+        if ($request->hasFile('foto')) {
+            // Hapus foto lama jika ada
+            if ($business->foto && Storage::disk('public')->exists($business->foto)) {
+                Storage::disk('public')->delete($business->foto);
+            }
+            $file = $request->file('foto');
+            $filename = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+            $path = $file->storeAs('umkm', $filename, 'public');
+            $data['foto'] = $path;
+        }
+
+        $business->update($data);
 
         return redirect()->route('admin.businesses.index')->with('success', 'UMKM berhasil diupdate.');
     }
+
 }

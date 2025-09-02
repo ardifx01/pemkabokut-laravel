@@ -20,12 +20,8 @@ class Data extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function document()
+    public function documents()
     {
         return $this->hasMany(Document::class);
-    }
-    public function file()
-    {
-        return $this->hasMany(File::class);
     }
 }

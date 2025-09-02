@@ -45,9 +45,11 @@
                             <th>ID</th>
                             <th>Title</th>
                             <th>Image</th>
+                            <th>Dropdowns</th>
                             <th>User ID</th>
                             <th>Created At</th>
                             <th>Updated At</th>
+
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -84,6 +86,7 @@
                                         </div>
                                     </div>
                                 </td>
+                                <td>{{ $icon->dropdowns->count() }}</td>
                                 <td>
                                     @if ($icon->user)
                                         <div class="d-flex align-items-center">
@@ -100,6 +103,7 @@
                                 </td>
                                 <td>{{ $icon->created_at->format('d M Y, H:i') }}</td>
                                 <td>{{ $icon->updated_at->format('d M Y, H:i') }}</td>
+
                                 <td>
                                     <a href="{{ route('icon.edit', $icon->id) }}" class="btn btn-info">Edit</a>
                                     <form action="{{ route('icon.destroy', $icon->id) }}" method="POST" class="d-inline">

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->integer('views')->default(0);
             $table->timestamp('published_at')->nullable();
+            $table->boolean('draft')->default(false); // Menandai post sebagai draft
             $table->timestamps();
 
             // Foreign key constraints

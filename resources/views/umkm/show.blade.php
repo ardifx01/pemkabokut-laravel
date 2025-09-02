@@ -45,12 +45,7 @@
         }
 
         .foto-umkm-card {
-            transition: transform 0.2s ease-in-out;
-            border: 1px solid #e3e6ed;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #fff;
-            box-shadow: 0 2px 8px rgba(78, 84, 200, 0.07);
+            /* dihapus, tidak digunakan lagi */
         }
 
         .foto-umkm-card:hover {
@@ -59,10 +54,13 @@
         }
 
         .foto-umkm-img {
-            height: 180px;
-            object-fit: cover;
-            width: 100%;
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            display: block;
+            margin: 0 auto;
             cursor: pointer;
+            object-fit: unset;
         }
 
         .map-container {
@@ -118,16 +116,12 @@
                     <div class="col-12">
                         <div class="umkm-section-title">Foto UMKM</div>
                         <div class="row g-3">
-                            @if ($business->foto && count($business->foto) > 0)
-                                @foreach ($business->foto as $index => $foto)
-                                    <div class="col-md-4 col-sm-6">
-                                        <div class="foto-umkm-card">
-                                            <img src="{{ asset('storage/' . $foto) }}" class="foto-umkm-img"
-                                                alt="Foto UMKM {{ $index + 1 }}"
-                                                onclick="showImageModal('{{ asset('storage/' . $foto) }}', 'Foto UMKM {{ $index + 1 }}')">
-                                        </div>
-                                    </div>
-                                @endforeach
+                            @if ($business->foto)
+                                <div class="col-md-4 col-sm-6">
+                                    <img src="{{ asset('storage/' . $business->foto) }}" class="foto-umkm-img"
+                                        alt="Foto UMKM"
+                                        onclick="showImageModal('{{ asset('storage/' . $business->foto) }}', 'Foto UMKM')">
+                                </div>
                             @else
                                 <div class="col-12">
                                     <div class="text-muted">Belum ada foto yang diupload</div>

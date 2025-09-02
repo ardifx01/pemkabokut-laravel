@@ -39,12 +39,25 @@
                     <div class="mb-3">
                         <label for="current_files" class="form-label">Current Files:</label>
                         @if ($document->file->isNotEmpty())
-                            @foreach ($document->file as $file)
-                                <div class="file-item d-flex align-items-center mb-2">
+                            @foreach ($document->file as $index => $file)
+                                <div class="file-item d-flex align-items-center mb-2" style="position: relative;">
                                     <img src="{{ asset('icons/' . strtolower(pathinfo($file->file_path, PATHINFO_EXTENSION)) . '-icon.png') }}"
                                         alt="File Icon" width="50" class="me-2">
+                                    <div class="me-2" style="flex: 1;">
+                                        <label class="form-label">File Title</label>
+                                        <input type="text" class="form-control"
+                                            name="existing_files[{{ $file->id }}][title]"
+                                            value="{{ old('existing_files.' . $file->id . '.title', $file->title ?? basename($file->file_path)) }}"
+                                            placeholder="Enter file title">
+                                        <small class="text-muted">File:
+                                            {{ str_replace('files/', '', $file->file_path) }}</small>
+                                    </div>
                                     <a href="{{ route('file.download', $file->id) }}"
-                                        target="_blank">{{ basename($file->file_path) }}</a>
+                                        class="btn btn-sm btn-outline-primary me-2" target="_blank"
+                                        style="margin-top: 7px;">Download</a>
+                                    <button type="button" class="btn btn-danger btn-sm delete-existing-file"
+                                        data-file-id="{{ $file->id }}"
+                                        style="margin-top: 7px; width: 30px; height: 30px; border-radius: 50%; padding: 0; font-size: 14px;">×</button>
                                 </div>
                             @endforeach
                         @else
@@ -53,20 +66,26 @@
                     </div>
 
                     <!-- Input untuk mengganti atau menambah file -->
-                    <div class="mb-3 d-flex align-items-center">
-                        <div class="me-2" style="flex: 1;">
-                            <label for="file_path" class="form-label">Upload New Files</label>
-                            <input type="file" class="form-control" id="file_path" name="file_path[]" multiple
-                                style="width: 725px;">
+                    <div id="file-sections">
+                        <div class="file-section mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="me-2" style="flex: 1;">
+                                    <label class="form-label">File Title</label>
+                                    <input type="text" class="form-control" name="files[0][title]"
+                                        placeholder="Enter file title">
+                                </div>
+                                <div class="me-2" style="flex: 1;">
+                                    <label class="form-label">Upload File</label>
+                                    <input type="file" class="form-control" name="files[0][file]">
+                                </div>
+                                <button type="button" class="btn btn-danger remove-file-section"
+                                    style="margin-top: 32px;">Remove</button>
+                            </div>
                         </div>
-
-                        <!-- Button untuk menambahkan file -->
-                        <button type="button" id="add-file-btn" class="btn btn-secondary mb-3" style="margin-top: 45px">Add
-                            File</button>
                     </div>
 
-                    <!-- Container untuk ikon dan nama file -->
-                    <div id="file-preview" class="mt-3"></div>
+                    <!-- Button untuk menambahkan file baru -->
+                    <button type="button" id="add-file-btn" class="btn btn-secondary mb-3">Add Another File</button>
 
                     <!-- Input untuk tanggal file -->
                     <div class="mb-3">
@@ -118,73 +137,76 @@
         }
     </style>
 
-    <!-- Script untuk mengelola Select2 dan preview file -->
+    <!-- Script untuk mengelola Select2 dan dynamic file upload -->
     <script>
-        const fileInput = document.getElementById('file_path');
-        const filePreviewContainer = document.getElementById('file-preview');
-        let selectedFiles = new DataTransfer();
+        let fileIndex = 1;
 
-        // Fungsi untuk memperbarui pratinjau file
-        function updateFilePreview(files) {
-            Array.from(files).forEach((file, index) => {
-                const fileExtension = file.name.split('.').pop().toLowerCase();
-                let iconPath = '';
-
-                if (fileExtension === 'pdf') {
-                    iconPath = '{{ asset('icons/pdf-icon.png') }}';
-                } else if (['doc', 'docx'].includes(fileExtension)) {
-                    iconPath = '{{ asset('icons/word-icon.png') }}';
-                } else if (['xls', 'xlsx'].includes(fileExtension)) {
-                    iconPath = '{{ asset('icons/excel-icon.png') }}';
-                } else {
-                    iconPath = '{{ asset('icons/default-icon.png') }}'; // Ikon default
-                }
-
-                selectedFiles.items.add(file);
-
-                const fileItem = document.createElement('div');
-                fileItem.classList.add('file-item');
-
-                const fileIcon = document.createElement('img');
-                fileIcon.src = iconPath;
-                fileIcon.alt = 'File Icon';
-                fileIcon.width = 50;
-                fileIcon.classList.add('me-2');
-
-                const fileName = document.createElement('span');
-                fileName.textContent = file.name;
-
-                const removeBtn = document.createElement('button');
-                removeBtn.classList.add('remove-file-btn');
-                removeBtn.textContent = 'X';
-
-                removeBtn.addEventListener('click', function() {
-                    fileItem.remove();
-                    selectedFiles.items.remove(index);
-                    fileInput.files = selectedFiles.files;
-
-                    if (selectedFiles.items.length === 0) {
-                        fileInput.value = ''; // Reset input file jika kosong
-                    }
-                });
-
-                fileItem.appendChild(fileIcon);
-                fileItem.appendChild(fileName);
-                fileItem.appendChild(removeBtn);
-                filePreviewContainer.appendChild(fileItem);
-            });
-
-            fileInput.files = selectedFiles.files;
+        // Function to add new file section
+        function addFileSection() {
+            const fileSections = document.getElementById('file-sections');
+            const newSection = document.createElement('div');
+            newSection.className = 'file-section mb-3';
+            newSection.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <div class="me-2" style="flex: 1;">
+                        <label class="form-label">File Title</label>
+                        <input type="text" class="form-control" name="files[${fileIndex}][title]" placeholder="Enter file title">
+                    </div>
+                    <div class="me-2" style="flex: 1;">
+                        <label class="form-label">Upload File</label>
+                        <input type="file" class="form-control" name="files[${fileIndex}][file]">
+                    </div>
+                    <button type="button" class="btn btn-danger remove-file-section" style="margin-top: 32px;">Remove</button>
+                </div>
+            `;
+            fileSections.appendChild(newSection);
+            fileIndex++;
         }
 
-        // Trigger file input ketika "Add File" diklik
-        document.getElementById('add-file-btn').addEventListener('click', function() {
-            fileInput.click();
-        });
+        // Event listener untuk tombol Add File
+        document.getElementById('add-file-btn').addEventListener('click', addFileSection);
 
-        // Perbarui pratinjau ketika file dipilih
-        fileInput.addEventListener('change', function(event) {
-            updateFilePreview(event.target.files);
+        // Event delegation untuk tombol Remove
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-file-section')) {
+                const fileSections = document.querySelectorAll('.file-section');
+                if (fileSections.length > 1) {
+                    e.target.closest('.file-section').remove();
+                } else {
+                    alert('At least one file section is required.');
+                }
+            }
+
+            // Handle delete existing file
+            if (e.target.classList.contains('delete-existing-file')) {
+                const fileId = e.target.getAttribute('data-file-id');
+
+                if (confirm('Are you sure you want to delete this file?')) {
+                    // Send AJAX request to delete file
+                    fetch(`/admin/file/${fileId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content'),
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Remove the file element from DOM
+                                e.target.closest('.file-item').remove();
+                                alert('File deleted successfully');
+                            } else {
+                                alert('Error deleting file');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Error deleting file');
+                        });
+                }
+            }
         });
 
         // Inisialisasi Select2

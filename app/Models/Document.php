@@ -44,6 +44,7 @@ class Document extends Model
         'user_id',
         'title',
         'data_id',
+        'date',
         'created_at'
     ];
 

@@ -214,3 +214,21 @@ body {
 .social-icons a img:hover {
     transform: scale(1.2);
 }
+
+/* ======= Document List Styles ======= */
+.documents-list .document-item {
+    transition: background-color 0.2s ease;
+}
+
+.documents-list .document-item:hover {
+    background-color: #f8f9fa;
+}
+
+.documents-list .document-item:last-child {
+    border-bottom: none !important;
+}
+
+.documents-list .document-item a:hover {
+    color: #d45d00 !important;
+    text-decoration: underline !important;
+}

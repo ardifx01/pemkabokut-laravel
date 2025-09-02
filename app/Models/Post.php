@@ -53,10 +53,12 @@ class Post extends Model
         'category_id',
         'headline_id',
         'published_at',
+        'draft',
     ];
 
     protected $casts = [
         'published_at' => 'datetime',
+        'draft' => 'boolean',
     ];
 
     public function user()

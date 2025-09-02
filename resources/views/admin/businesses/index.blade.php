@@ -139,8 +139,8 @@
                                         @foreach ($businesses as $business)
                                             <tr>
                                                 <td>
-                                                    @if ($business->foto && is_array($business->foto) && count($business->foto) > 0)
-                                                        <img src="{{ asset('storage/' . $business->foto[0]) }}"
+                                                    @if ($business->foto)
+                                                        <img src="{{ asset('storage/' . $business->foto) }}"
                                                             class="rounded" alt="{{ $business->nama }}" width="50"
                                                             height="50" style="object-fit: cover;">
                                                     @else
@@ -189,7 +189,7 @@
                                                             class="btn btn-sm btn-outline-info" title="Detail">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
-                                                        <a href="{{ route('businesses.edit', $business->id) }}"
+                                                        <a href="{{ route('admin.businesses.edit', $business->id) }}"
                                                             class="btn btn-sm btn-outline-warning" title="Edit">
                                                             <i class="fas fa-edit"></i>
                                                         </a>

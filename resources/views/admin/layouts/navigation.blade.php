@@ -26,7 +26,6 @@
         }
 
         .navbar {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             padding: 0.75rem 1rem;
         }
 
@@ -479,19 +478,37 @@
                     let businessHtml = '';
                     if (businesses.length > 0) {
                         businesses.forEach(function(business) {
+                            // Handle foto array safely
+                            let fotoUrl = '';
+                            if (business.foto && Array.isArray(business.foto) && business.foto.length >
+                                0) {
+                                fotoUrl = business.foto[0];
+                            } else if (business.foto && typeof business.foto === 'string' && business
+                                .foto.trim() !== '') {
+                                // Handle case where foto might be a JSON string
+                                try {
+                                    const fotoArray = JSON.parse(business.foto);
+                                    if (Array.isArray(fotoArray) && fotoArray.length > 0) {
+                                        fotoUrl = fotoArray[0];
+                                    }
+                                } catch (e) {
+                                    // If parsing fails, treat as single string
+                                    fotoUrl = business.foto;
+                                }
+                            }
+
                             businessHtml += `
                                 <li>
                                     <a class="dropdown-item py-2" href="/admin/businesses/${business.id}">
                                         <div class="d-flex align-items-center">
                                             <div class="me-3">
-                                                ${business.foto && business.foto.length > 0 ? 
-                                                    `<img src="/storage/${business.foto[0]}" class="rounded-circle" width="32" height="32" style="object-fit: cover;">` :
-                                                    `<div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 12px;">${business.nama.substring(0, 2).toUpperCase()}</div>`
+                                                ${fotoUrl ? 
+                                                    `<img src="/storage/${fotoUrl}" class="rounded-circle" width="32" height="32" style="object-fit: cover;">` :
+                                                    ''
                                                 }
                                             </div>
                                             <div class="flex-grow-1">
                                                 <div class="fw-bold text-truncate" style="max-width: 150px;">${business.nama}</div>
-                                                <div class="text-muted small">${business.email}</div>
                                             </div>
                                             <div class="ms-2">
                                                 <span class="badge bg-warning text-dark">Pending</span>

@@ -31,24 +31,27 @@
                         @endforeach
                     </select>
 
-                    <!-- Input untuk memilih file -->
-                    <div class="mb-3 d-flex align-items-center">
-                        <div class="me-2" style="flex: 1;">
-                            <label for="file_path" class="form-label">Files</label>
-                            <input type="file" class="form-control" id="file_path" name="file_path[]" multiple required
-                                style="width: 725px;">
+                    <!-- Dynamic Files Section -->
+                    <div class="file-section" style="margin-top: 20px;">
+                        <h5>Add Files</h5>
+                        <div class="file-entry">
+                            <div class="mb-3">
+                                <label for="file_title" class="form-label">File Title</label>
+                                <input type="text" name="files[0][title]" class="form-control"
+                                    placeholder="Enter file title">
+                            </div>
+                            <div class="mb-3">
+                                <label for="file_path" class="form-label">Choose File</label>
+                                <input type="file" name="files[0][file]" class="form-control"
+                                    accept=".pdf,.doc,.docx,.jpg,.png,.zip,.rar,.xls,.xlsx">
+                            </div>
                         </div>
-
-                        <!-- Button untuk menambahkan file -->
-                        <button type="button" id="add-file-btn" class="btn btn-secondary mb-3" style="margin-top: 45px">Add
-                            File</button>
                     </div>
 
-                    <!-- Container untuk ikon dan nama file -->
-                    <div id="file-preview" class="mt-3"></div>
+                    <button type="button" class="btn btn-secondary" id="add-file">Add File</button>
 
                     <!-- Input untuk tanggal file -->
-                    <div class="mb-3">
+                    <div class="mb-3" style="margin-top: 20px;">
                         <label for="file_date" class="form-label">File Date</label>
                         <input type="date" class="form-control" id="file_date" name="file_date"
                             value="{{ old('file_date') }}" required>
@@ -97,73 +100,25 @@
         }
     </style>
 
-    <!-- Script untuk mengelola Select2 dan preview file -->
+    <!-- Script untuk mengelola Select2 dan dynamic files -->
     <script>
-        const fileInput = document.getElementById('file_path');
-        const filePreviewContainer = document.getElementById('file-preview');
-        let selectedFiles = new DataTransfer();
-
-        // Fungsi untuk memperbarui pratinjau file
-        function updateFilePreview(files) {
-            Array.from(files).forEach((file, index) => {
-                const fileExtension = file.name.split('.').pop().toLowerCase();
-                let iconPath = '';
-
-                if (fileExtension === 'pdf') {
-                    iconPath = '{{ asset('icon/pdf-icon.png') }}';
-                } else if (['doc', 'docx'].includes(fileExtension)) {
-                    iconPath = '{{ asset('icon/word-icon.png') }}';
-                } else if (['xls', 'xlsx'].includes(fileExtension)) {
-                    iconPath = '{{ asset('icon/excel-icon.png') }}';
-                } else {
-                    iconPath = '{{ asset('icon/default-icon.png') }}'; // Ikon default
-                }
-
-                selectedFiles.items.add(file);
-
-                const fileItem = document.createElement('div');
-                fileItem.classList.add('file-item');
-
-                const fileIcon = document.createElement('img');
-                fileIcon.src = iconPath;
-                fileIcon.alt = 'File Icon';
-                fileIcon.width = 50;
-                fileIcon.classList.add('me-2');
-
-                const fileName = document.createElement('span');
-                fileName.textContent = file.name;
-
-                const removeBtn = document.createElement('button');
-                removeBtn.classList.add('remove-file-btn');
-                removeBtn.textContent = 'X';
-
-                removeBtn.addEventListener('click', function() {
-                    fileItem.remove();
-                    selectedFiles.items.remove(index);
-                    fileInput.files = selectedFiles.files;
-
-                    if (selectedFiles.items.length === 0) {
-                        fileInput.value = ''; // Reset input file jika kosong
-                    }
-                });
-
-                fileItem.appendChild(fileIcon);
-                fileItem.appendChild(fileName);
-                fileItem.appendChild(removeBtn);
-                filePreviewContainer.appendChild(fileItem);
-            });
-
-            fileInput.files = selectedFiles.files;
-        }
-
-        // Trigger file input ketika "Add File" diklik
-        document.getElementById('add-file-btn').addEventListener('click', function() {
-            fileInput.click();
-        });
-
-        // Perbarui pratinjau ketika file dipilih
-        fileInput.addEventListener('change', function(event) {
-            updateFilePreview(event.target.files);
+        let fileIndex = 1;
+        document.getElementById('add-file').addEventListener('click', function() {
+            const fileSection = document.querySelector('.file-section');
+            const newFile = `
+                <div class="file-entry mt-4">
+                    <div class="mb-3">
+                        <label for="file_title" class="form-label">File Title</label>
+                        <input type="text" name="files[${fileIndex}][title]" class="form-control" placeholder="Enter file title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="file_path" class="form-label">Choose File</label>
+                        <input type="file" name="files[${fileIndex}][file]" class="form-control" accept=".pdf,.doc,.docx,.jpg,.png,.zip,.rar,.xls,.xlsx">
+                    </div>
+                </div>
+            `;
+            fileSection.insertAdjacentHTML('beforeend', newFile);
+            fileIndex++;
         });
 
         // Inisialisasi Select2

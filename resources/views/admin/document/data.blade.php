@@ -72,6 +72,7 @@
                                 <th width="5%">ID</th>
                                 <th width="20%">Title</th>
                                 <th width="20%">Data</th>
+                                <th width="15%">Date</th>
                                 <th width="15%">User ID</th>
                                 <th width="15%">Action</th>
                             </tr>
@@ -83,6 +84,7 @@
                                     <td>{{ $document->title }}</td>
                                     <td data-id="{{ $document->data->id ?? '' }}">
                                         {{ $document->data->title ?? 'No Data' }}</td>
+                                    <td>{{ $document->date ?? '-' }}</td>
                                     <td class="text-center">
                                         @if ($document->user)
                                             <div class="d-flex align-items-center justify-content-center">

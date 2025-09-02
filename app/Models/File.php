@@ -10,10 +10,10 @@ class File extends Model
     use HasFactory;
 
     protected $fillable = [
+        'title',
         'file_path',
         'file_date',
         'document_id',
-        'data_id',
     ];
 
     protected $casts = [
@@ -23,9 +23,5 @@ class File extends Model
     public function document()
     {
         return $this->belongsTo(Document::class);
-    }
-    public function data()
-    {
-        return $this->belongsTo(Data::class);
     }
 }

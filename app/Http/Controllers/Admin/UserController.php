@@ -92,4 +92,19 @@ class UserController extends Controller
             return redirect()->back()->with('error', 'Gagal menghapus user.');
         }
     }
+    /**
+     * Reset password user (hanya admin id 1)
+     */
+    public function resetPassword(Request $request, User $user)
+    {
+        if (auth()->id() !== 1) {
+            return redirect()->back()->with('error', 'Hanya admin dengan ID 1 yang dapat mereset password.');
+        }
+        $request->validate([
+            'new_password' => 'required|string|min:6',
+        ]);
+        $user->password = bcrypt($request->new_password);
+        $user->save();
+        return redirect()->back()->with('success', 'Password berhasil direset.');
+    }
 }
