@@ -43,7 +43,7 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 1. **Clone repository**
 
     ```bash
-    git clone https://github.com/dwiponcosuripto4/pemkabokut-laravel.git
+    git clone https://github.com/ardifx01/pemkabokut-laravel.git
     cd pemkabokut-laravel
     ```
 
